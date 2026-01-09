@@ -7,6 +7,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useTheme } from '@/context/ThemeContext';
 import { useTranslation } from '@/i18n';
 import DarkModeToggle from '@/components/DarkModeToggle';
+import { NavbarSkeleton } from '@/components/skeletons';
 import { ShoppingCartIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { 
   Logo, 
@@ -24,6 +25,10 @@ export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState('');
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+
+  if (isLoading) {
+    return <NavbarSkeleton />;
+  }
 
   return (
     <nav className={`${
