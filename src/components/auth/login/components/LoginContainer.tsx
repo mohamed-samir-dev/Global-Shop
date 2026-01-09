@@ -11,7 +11,7 @@ export const LoginContainer = () => {
   const { t } = useTranslation();
   const {
     formData,
-    isLoading,
+    isLoading: formLoading,
     showPassword,
     rememberMe,
     error,
@@ -24,11 +24,11 @@ export const LoginContainer = () => {
   return (
     <div className={`min-h-screen flex items-center justify-center px-4 py-8 transition-colors duration-300 ${
       isDarkMode ? 'bg-[#0F1419]' : 'bg-gray-50'
-    }`}>
+    }`} suppressHydrationWarning>
       <div className="max-w-md sm:max-w-lg lg:max-w-4xl w-full mx-auto">
         <div className={`p-4 sm:p-6 rounded-lg shadow-2xl transition-colors duration-300 ${
           isDarkMode ? 'bg-[#26292E]' : 'bg-white'
-        }`}>
+        }`} suppressHydrationWarning>
           <div className="flex flex-col lg:flex-row items-center gap-6">
             <div className="hidden lg:block shrink-0 w-80">
               <Image
@@ -54,7 +54,7 @@ export const LoginContainer = () => {
                 formData={formData}
                 showPassword={showPassword}
                 rememberMe={rememberMe}
-                isLoading={isLoading}
+                isLoading={formLoading}
                 error={error}
                 onSubmit={handleSubmit}
                 onShowPasswordToggle={() => setShowPassword(!showPassword)}
