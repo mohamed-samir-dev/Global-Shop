@@ -10,18 +10,23 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('darkMode');
-      return saved ? JSON.parse(saved) : false;
-    }
-    return false;
-  });
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
-    document.documentElement.classList.toggle('dark', isDarkMode);
-  }, [isDarkMode]);
+    setIsHydrated(true);
+    const saved = localStorage.getItem('darkMode');
+    if (saved) {
+      setIsDarkMode(JSON.parse(saved));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isHydrated) {
+      localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
+      document.documentElement.classList.toggle('dark', isDarkMode);
+    }
+  }, [isDarkMode, isHydrated]);
 
   const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
 
