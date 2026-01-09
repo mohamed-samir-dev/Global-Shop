@@ -11,12 +11,44 @@ export default function NewProductPage() {
   const { user, isLoading } = useAuth();
   const router = useRouter();
   const [formData, setFormData] = useState({
+    // Basic Information
     name: '',
+    shortDescription: '',
     description: '',
-    price: '',
-    image: '',
+    
+    // Pricing
+    basePrice: '',
+    discountType: 'percentage',
+    discountValue: '',
+    currency: 'USD',
+    
+    // Media
+    mainImage: '',
+    imageGallery: [''],
+    video: '',
+    
+    // Inventory
+    stock: '',
+    sku: '',
+    
+    // Categories & Organization
     category: '',
-    countInStock: '',
+    subCategory: '',
+    brand: '',
+    tags: '',
+    
+    // Variants & Attributes
+    sizes: '',
+    colors: '',
+    
+    // Additional Details
+    material: '',
+    weight: '',
+    length: '',
+    width: '',
+    height: '',
+    warranty: '',
+    returnPolicy: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -31,15 +63,39 @@ export default function NewProductPage() {
     setIsSubmitting(true);
 
     try {
-      await productAPI.createProduct({
+      const productData = {
         name: formData.name,
+        shortDescription: formData.shortDescription,
         description: formData.description,
-        price: Number(formData.price),
-        image: formData.image,
+        basePrice: Number(formData.basePrice),
+        discount: {
+          type: formData.discountType,
+          value: Number(formData.discountValue) || 0
+        },
+        currency: formData.currency,
+        mainImage: formData.mainImage,
+        imageGallery: formData.imageGallery.filter(img => img.trim()),
+        video: formData.video,
+        stock: Number(formData.stock),
+        sku: formData.sku,
         category: formData.category,
-        countInStock: Number(formData.countInStock),
-      } as any);
+        subCategory: formData.subCategory,
+        brand: formData.brand,
+        tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
+        sizes: formData.sizes.split(',').map(size => size.trim()).filter(size => size),
+        colors: formData.colors.split(',').map(color => color.trim()).filter(color => color),
+        material: formData.material,
+        weight: formData.weight,
+        dimensions: {
+          length: formData.length,
+          width: formData.width,
+          height: formData.height
+        },
+        warranty: formData.warranty,
+        returnPolicy: formData.returnPolicy
+      };
       
+      await productAPI.createProduct(productData as any);
       toast.success('Product created successfully');
       router.push('/admin/products');
     } catch (error: any) {
@@ -49,11 +105,26 @@ export default function NewProductPage() {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleImageGalleryChange = (index: number, value: string) => {
+    const newGallery = [...formData.imageGallery];
+    newGallery[index] = value;
+    setFormData({ ...formData, imageGallery: newGallery });
+  };
+
+  const addImageField = () => {
+    setFormData({ ...formData, imageGallery: [...formData.imageGallery, ''] });
+  };
+
+  const removeImageField = (index: number) => {
+    const newGallery = formData.imageGallery.filter((_, i) => i !== index);
+    setFormData({ ...formData, imageGallery: newGallery });
   };
 
   if (isLoading) {
@@ -68,110 +139,173 @@ export default function NewProductPage() {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">Add New Product</h1>
       
-      <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Product Name
-            </label>
-            <input
-              type="text"
-              name="name"
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={formData.name}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Description
-            </label>
-            <textarea
-              name="description"
-              required
-              rows={4}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={formData.description}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Price
-              </label>
-              <input
-                type="number"
-                name="price"
-                required
-                min="0"
-                step="0.01"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={formData.price}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Stock Count
-              </label>
-              <input
-                type="number"
-                name="countInStock"
-                required
-                min="0"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={formData.countInStock}
-                onChange={handleChange}
-              />
+      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
+        <form onSubmit={handleSubmit} className="space-y-8">
+          {/* Basic Information */}
+          <div className="border-b pb-6">
+            <h2 className="text-xl font-semibold mb-4">Basic Information</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Product Name *</label>
+                <input type="text" name="name" required className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.name} onChange={handleChange} />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Short Description</label>
+                <input type="text" name="shortDescription" maxLength={200} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.shortDescription} onChange={handleChange} placeholder="Brief product summary (max 200 characters)" />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Full Description *</label>
+                <textarea name="description" required rows={4} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.description} onChange={handleChange} />
+              </div>
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Category
-            </label>
-            <input
-              type="text"
-              name="category"
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={formData.category}
-              onChange={handleChange}
-            />
+          {/* Pricing */}
+          <div className="border-b pb-6">
+            <h2 className="text-xl font-semibold mb-4">Pricing</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Base Price *</label>
+                <input type="number" name="basePrice" required min="0" step="0.01" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.basePrice} onChange={handleChange} />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Discount Type</label>
+                <select name="discountType" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.discountType} onChange={handleChange}>
+                  <option value="percentage">Percentage</option>
+                  <option value="fixed">Fixed Amount</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Discount Value</label>
+                <input type="number" name="discountValue" min="0" step="0.01" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.discountValue} onChange={handleChange} />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Currency</label>
+                <select name="currency" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.currency} onChange={handleChange}>
+                  <option value="USD">USD</option>
+                  <option value="EUR">EUR</option>
+                  <option value="GBP">GBP</option>
+                </select>
+              </div>
+            </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Image URL
-            </label>
-            <input
-              type="url"
-              name="image"
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={formData.image}
-              onChange={handleChange}
-            />
+          {/* Media */}
+          <div className="border-b pb-6">
+            <h2 className="text-xl font-semibold mb-4">Media</h2>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Main Image URL *</label>
+                <input type="url" name="mainImage" required className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.mainImage} onChange={handleChange} />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Image Gallery</label>
+                {formData.imageGallery.map((img, index) => (
+                  <div key={index} className="flex gap-2 mb-2">
+                    <input type="url" placeholder="Image URL" className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={img} onChange={(e) => handleImageGalleryChange(index, e.target.value)} />
+                    {formData.imageGallery.length > 1 && (
+                      <button type="button" onClick={() => removeImageField(index)} className="px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">Remove</button>
+                    )}
+                  </div>
+                ))}
+                <button type="button" onClick={addImageField} className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">Add Image</button>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Product Video URL</label>
+                <input type="url" name="video" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.video} onChange={handleChange} />
+              </div>
+            </div>
           </div>
 
-          <div className="flex space-x-4">
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
-            >
+          {/* Inventory */}
+          <div className="border-b pb-6">
+            <h2 className="text-xl font-semibold mb-4">Inventory</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Stock Quantity *</label>
+                <input type="number" name="stock" required min="0" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.stock} onChange={handleChange} />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">SKU</label>
+                <input type="text" name="sku" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.sku} onChange={handleChange} placeholder="Stock Keeping Unit" />
+              </div>
+            </div>
+          </div>
+
+          {/* Categories & Organization */}
+          <div className="border-b pb-6">
+            <h2 className="text-xl font-semibold mb-4">Categories & Organization</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Main Category *</label>
+                <input type="text" name="category" required className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.category} onChange={handleChange} />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Sub-category</label>
+                <input type="text" name="subCategory" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.subCategory} onChange={handleChange} />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Brand</label>
+                <input type="text" name="brand" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.brand} onChange={handleChange} />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Tags</label>
+                <input type="text" name="tags" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.tags} onChange={handleChange} placeholder="Comma-separated tags" />
+              </div>
+            </div>
+          </div>
+
+          {/* Variants & Attributes */}
+          <div className="border-b pb-6">
+            <h2 className="text-xl font-semibold mb-4">Variants & Attributes</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Available Sizes</label>
+                <input type="text" name="sizes" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.sizes} onChange={handleChange} placeholder="S, M, L, XL" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Available Colors</label>
+                <input type="text" name="colors" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.colors} onChange={handleChange} placeholder="Red, Blue, Green" />
+              </div>
+            </div>
+          </div>
+
+          {/* Additional Details */}
+          <div>
+            <h2 className="text-xl font-semibold mb-4">Additional Details</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Material</label>
+                <input type="text" name="material" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.material} onChange={handleChange} />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Weight</label>
+                <input type="text" name="weight" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.weight} onChange={handleChange} placeholder="e.g., 1.5 kg" />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Dimensions</label>
+                <div className="grid grid-cols-3 gap-2">
+                  <input type="text" name="length" className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.length} onChange={handleChange} placeholder="Length" />
+                  <input type="text" name="width" className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.width} onChange={handleChange} placeholder="Width" />
+                  <input type="text" name="height" className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.height} onChange={handleChange} placeholder="Height" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Warranty</label>
+                <input type="text" name="warranty" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.warranty} onChange={handleChange} placeholder="e.g., 1 year warranty" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Return Policy</label>
+                <input type="text" name="returnPolicy" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.returnPolicy} onChange={handleChange} placeholder="e.g., 30-day return policy" />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex space-x-4 pt-6">
+            <button type="submit" disabled={isSubmitting} className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50">
               {isSubmitting ? 'Creating...' : 'Create Product'}
             </button>
-            <button
-              type="button"
-              onClick={() => router.back()}
-              className="flex-1 bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
-            >
+            <button type="button" onClick={() => router.back()} className="flex-1 bg-gray-600 text-white py-3 px-6 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500">
               Cancel
             </button>
           </div>
