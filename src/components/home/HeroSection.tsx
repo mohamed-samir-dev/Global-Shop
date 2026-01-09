@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -23,6 +23,31 @@ export default function HeroSection({ slides }: HeroSectionProps) {
   const { isDarkMode } = useTheme();
   const { t, isArabic } = useTranslation();
   const [currentSlide, setCurrentSlide] = useState(0);
+  const touchStartX = useRef<number>(0);
+  const touchEndX = useRef<number>(0);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    
+    const distance = touchStartX.current - touchEndX.current;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      setCurrentSlide(prev => prev === slides.length - 1 ? 0 : prev + 1);
+    }
+    if (isRightSwipe) {
+      setCurrentSlide(prev => prev === 0 ? slides.length - 1 : prev - 1);
+    }
+  };
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -38,9 +63,15 @@ export default function HeroSection({ slides }: HeroSectionProps) {
   }, [slides.length]);
 
   return (
-    <div className={`relative overflow-hidden ${
-      isDarkMode ? 'bg-[#191C21]' : 'bg-[#F1F1F0]'
-    }`} dir={isArabic ? 'rtl' : 'ltr'}>
+    <div 
+      className={`relative overflow-hidden ${
+        isDarkMode ? 'bg-[#191C21]' : 'bg-[#F1F1F0]'
+      }`} 
+      dir={isArabic ? 'rtl' : 'ltr'}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       {/* Mobile/Tablet Background Image */}
       <div className="lg:hidden absolute inset-0">
         <AnimatePresence mode="wait">

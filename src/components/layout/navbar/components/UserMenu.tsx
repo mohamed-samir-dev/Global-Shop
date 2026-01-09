@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useState, useRef, useEffect } from "react";
 import {
   UserCircleIcon,
   ChevronDownIcon,
@@ -34,11 +35,35 @@ export const UserMenu = ({
   isMobile = false,
 }: UserMenuProps) => {
   const { t } = useTranslation();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const closeDropdown = () => {
+    setIsDropdownOpen(false);
+  };
 
   // Show loading state during hydration to prevent mismatch
   if (isLoading) {
     return (
-      <div className="relative group">
+      <div className="relative">
         <button
           className={`flex items-center ${
             isArabic ? "space-x-reverse space-x-2" : "space-x-2"
@@ -57,8 +82,9 @@ export const UserMenu = ({
   }
 
   return (
-    <div className="relative group">
+    <div className="relative" ref={dropdownRef}>
       <button
+        onClick={toggleDropdown}
         className={`flex items-center ${
           isArabic ? "space-x-reverse space-x-2" : "space-x-2"
         } ${isMobile ? 'p-1.5' : 'p-2'} rounded-lg transition-all cursor-pointer ${
@@ -68,16 +94,20 @@ export const UserMenu = ({
         }`}
       >
         <UserCircleIcon className={`${isMobile ? 'h-4 w-4' : 'h-6 w-6'}`} />
-        <ChevronDownIcon className={`${isMobile ? 'h-3 w-3' : 'h-4 w-4'} group-hover:rotate-180 transition-transform duration-200`} />
+        <ChevronDownIcon className={`${isMobile ? 'h-3 w-3' : 'h-4 w-4'} ${isDropdownOpen ? 'rotate-180' : ''} transition-transform duration-200`} />
       </button>
 
       <div
         className={`absolute ${
           isArabic ? "left-0" : "right-0"
-        } mt-2 w-48 sm:w-56 md:w-64 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 z-50 ${
+        } mt-2 w-48 sm:w-56 md:w-64 rounded-xl shadow-2xl transition-all duration-300 transform z-50 ${
           isDarkMode
             ? "bg-[#26292E] border border-gray-700"
             : "bg-white border border-gray-200"
+        } ${
+          isDropdownOpen 
+            ? "opacity-100 visible translate-y-0" 
+            : "opacity-0 invisible translate-y-2"
         }`}
       >
         {user ? (
