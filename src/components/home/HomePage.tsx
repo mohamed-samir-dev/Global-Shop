@@ -2,7 +2,7 @@
 
 import { useAuth } from '@/context/AuthContext';
 import { useTheme } from '@/context/ThemeContext';
-import LoadingSpinner from '@/components/LoadingSpinner';
+import { HomePageSkeleton } from '@/components/skeletons';
 import HeroSection from '@/components/home/HeroSection';
 import PromoBanner from '@/components/home/PromoBanner';
 import { heroSlides } from '@/data/heroData';
@@ -12,7 +12,7 @@ export default function HomePage() {
   const { isDarkMode } = useTheme();
 
   if (isLoading) {
-    return <LoadingSpinner />;
+    return <HomePageSkeleton />;
   }
 
   return (
