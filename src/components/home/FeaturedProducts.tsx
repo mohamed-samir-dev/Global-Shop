@@ -59,12 +59,12 @@ export default function FeaturedProducts() {
   }
 
   return (
-    <section className={`py-16 transition-colors duration-300 ${isDarkMode ? 'bg-[#191C21]' : 'bg-gray-50'}`}>
+    <section className={`py-16 transition-colors duration-300 ${isDarkMode ? 'bg-[#191C21]' : 'bg-gray-50'}`} dir={isArabic ? 'rtl' : 'ltr'}>
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-10">
         <div className="mb-10">
           <h2 className={`text-3xl md:text-4xl font-bold transition-colors duration-300 ${
             isDarkMode ? 'text-white' : 'text-gray-900'
-          } ${isArabic ? 'font-arabic' : ''}`}>
+          } ${isArabic ? 'font-arabic text-right' : 'text-left'}`}>
             {isArabic ? 'المنتجات المميزة' : 'Featured Products'}
           </h2>
          
