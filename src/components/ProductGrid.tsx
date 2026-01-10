@@ -1,0 +1,57 @@
+'use client';
+
+import { Product } from '@/types';
+import ProductCard from './ProductCard';
+import { ShoppingCart, Sparkles } from 'lucide-react';
+
+interface ProductGridProps {
+  products: Product[];
+  onAddToCart?: (product: Product) => void;
+}
+
+export default function ProductGrid({ products, onAddToCart }: ProductGridProps) {
+  const handleAddToCart = (product: Product) => {
+    onAddToCart?.(product);
+    // You can add toast notification here
+    console.log('Added to cart:', product.name);
+  };
+
+  const handleToggleWishlist = (product: Product) => {
+    // Handle wishlist functionality
+    console.log('Toggled wishlist for:', product.name);
+  };
+
+  if (products.length === 0) {
+    return (
+      <div className="col-span-full flex flex-col items-center justify-center py-24 text-center">
+        <div className="relative">
+          <div className="w-40 h-40 bg-linear-to-br from-blue-100 via-purple-50 to-pink-100 rounded-full flex items-center justify-center mb-8 shadow-2xl">
+            <ShoppingCart className="w-20 h-20 text-gray-400" />
+            <Sparkles className="w-8 h-8 text-blue-400 absolute top-4 right-4 animate-pulse" />
+            <Sparkles className="w-6 h-6 text-pink-400 absolute bottom-6 left-6 animate-pulse delay-300" />
+          </div>
+        </div>
+        <h3 className="text-3xl font-bold text-gray-900 mb-4">No products found</h3>
+        <p className="text-gray-500 max-w-lg leading-relaxed text-lg mb-8">
+          We couldn&lsquo;t find any products matching your criteria. Try adjusting your filters or search terms to discover more amazing items.
+        </p>
+        <button className="px-8 py-4 bg-linear-to-r from-blue-600 to-purple-600 text-white rounded-2xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+          Clear All Filters
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+      {products.map((product) => (
+        <ProductCard
+          key={product._id}
+          product={product}
+          onAddToCart={handleAddToCart}
+          onToggleWishlist={handleToggleWishlist}
+        />
+      ))}
+    </div>
+  );
+}
