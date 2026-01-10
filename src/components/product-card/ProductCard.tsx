@@ -1,6 +1,7 @@
 'use client';
 
 import { useTheme } from '@/context/ThemeContext';
+import { useTranslation } from '@/i18n/hooks/useTranslation';
 import { ProductCardProps } from './types';
 import { useWishlist } from './hooks';
 import { getProductPricing, isProductOutOfStock } from './utils';
@@ -13,6 +14,7 @@ import {
 
 export default function ProductCard({ product, onAddToCart, onToggleWishlist }: ProductCardProps) {
   const { isDarkMode } = useTheme();
+  const { isArabic } = useTranslation();
   const { isWishlisted, handleToggle } = useWishlist(onToggleWishlist);
   const { hasDiscount, discountPercentage } = getProductPricing(product);
   const isOutOfStock = isProductOutOfStock(product);
@@ -32,7 +34,7 @@ export default function ProductCard({ product, onAddToCart, onToggleWishlist }: 
       isDarkMode 
         ? 'bg-gray-800 border-gray-600' 
         : 'bg-white border-gray-200'
-    }`}>
+    } ${isArabic ? 'rtl' : 'ltr'}`}>
       <WishlistButton 
         isWishlisted={isWishlisted} 
         onToggle={handleWishlistToggle} 

@@ -2,13 +2,15 @@
 
 import { Star } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
+import { useTranslation } from '@/i18n/hooks/useTranslation';
 import { StarRatingProps } from '../types';
 
 export const StarRating = ({ rating = 4.5 }: StarRatingProps) => {
   const { isDarkMode } = useTheme();
+  const { isArabic } = useTranslation();
   
   return (
-    <div className="flex items-center gap-1 mb-3">
+    <div className={`flex items-center gap-1 mb-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
       <div className="flex">
         {Array.from({ length: 5 }, (_, i) => (
           <Star
