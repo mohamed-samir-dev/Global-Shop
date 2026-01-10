@@ -130,5 +130,24 @@ export const ar = {
       specialOfferDesc: 'اشتري 2 واحصل على 1 مجاناً',
       shopNow: 'تسوق الآن'
     }
+  },
+  shop: {
+    results: {
+      showing: 'عرض',
+      of: 'من',
+      results: 'نتيجة'
+    },
+    controls: {
+      view: 'العرض:',
+      sortBy: 'ترتيب حسب:'
+    },
+    sortOptions: {
+      featured: 'مميز',
+      priceLow: 'السعر: من الأقل إلى الأعلى',
+      priceHigh: 'السعر: من الأعلى إلى الأقل',
+      rating: 'تقييم العملاء',
+      newest: 'الأحدث أولاً',
+      bestselling: 'الأكثر مبيعاً'
+    }
   }
 };

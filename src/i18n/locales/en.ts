@@ -130,5 +130,24 @@ export const en = {
       specialOfferDesc: 'Buy 2 Get 1 Free',
       shopNow: 'Shop Now'
     }
+  },
+  shop: {
+    results: {
+      showing: 'Showing',
+      of: 'of',
+      results: 'results'
+    },
+    controls: {
+      view: 'View:',
+      sortBy: 'Sort by:'
+    },
+    sortOptions: {
+      featured: 'Featured',
+      priceLow: 'Price: Low to High',
+      priceHigh: 'Price: High to Low',
+      rating: 'Customer Rating',
+      newest: 'Newest First',
+      bestselling: 'Best Selling'
+    }
   }
 };
