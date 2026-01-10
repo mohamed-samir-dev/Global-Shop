@@ -130,7 +130,7 @@ export default function EditProductPage() {
         adminReviewRating: '',
         adminReviewComment: ''
       });
-    } catch (error: any) {
+    } catch {
       toast.error('Failed to fetch product details');
     } finally {
       setIsProductLoading(false);
@@ -144,7 +144,7 @@ export default function EditProductPage() {
     setIsSubmitting(true);
 
     try {
-      const productData = {
+      const productData: Partial<Product> = {
         name: formData.name,
         nameAr: formData.nameAr,
         shortDescription: formData.shortDescription,
@@ -153,7 +153,7 @@ export default function EditProductPage() {
         descriptionAr: formData.descriptionAr,
         basePrice: Number(formData.basePrice),
         discount: {
-          type: formData.discountType,
+          type: formData.discountType as "percentage" | "fixed",
           value: Number(formData.discountValue) || 0
         },
         currency: formData.currency,
@@ -198,22 +198,28 @@ export default function EditProductPage() {
       };
       
       // Add admin review if provided and product doesn't have reviews yet
-      if (formData.adminReviewRating && (!product.reviews || product.reviews.length === 0)) {
+      if (formData.adminReviewRating && (!product.reviews || product.reviews.length === 0) && user) {
         productData.reviews = [{
-          user: user._id,
+          _id: new Date().getTime().toString(),
+          user: {
+            _id: user._id,
+            name: user.name,
+            email: user.email
+          },
           rating: Number(formData.adminReviewRating),
           comment: formData.adminReviewComment,
-          date: new Date()
+          date: new Date().toISOString()
         }];
         productData.averageRating = Number(formData.adminReviewRating);
         productData.totalReviews = 1;
       }
       
-      await productAPI.updateProduct(product._id, productData as any);
+      await productAPI.updateProduct(product._id, productData);
       toast.success('Product updated successfully');
       router.push('/admin/products');
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to update product');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to update product';
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }

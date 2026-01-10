@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuth } from '@/context/AuthContext';
 import { productAPI } from '@/lib/api';
 import { Product } from '@/types';
@@ -31,7 +32,7 @@ export default function AdminProductsPage() {
     try {
       const response = await productAPI.getProducts();
       setProducts(response.data);
-    } catch (error: any) {
+    } catch {
       toast.error('Failed to fetch products');
     } finally {
       setIsProductsLoading(false);
@@ -44,7 +45,7 @@ export default function AdminProductsPage() {
         await productAPI.deleteProduct(id);
         setProducts(products.filter(p => p._id !== id));
         toast.success('Product deleted successfully');
-      } catch (error: any) {
+      } catch {
         toast.error('Failed to delete product');
       }
     }
@@ -101,10 +102,12 @@ export default function AdminProductsPage() {
                 <tr key={product._id}>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <img
+                      <Image
                         className="h-10 w-10 rounded-full object-cover"
-                        src={product.image}
+                        src={product.image || '/placeholder-image.jpg'}
                         alt={product.name}
+                        width={40}
+                        height={40}
                       />
                       <div className="ml-4">
                         <div className="text-sm font-medium text-gray-900">
