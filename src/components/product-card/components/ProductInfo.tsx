@@ -14,7 +14,7 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
     <>
       {/* Product Name */}
       <Link href={`/products/${product._id}`}>
-        <h3 className={`font-semibold text-base mb-2 line-clamp-2 transition-colors ${
+        <h3 className={`font-semibold text-left text-base mb-2 line-clamp-2 transition-colors ${
           isDarkMode ? 'text-white hover:text-gray-300' : 'text-[#272525] hover:text-gray-700'
         }`}>
           {product.name}
