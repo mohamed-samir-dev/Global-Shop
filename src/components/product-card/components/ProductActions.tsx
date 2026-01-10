@@ -3,13 +3,15 @@
 import Link from 'next/link';
 import { ShoppingCart, Eye } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
+import { useTranslation } from '@/i18n/hooks/useTranslation';
 import { ProductActionsProps } from '../types';
 
 export const ProductActions = ({ product, isOutOfStock, onAddToCart }: ProductActionsProps) => {
   const { isDarkMode } = useTheme();
+  const { isArabic } = useTranslation();
   
   return (
-    <div className="absolute bottom-4 left-4 right-4 flex gap-2">
+    <div className={`absolute bottom-4 left-4 right-4 flex gap-2 ${isArabic ? 'flex-row-reverse  ' : ''}`}>
       <button
         onClick={onAddToCart}
         disabled={isOutOfStock}
