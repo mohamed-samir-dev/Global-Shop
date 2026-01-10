@@ -42,4 +42,5 @@ export const DEFAULT_FILTERS = {
   availability: "",
   discount: false,
   sortBy: "featured",
+  viewMode: "grid" as const,
 };

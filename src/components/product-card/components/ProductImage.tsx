@@ -7,7 +7,7 @@ export const ProductImage = ({ product }: ProductImageProps) => {
   const isValid = isValidImageUrl(imageUrl);
 
   return (
-    <div className="w-full h-48 border border-gray-200 rounded-lg mb-3 bg-gray-50 relative overflow-hidden">
+    <div className="w-full aspect-square sm:h-48 border border-gray-200 rounded-lg mb-3 bg-gray-50 relative overflow-hidden">
      
       {isValid ? (
         <Image

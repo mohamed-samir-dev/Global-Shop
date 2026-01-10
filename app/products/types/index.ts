@@ -7,6 +7,7 @@ export type Filters = {
   availability: string;
   discount: boolean;
   sortBy: string;
+  viewMode: 'grid' | 'list';
 };
 
 export type FilterChangeHandler = (
