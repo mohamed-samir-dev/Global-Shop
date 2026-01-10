@@ -1,5 +1,6 @@
 "use client";
 import "../globals.css";
+import { useTheme } from '@/context/ThemeContext';
 import { useFilters } from "./hooks/useFilters";
 import {
   PageHeader,
@@ -10,6 +11,7 @@ import {
 } from "./components";
 
 export default function ProductsPage() {
+  const { isDarkMode } = useTheme();
   const {
     filters,
     showMobileFilters,
@@ -22,7 +24,9 @@ export default function ProductsPage() {
   } = useFilters();
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className={`min-h-screen ${
+      isDarkMode ? 'bg-gray-900' : 'bg-white'
+    }`}>
       <PageHeader />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
