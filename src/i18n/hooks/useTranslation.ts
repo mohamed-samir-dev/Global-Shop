@@ -31,7 +31,12 @@ export const useTranslation = () => {
         'navbar.shop': 'Shop',
         'navbar.about': 'About',
         'navbar.contact': 'Contact',
-        'navbar.searchPlaceholder': 'Search products...'
+        'navbar.searchPlaceholder': 'Search products...',
+        'subscription.title': 'Stay Updated with Our Latest Offers',
+        'subscription.description': 'Subscribe to our newsletter and be the first to know about exclusive deals, new arrivals, and special promotions.',
+        'subscription.emailPlaceholder': 'Enter your email address',
+        'subscription.subscribe': 'Subscribe',
+        'subscription.subscribing': 'Subscribing...'
       };
       return fallbacks[key] || key;
     }

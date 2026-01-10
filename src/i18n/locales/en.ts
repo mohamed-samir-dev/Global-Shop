@@ -149,5 +149,48 @@ export const en = {
       newest: 'Newest First',
       bestselling: 'Best Selling'
     }
+  },
+  subscription: {
+    title: 'Stay Updated with Our Latest Offers',
+    description: 'Subscribe to our newsletter and be the first to know about exclusive deals, new arrivals, and special promotions.',
+    emailPlaceholder: 'Enter your email address',
+    subscribe: 'Subscribe',
+    subscribing: 'Subscribing...'
+  },
+  footer: {
+    aboutUs: {
+      title: 'About Us',
+      description: 'Your premier destination for quality fashion and lifestyle products. We offer curated collections for men, women, and children with exceptional customer service.'
+    },
+    customerService: {
+      title: 'Customer Services',
+      contact: 'Contact Us',
+      support: 'Customer Support',
+      shipping: 'Shipping Info',
+      returns: 'Returns & Exchanges'
+    },
+    quickLinks: {
+      title: 'Quick Links',
+      mens: "Men's",
+      womens: "Women's",
+      childrens: "Children's",
+      shop: 'Shop'
+    },
+    socialMedia: {
+      title: 'Social Media',
+      followUs: 'Follow us for updates and exclusive offers'
+    },
+    legal: {
+      privacy: 'Privacy Policy',
+      terms: 'Terms of Service'
+    },
+    copyright: '© {{year}} Global Shop. All rights reserved.'
+  },
+  testimonials: {
+    title: 'What Customers Say',
+    description: 'Discover the experiences of our satisfied customers',
+    leaveReview: 'Leave a Review',
+    loginToReview: 'Login to Leave a Review',
+    loginRequired: 'Please login to leave a review'
   }
 };
