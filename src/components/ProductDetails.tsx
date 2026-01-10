@@ -1,14 +1,17 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { Product } from '@/types';
 import { Star, ShoppingCart, Heart, Share2 } from 'lucide-react';
+import ReviewForm from './ReviewForm';
 
 interface ProductDetailsProps {
   product: Product;
+  onProductUpdate?: () => void;
 }
 
-export default function ProductDetails({ product }: ProductDetailsProps) {
+export default function ProductDetails({ product, onProductUpdate }: ProductDetailsProps) {
   const [selectedImage, setSelectedImage] = useState(product.mainImage);
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
@@ -34,9 +37,11 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
         {/* Product Images */}
         <div className="space-y-4">
           <div className="aspect-square overflow-hidden rounded-lg bg-gray-100">
-            <img
+            <Image
               src={selectedImage}
               alt={product.name}
+              width={600}
+              height={600}
               className="w-full h-full object-cover"
             />
           </div>
@@ -49,7 +54,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                   selectedImage === product.mainImage ? 'border-blue-500' : 'border-gray-200'
                 }`}
               >
-                <img src={product.mainImage} alt="" className="w-full h-full object-cover" />
+                <Image src={product.mainImage} alt="" width={150} height={150} className="w-full h-full object-cover" />
               </button>
               {product.imageGallery.map((img, index) => (
                 <button
@@ -59,7 +64,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                     selectedImage === img ? 'border-blue-500' : 'border-gray-200'
                   }`}
                 >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
+                  <Image src={img} alt="" width={150} height={150} className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>
@@ -237,6 +242,42 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
         </div>
       </div>
 
+      {/* Product Specifications */}
+      {((product.specifications && Object.keys(product.specifications).length > 0) || 
+        (product.specificationsAr && Object.keys(product.specificationsAr).length > 0)) && (
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Specifications</h2>
+          <div className="bg-gray-50 rounded-lg p-6">
+            {product.specifications && Object.keys(product.specifications).length > 0 && (
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold mb-3">English</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {Object.entries(product.specifications).map(([key, value]) => (
+                    <div key={key} className="flex justify-between py-2 border-b border-gray-200 last:border-b-0">
+                      <span className="font-medium text-gray-700">{key}:</span>
+                      <span className="text-gray-600">{value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {product.specificationsAr && Object.keys(product.specificationsAr).length > 0 && (
+              <div>
+                <h3 className="text-lg font-semibold mb-3" dir="rtl">العربية</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4" dir="rtl">
+                  {Object.entries(product.specificationsAr).map(([key, value]) => (
+                    <div key={key} className="flex justify-between py-2 border-b border-gray-200 last:border-b-0">
+                      <span className="font-medium text-gray-700">{key}:</span>
+                      <span className="text-gray-600">{value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Product Video */}
       {product.video && (
         <div className="mt-12">
@@ -252,9 +293,16 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
       )}
 
       {/* Reviews Section */}
-      {product.reviews && product.reviews.length > 0 && (
-        <div className="mt-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Customer Reviews</h2>
+      <div className="mt-12">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Customer Reviews</h2>
+        
+        {/* Add Review Form */}
+        <div className="mb-8">
+          <ReviewForm productId={product._id} onReviewAdded={onProductUpdate} />
+        </div>
+        
+        {/* Existing Reviews */}
+        {product.reviews && product.reviews.length > 0 ? (
           <div className="space-y-6">
             {product.reviews.map((review) => (
               <div key={review._id} className="border-b pb-6">
@@ -273,8 +321,10 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
               </div>
             ))}
           </div>
-        </div>
-      )}
+        ) : (
+          <p className="text-gray-500 text-center py-8">No reviews yet. Be the first to review this product!</p>
+        )}
+      </div>
     </div>
   );
 }
