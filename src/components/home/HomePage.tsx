@@ -5,6 +5,7 @@ import { useTheme } from '@/context/ThemeContext';
 import { HomePageSkeleton } from '@/components/skeletons';
 import HeroSection from '@/components/home/HeroSection';
 import PromoBanner from '@/components/home/PromoBanner';
+import FeaturedProducts from '@/components/home/FeaturedProducts';
 import { heroSlides } from '@/data/heroData';
 
 export default function HomePage() {
@@ -21,6 +22,7 @@ export default function HomePage() {
     }`}>
       <HeroSection slides={heroSlides} />
       <PromoBanner />
+      <FeaturedProducts />
     </div>
 );
 }
