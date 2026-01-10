@@ -40,9 +40,12 @@ export interface Product {
   _id: string;
   // Basic Information
   name: string;
+  nameAr?: string;
   slug?: string;
   shortDescription?: string;
+  shortDescriptionAr?: string;
   description: string;
+  descriptionAr?: string;
   
   // Pricing
   basePrice: number;
@@ -62,9 +65,13 @@ export interface Product {
   
   // Categories & Organization
   category: string;
+  categoryAr?: string;
   subCategory?: string;
+  subCategoryAr?: string;
   brand?: string;
+  brandAr?: string;
   tags?: string[];
+  tagsAr?: string[];
   
   // Variants & Attributes
   sizes?: string[];
@@ -82,6 +89,8 @@ export interface Product {
   dimensions?: ProductDimensions;
   warranty?: string;
   returnPolicy?: string;
+  specifications?: Record<string, string>;
+  specificationsAr?: Record<string, string>;
   
   // Legacy fields for backward compatibility
   price?: number;

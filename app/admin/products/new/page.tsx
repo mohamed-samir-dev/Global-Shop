@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
-import { productAPI } from '@/lib/api';
-import LoadingSpinner from '@/components/LoadingSpinner';
+import { useAuth } from '@/src/context/AuthContext';
+import { productAPI } from '@/src/lib/api';
+import LoadingSpinner from '@/src/components/LoadingSpinner';
 import toast from 'react-hot-toast';
 
 export default function NewProductPage() {
@@ -13,8 +13,11 @@ export default function NewProductPage() {
   const [formData, setFormData] = useState({
     // Basic Information
     name: '',
+    nameAr: '',
     shortDescription: '',
+    shortDescriptionAr: '',
     description: '',
+    descriptionAr: '',
     
     // Pricing
     basePrice: '',
@@ -33,9 +36,13 @@ export default function NewProductPage() {
     
     // Categories & Organization
     category: '',
+    categoryAr: '',
     subCategory: '',
+    subCategoryAr: '',
     brand: '',
+    brandAr: '',
     tags: '',
+    tagsAr: '',
     
     // Variants & Attributes
     sizes: '',
@@ -48,7 +55,13 @@ export default function NewProductPage() {
     width: '',
     height: '',
     warranty: '',
-    returnPolicy: ''
+    returnPolicy: '',
+    specifications: '',
+    specificationsAr: '',
+    
+    // Admin Review
+    adminReviewRating: '',
+    adminReviewComment: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -65,8 +78,11 @@ export default function NewProductPage() {
     try {
       const productData = {
         name: formData.name,
+        nameAr: formData.nameAr,
         shortDescription: formData.shortDescription,
+        shortDescriptionAr: formData.shortDescriptionAr,
         description: formData.description,
+        descriptionAr: formData.descriptionAr,
         basePrice: Number(formData.basePrice),
         discount: {
           type: formData.discountType,
@@ -79,9 +95,13 @@ export default function NewProductPage() {
         stock: Number(formData.stock),
         sku: formData.sku,
         category: formData.category,
+        categoryAr: formData.categoryAr,
         subCategory: formData.subCategory,
+        subCategoryAr: formData.subCategoryAr,
         brand: formData.brand,
+        brandAr: formData.brandAr,
         tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
+        tagsAr: formData.tagsAr.split(',').map(tag => tag.trim()).filter(tag => tag),
         sizes: formData.sizes.split(',').map(size => size.trim()).filter(size => size),
         colors: formData.colors.split(',').map(color => color.trim()).filter(color => color),
         material: formData.material,
@@ -92,7 +112,33 @@ export default function NewProductPage() {
           height: formData.height
         },
         warranty: formData.warranty,
-        returnPolicy: formData.returnPolicy
+        returnPolicy: formData.returnPolicy,
+        specifications: formData.specifications ? 
+          Object.fromEntries(
+            formData.specifications.split('\n')
+              .map(line => line.split(':'))
+              .filter(([key, value]) => key && value)
+              .map(([key, value]) => [key.trim(), value.trim()])
+          ) : {},
+        specificationsAr: formData.specificationsAr ? 
+          Object.fromEntries(
+            formData.specificationsAr.split('\n')
+              .map(line => line.split(':'))
+              .filter(([key, value]) => key && value)
+              .map(([key, value]) => [key.trim(), value.trim()])
+          ) : {},
+        
+        // Add admin review if provided
+        ...(formData.adminReviewRating && {
+          reviews: [{
+            user: user._id,
+            rating: Number(formData.adminReviewRating),
+            comment: formData.adminReviewComment,
+            date: new Date()
+          }],
+          averageRating: Number(formData.adminReviewRating),
+          totalReviews: 1
+        })
       };
       
       await productAPI.createProduct(productData as any);
@@ -145,17 +191,29 @@ export default function NewProductPage() {
           <div className="border-b pb-6">
             <h2 className="text-xl font-semibold mb-4">Basic Information</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Product Name *</label>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Product Name (English) *</label>
                 <input type="text" name="name" required className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.name} onChange={handleChange} />
               </div>
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Short Description</label>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Product Name (Arabic)</label>
+                <input type="text" name="nameAr" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.nameAr} onChange={handleChange} dir="rtl" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Short Description (English)</label>
                 <input type="text" name="shortDescription" maxLength={200} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.shortDescription} onChange={handleChange} placeholder="Brief product summary (max 200 characters)" />
               </div>
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Full Description *</label>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Short Description (Arabic)</label>
+                <input type="text" name="shortDescriptionAr" maxLength={200} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.shortDescriptionAr} onChange={handleChange} placeholder="وصف مختصر للمنتج (200 حرف كحد أقصى)" dir="rtl" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Full Description (English) *</label>
                 <textarea name="description" required rows={4} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.description} onChange={handleChange} />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Full Description (Arabic)</label>
+                <textarea name="descriptionAr" rows={4} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.descriptionAr} onChange={handleChange} dir="rtl" />
               </div>
             </div>
           </div>
@@ -237,20 +295,36 @@ export default function NewProductPage() {
             <h2 className="text-xl font-semibold mb-4">Categories & Organization</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Main Category *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Main Category (English) *</label>
                 <input type="text" name="category" required className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.category} onChange={handleChange} />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Sub-category</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Main Category (Arabic)</label>
+                <input type="text" name="categoryAr" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.categoryAr} onChange={handleChange} dir="rtl" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Sub-category (English)</label>
                 <input type="text" name="subCategory" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.subCategory} onChange={handleChange} />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Brand</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Sub-category (Arabic)</label>
+                <input type="text" name="subCategoryAr" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.subCategoryAr} onChange={handleChange} dir="rtl" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Brand (English)</label>
                 <input type="text" name="brand" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.brand} onChange={handleChange} />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Tags</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Brand (Arabic)</label>
+                <input type="text" name="brandAr" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.brandAr} onChange={handleChange} dir="rtl" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Tags (English)</label>
                 <input type="text" name="tags" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.tags} onChange={handleChange} placeholder="Comma-separated tags" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Tags (Arabic)</label>
+                <input type="text" name="tagsAr" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.tagsAr} onChange={handleChange} placeholder="علامات مفصولة بفواصل" dir="rtl" />
               </div>
             </div>
           </div>
@@ -266,6 +340,35 @@ export default function NewProductPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Available Colors</label>
                 <input type="text" name="colors" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.colors} onChange={handleChange} placeholder="Red, Blue, Green" />
+              </div>
+            </div>
+          </div>
+
+          {/* Admin Review */}
+          <div className="border-b pb-6">
+            <h2 className="text-xl font-semibold mb-4">Admin Review (Optional)</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Rating (1-5)</label>
+                <select name="adminReviewRating" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.adminReviewRating} onChange={handleChange}>
+                  <option value="">Select Rating</option>
+                  <option value="1">1 Star</option>
+                  <option value="2">2 Stars</option>
+                  <option value="3">3 Stars</option>
+                  <option value="4">4 Stars</option>
+                  <option value="5">5 Stars</option>
+                </select>
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Review Comment</label>
+                <textarea 
+                  name="adminReviewComment" 
+                  rows={4} 
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  value={formData.adminReviewComment} 
+                  onChange={handleChange} 
+                  placeholder="Write the first review for this product..."
+                />
               </div>
             </div>
           </div>
@@ -297,6 +400,31 @@ export default function NewProductPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Return Policy</label>
                 <input type="text" name="returnPolicy" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={formData.returnPolicy} onChange={handleChange} placeholder="e.g., 30-day return policy" />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Product Specifications (English)</label>
+                <textarea 
+                  name="specifications" 
+                  rows={6} 
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  value={formData.specifications} 
+                  onChange={handleChange} 
+                  placeholder="Enter specifications as key:value pairs, one per line:\nProcessor: Intel Core i7\nRAM: 16GB\nStorage: 512GB SSD"
+                />
+                <p className="text-sm text-gray-500 mt-1">Enter each specification on a new line in format: Key: Value</p>
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Product Specifications (Arabic)</label>
+                <textarea 
+                  name="specificationsAr" 
+                  rows={6} 
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  value={formData.specificationsAr} 
+                  onChange={handleChange} 
+                  placeholder="أدخل المواصفات كأزواج مفتاح:قيمة، واحد في كل سطر:\nالمعالج: إنتل كور i7\nالذاكرة: 16 جيجابايت\nالتخزين: 512 جيجابايت SSD"
+                  dir="rtl"
+                />
+                <p className="text-sm text-gray-500 mt-1">أدخل كل مواصفة في سطر جديد بالصيغة: المفتاح: القيمة</p>
               </div>
             </div>
           </div>

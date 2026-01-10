@@ -37,6 +37,9 @@ export const productAPI = {
     api.put<Product>(`/products/${id}`, productData),
   
   deleteProduct: (id: string) => api.delete(`/products/${id}`),
+  
+  addReview: (id: string, reviewData: { rating: number; comment?: string }) =>
+    api.post(`/products/${id}/reviews`, reviewData),
 };
 
 export default api;
