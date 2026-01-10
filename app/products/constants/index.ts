@@ -1,3 +1,5 @@
+import { useTranslation } from '@/i18n';
+
 export const CATEGORIES = [
   "Men",
   "Women",

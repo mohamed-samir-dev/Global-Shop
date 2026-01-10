@@ -1,8 +1,8 @@
 'use client';
 
 import { useTheme } from '@/context/ThemeContext';
+import { useTranslation } from '@/i18n';
 import { Filters, FilterChangeHandler } from "../types";
-import { SORT_OPTIONS } from "../constants";
 import ResultsInfo from "./ResultsInfo";
 import { Grid, List } from "lucide-react";
 
@@ -16,15 +16,25 @@ export default function SortControls({
   handleFilterChange,
 }: SortControlsProps) {
   const { isDarkMode } = useTheme();
+  const { isArabic, t } = useTranslation();
+  
+  const sortOptions = [
+    { value: "featured", label: t('shop.sortOptions.featured') as string },
+    { value: "price-low", label: t('shop.sortOptions.priceLow') as string },
+    { value: "price-high", label: t('shop.sortOptions.priceHigh') as string },
+    { value: "rating", label: t('shop.sortOptions.rating') as string },
+    { value: "newest", label: t('shop.sortOptions.newest') as string },
+    { value: "bestselling", label: t('shop.sortOptions.bestselling') as string },
+  ];
   
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
+    <div className={`flex flex-col gap-4 mb-6 ${isArabic ? 'sm:flex-row-reverse' : 'sm:flex-row'} sm:items-center sm:justify-between`}>
       <ResultsInfo filters={filters} />
-      <div className="flex items-center gap-4">
+      <div className={`flex items-center gap-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
         <div className="flex items-center gap-2">
           <span className={`text-sm font-medium ${
             isDarkMode ? 'text-gray-300' : 'text-gray-700'
-          }`}>View:</span>
+          }`}>{t('shop.controls.view') as string}</span>
           <div className={`flex border rounded-md overflow-hidden ${
             isDarkMode ? 'border-gray-600' : 'border-gray-300'
           }`}>
@@ -61,7 +71,7 @@ export default function SortControls({
               isDarkMode ? 'text-gray-300' : 'text-gray-700'
             }`}
           >
-            Sort by:
+            {t('shop.controls.sortBy') as string}
           </label>
           <select
             id="sort"
@@ -73,7 +83,7 @@ export default function SortControls({
                 : 'bg-white text-black border-gray-300'
             }`}
           >
-            {SORT_OPTIONS.map((option) => (
+            {sortOptions.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>

@@ -1,7 +1,12 @@
-'use client';
+"use client";
 
-import { useTheme } from '@/context/ThemeContext';
-import { Filters, FilterChangeHandler, ArrayFilterChangeHandler } from "../types";
+import { useTheme } from "@/context/ThemeContext";
+import { useTranslation } from "@/i18n";
+import {
+  Filters,
+  FilterChangeHandler,
+  ArrayFilterChangeHandler,
+} from "../types";
 import { CATEGORIES, BRANDS, AVAILABILITY_OPTIONS } from "../constants";
 
 interface FilterSidebarProps {
@@ -26,7 +31,8 @@ export default function FilterSidebar({
   clearAllFilters,
 }: FilterSidebarProps) {
   const { isDarkMode } = useTheme();
-  
+  const { isArabic } = useTranslation();
+
   return (
     <div className="lg:w-80 shrink-0">
       {/* Mobile Filter Toggle */}
@@ -35,11 +41,13 @@ export default function FilterSidebar({
           onClick={() => setShowMobileFilters(!showMobileFilters)}
           className={`w-full flex items-center justify-between px-4 py-3 rounded-lg border transition-colors ${
             isDarkMode
-              ? 'bg-gray-800 border-gray-600 hover:bg-gray-700 text-white'
-              : 'bg-gray-50 border-gray-200 hover:bg-gray-100 text-gray-900'
+              ? "bg-gray-800 border-gray-600 hover:bg-gray-700 text-white"
+              : "bg-gray-50 border-gray-200 hover:bg-gray-100 text-gray-900"
           }`}
         >
-          <span className="font-medium">Filters</span>
+          <span className="font-medium">
+            {isArabic ? "الفلاتر" : "Filters"}
+          </span>
           <svg
             className={`w-5 h-5 transform transition-transform ${
               showMobileFilters ? "rotate-180" : ""
@@ -64,20 +72,29 @@ export default function FilterSidebar({
           showMobileFilters ? "block" : "hidden"
         } lg:block rounded-lg p-6 shadow-sm border ${
           isDarkMode
-            ? 'bg-gray-800 border-gray-600'
-            : 'bg-white border-gray-200'
-        }`}
+            ? "bg-gray-800 border-gray-600"
+            : "bg-white border-gray-200"
+        } ${isArabic ? "text-right" : "text-left"}`}
+        dir={isArabic ? "rtl" : "ltr"}
       >
         {/* Filter Header */}
-        <div className="flex items-center justify-between mb-6">
-          <h2 className={`text-lg font-semibold ${
-            isDarkMode ? 'text-white' : 'text-gray-900'
-          }`}>Filter By</h2>
+        <div
+          className={`flex items-center mb-6 justify-between ${
+            isArabic ? "flex-row-reverse" : ""
+          }`}
+        >
+          <h2
+            className={`text-lg font-semibold ${
+              isDarkMode ? "text-white" : "text-gray-900"
+            }`}
+          >
+            {isArabic ? "تصفية حسب" : "Filter By"}
+          </h2>
           <button
             onClick={clearAllFilters}
             className="text-sm text-[#B39E7A] cursor-pointer font-medium transition-colors"
           >
-            Clear All
+            {isArabic ? "مسح الكل" : "Clear All"}
           </button>
         </div>
 
@@ -85,13 +102,15 @@ export default function FilterSidebar({
         <div className="mb-8">
           <button
             onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
-            className={`w-full flex items-center justify-between text-sm font-medium mb-3 transition-colors ${
+            className={`w-full flex items-center text-sm font-medium mb-3 transition-colors ${
+              isArabic ? "justify-between flex-row-reverse" : "justify-between"
+            } ${
               isDarkMode
-                ? 'text-white hover:text-gray-300'
-                : 'text-gray-900 hover:text-gray-700'
+                ? "text-white hover:text-gray-300"
+                : "text-gray-900 hover:text-gray-700"
             }`}
           >
-            <span>Category</span>
+            <span>{isArabic ? "الفئة" : "Category"}</span>
             <svg
               className={`w-4 h-4 transform transition-transform ${
                 showCategoryDropdown ? "rotate-180" : ""
@@ -113,7 +132,11 @@ export default function FilterSidebar({
               {CATEGORIES.map((category) => (
                 <label
                   key={category}
-                  className="flex items-center cursor-pointer group"
+                  className={`flex items-center ${
+                    isArabic
+                      ? "flex-row-reverse justify-start"
+                      : "justify-start"
+                  }`}
                 >
                   <input
                     type="checkbox"
@@ -123,12 +146,21 @@ export default function FilterSidebar({
                     }
                     className="w-4 h-4 accent-[#C1B092]"
                   />
-                  <span className={`ml-3 text-sm transition-colors ${
-                    isDarkMode
-                      ? 'text-gray-300 group-hover:text-white'
-                      : 'text-gray-700 group-hover:text-gray-900'
-                  }`}>
-                    {category}
+                  <span
+                    className={`text-sm ${isArabic ? "ml-3" : "ml-3"} ${
+                      isDarkMode ? "text-gray-300" : "text-gray-700"
+                    }`}
+                  >
+                    {isArabic ? {
+                      "Men": "رجال",
+                      "Women": "نساء", 
+                      "Kids": "أطفال",
+                      "Accessories": "إكسسوارات",
+                      "Electronics": "إلكترونيات",
+                      "Home & Garden": "منزل وحديقة",
+                      "Sports": "رياضة",
+                      "Beauty": "جمال"
+                    }[category] || category : category}
                   </span>
                 </label>
               ))}
@@ -138,9 +170,13 @@ export default function FilterSidebar({
 
         {/* Price Range Filter */}
         <div className="mb-8">
-          <h3 className={`text-sm font-medium mb-3 ${
-            isDarkMode ? 'text-white' : 'text-gray-900'
-          }`}>Price</h3>
+          <h3
+            className={`text-sm font-medium mb-3 ${
+              isArabic ? "text-right" : "text-left"
+            } ${isDarkMode ? "text-white" : "text-gray-900"}`}
+          >
+            {isArabic ? "السعر" : "Price"}
+          </h3>
           <div className="px-2">
             <input
               type="range"
@@ -152,16 +188,28 @@ export default function FilterSidebar({
               }
               className="slider w-full cursor-pointer"
             />
-            <div className="flex justify-between items-center mt-2">
-              <span className={`text-sm text-[#B39E7A] border rounded-lg px-2 py-1 ${
-                isDarkMode ? 'bg-gray-700' : 'bg-[#F6F6F6]'
-              }`}>
-                Min: ${filters.priceRange[0]}
+            <div
+              className={`flex items-center mt-2 ${
+                isArabic ? "flex-row-reverse" : ""
+              }`}
+            >
+              <span
+                className={`text-sm text-[#B39E7A] border rounded-lg px-2 py-1 ${
+                  isDarkMode ? "bg-gray-700" : "bg-[#F6F6F6]"
+                }`}
+              >
+                {isArabic
+                  ? `الحد الأدنى: $${filters.priceRange[0]}`
+                  : `Min: $${filters.priceRange[0]}`}
               </span>
-              <span className={`text-sm text-[#B39E7A] border rounded-lg px-2 py-1 ${
-                isDarkMode ? 'bg-gray-700' : 'bg-[#F6F6F6]'
-              }`}>
-                Max: ${filters.priceRange[1]}
+              <span
+                className={`text-sm text-[#B39E7A] border rounded-lg px-2 py-1 ${
+                  isDarkMode ? "bg-gray-700" : "bg-[#F6F6F6]"
+                } ${isArabic ? "mr-2" : "ml-2"}`}
+              >
+                {isArabic
+                  ? `الحد الأقصى: $${filters.priceRange[1]}`
+                  : `Max: $${filters.priceRange[1]}`}
               </span>
             </div>
           </div>
@@ -169,14 +217,20 @@ export default function FilterSidebar({
 
         {/* Rating Filter */}
         <div className="mb-8">
-          <h3 className={`text-sm font-medium mb-3 ${
-            isDarkMode ? 'text-white' : 'text-gray-900'
-          }`}>Rating</h3>
+          <h3
+            className={`text-sm font-medium mb-3 ${
+              isArabic ? "text-right" : "text-left"
+            } ${isDarkMode ? "text-white" : "text-gray-900"}`}
+          >
+            {isArabic ? "التقييم" : "Rating"}
+          </h3>
           <div className="space-y-2">
             {[5, 4, 3, 2, 1].map((rating) => (
               <label
                 key={rating}
-                className="flex items-center cursor-pointer group"
+                className={`flex items-center ${
+                  isArabic ? "flex-row-reverse justify-start" : "justify-start"
+                }`}
               >
                 <input
                   type="checkbox"
@@ -184,14 +238,14 @@ export default function FilterSidebar({
                   onChange={() =>
                     handleArrayFilterChange("rating", rating.toString())
                   }
-                  className="w-4 h-4 text-[#C1B092] accent-[#C1B092]"
+                  className="w-4 h-4 accent-[#C1B092]"
                 />
-                <span className={`ml-3 text-sm transition-colors ${
-                  isDarkMode
-                    ? 'text-gray-300 group-hover:text-white'
-                    : 'text-gray-700 group-hover:text-gray-900'
-                }`}>
-                  {rating} stars
+                <span
+                  className={`text-sm ${isArabic ? "ml-3" : "ml-3"} ${
+                    isDarkMode ? "text-gray-300" : "text-gray-700"
+                  }`}
+                >
+                  {rating} {isArabic ? "نجوم" : "stars"}
                 </span>
               </label>
             ))}
@@ -200,26 +254,32 @@ export default function FilterSidebar({
 
         {/* Brand Filter */}
         <div className="mb-8">
-          <h3 className={`text-sm font-medium mb-3 ${
-            isDarkMode ? 'text-white' : 'text-gray-900'
-          }`}>Brand</h3>
+          <h3
+            className={`text-sm font-medium mb-3 ${
+              isArabic ? "text-right" : "text-left"
+            } ${isDarkMode ? "text-white" : "text-gray-900"}`}
+          >
+            {isArabic ? "الماركة" : "Brand"}
+          </h3>
           <div className="space-y-2 max-h-48 overflow-y-auto">
             {BRANDS.map((brand) => (
               <label
                 key={brand}
-                className="flex items-center cursor-pointer group"
+                className={`flex items-center ${
+                  isArabic ? "flex-row-reverse justify-start ml-3" : "justify-start"
+                }`}
               >
                 <input
                   type="checkbox"
                   checked={filters.brand.includes(brand)}
                   onChange={() => handleArrayFilterChange("brand", brand)}
-                  className="w-4 h-4 text-[#C1B092] accent-[#C1B092]"
+                  className="w-4 h-4 accent-[#C1B092]"
                 />
-                <span className={`ml-3 text-sm transition-colors ${
-                  isDarkMode
-                    ? 'text-gray-300 group-hover:text-white'
-                    : 'text-gray-700 group-hover:text-gray-900'
-                }`}>
+                <span
+                  className={`text-sm ${isArabic ? "ml-3" : "ml-3"} ${
+                    isDarkMode ? "text-gray-300" : "text-gray-700"
+                  }`}
+                >
                   {brand}
                 </span>
               </label>
@@ -229,16 +289,20 @@ export default function FilterSidebar({
 
         {/* Availability Filter */}
         <div className="mb-8">
-          <h3 className={`text-sm font-medium mb-3 ${
-            isDarkMode ? 'text-white' : 'text-gray-900'
-          }`}>
-            Availability
+          <h3
+            className={`text-sm font-medium mb-3 ${
+              isArabic ? "text-right" : "text-left"
+            } ${isDarkMode ? "text-white" : "text-gray-900"}`}
+          >
+            {isArabic ? "التوافر" : "Availability"}
           </h3>
           <div className="space-y-2">
             {AVAILABILITY_OPTIONS.map((status) => (
               <label
                 key={status}
-                className="flex items-center cursor-pointer group"
+                className={`flex items-center ${
+                  isArabic ? "flex-row-reverse justify-start" : "justify-start"
+                }`}
               >
                 <input
                   type="radio"
@@ -248,11 +312,15 @@ export default function FilterSidebar({
                   onChange={(e) =>
                     handleFilterChange("availability", e.target.value)
                   }
-                  className="w-4 h-4 text-[#C1B092] accent-[#C1B092]"
+                  className="w-4 h-4 accent-[#C1B092]"
                 />
-                <span className={`ml-3 text-sm ${
-                  isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                }`}>{status}</span>
+                <span
+                  className={`text-sm ${isArabic ? "ml-3" : "ml-3"} ${
+                    isDarkMode ? "text-gray-300" : "text-gray-700"
+                  }`}
+                >
+                  {status}
+                </span>
               </label>
             ))}
           </div>
@@ -260,21 +328,23 @@ export default function FilterSidebar({
 
         {/* Discount Filter */}
         <div className="mb-6">
-          <label className="flex items-center cursor-pointer group">
+          <label
+            className={`flex items-center ${
+              isArabic ? "flex-row-reverse justify-start" : "justify-start"
+            }`}
+          >
             <input
               type="checkbox"
               checked={filters.discount}
-              onChange={(e) =>
-                handleFilterChange("discount", e.target.checked)
-              }
-              className="w-4 h-4 text-[#C1B092] accent-[#C1B092]"
+              onChange={(e) => handleFilterChange("discount", e.target.checked)}
+              className="w-4 h-4 accent-[#C1B092]"
             />
-            <span className={`ml-3 text-sm font-medium transition-colors ${
-              isDarkMode
-                ? 'text-white group-hover:text-gray-300'
-                : 'text-gray-900 group-hover:text-gray-700'
-            }`}>
-              On Sale
+            <span
+              className={`text-sm font-medium ${isArabic ? "ml-3 " : "ml-3"} ${
+                isDarkMode ? "text-white" : "text-gray-900"
+              }`}
+            >
+              {isArabic ? "عرض خاص" : "On Sale"}
             </span>
           </label>
         </div>
