@@ -1,6 +1,7 @@
 "use client";
 
 import { useTheme } from "@/context/ThemeContext";
+import { useTranslation } from "@/i18n/hooks/useTranslation";
 import { Product } from "@/types";
 import Image from "next/image";
 
@@ -14,17 +15,17 @@ export default function SimpleProductCard({
   onAddToCart,
 }: SimpleProductCardProps) {
   const { isDarkMode } = useTheme();
+  const { isArabic } = useTranslation();
 
   const displayPrice = product.finalPrice || product.basePrice;
   const hasDiscount = product.discount && product.discount.value > 0;
 
   return (
-    <div className="group relative">
+    <div className="group relative" dir={isArabic ? 'rtl' : 'ltr'}>
       {/* Product Image */}
       <div
-        className={`relative aspect-square overflow-hidden border-2 rounded-lg mb-3 ${
-          isDarkMode ? "border-gray-600" : "border-gray-200"
-        }`}
+        className="relative aspect-square overflow-hidden  rounded-lg mb-3"
+          
       >
         <Image
           src={product.mainImage}
@@ -44,7 +45,7 @@ export default function SimpleProductCard({
           {product.name}
         </h3>
 
-        <div className="flex items-center justify-between mb-3">
+        <div className={`flex items-center mb-3 ${isArabic ? 'justify-end' : 'justify-between'}`}>
           <div className="flex items-baseline gap-2">
             <span
               className={`font-bold text-lg ${
@@ -69,15 +70,15 @@ export default function SimpleProductCard({
             onAddToCart(product);
           }}
           disabled={product.stock === 0}
-          className={`w-full py-2.5 px-4 rounded-full text-sm flex items-center justify-center gap-2 transition
+          className={`w-full py-2.5 px-4 rounded-full text-sm flex items-center justify-center gap-2 transition ${isArabic ? 'font-arabic' : ''}
     ${
       product.stock > 0
-        ? "bg-[#0D0D0D] text-white cursor-pointer hover:opacity-90"
+        ? "bg-[#0D0D0D]  text-white cursor-pointer hover:opacity-90"
         : "bg-gray-200 text-gray-500 cursor-not-allowed pointer-events-none"
     }
   `}
         >
-          {product.stock > 0 ? "Add to Cart" : "Out of Stock"}
+          {product.stock > 0 ? (isArabic ? "أضف إلى السلة" : "Add to Cart") : (isArabic ? "نفد المخزون" : "Out of Stock")}
         </button>
       </div>
     </div>
