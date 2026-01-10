@@ -1,7 +1,7 @@
 import { Product } from '@/types';
 
 export const calculateDiscount = (product: Product) => {
-  const hasDiscount = product.price && product.basePrice && product.basePrice > product.price;
+  const hasDiscount = !!(product.price && product.basePrice && product.basePrice > product.price);
   const discountPercentage = hasDiscount && product.price 
     ? Math.round(((product.basePrice! - product.price) / product.basePrice!) * 100) 
     : 0;
