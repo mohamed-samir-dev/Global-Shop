@@ -145,3 +145,71 @@ body {
   outline: none !important;
   box-shadow: none !important;
 }
+
+/* Testimonials Swiper Styles */
+.testimonials-swiper .swiper-pagination {
+  position: static;
+  margin-top: 2rem;
+}
+
+.testimonials-swiper .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  margin: 0 4px;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.testimonials-swiper .swiper-bullet-light {
+  background-color: #d1d5db;
+}
+
+.testimonials-swiper .swiper-bullet-dark {
+  background-color: #4b5563;
+}
+
+.testimonials-swiper .swiper-pagination-bullet-active {
+  background-color: #0D0D0D !important;
+  transform: scale(1.2);
+}
+
+/* Testimonial Form Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes checkmark {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.success-animation {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.checkmark-animation {
+  animation: checkmark 0.6s ease-out;
+}
+
+/* Image upload hover effects */
+.image-upload-area {
+  transition: all 0.3s ease;
+}
+
+.image-upload-area:hover {
+  transform: scale(1.05);
+}

@@ -5,6 +5,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { I18nProvider } from "@/components/I18nProvider";
 import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/layout";
 import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
@@ -40,6 +41,7 @@ export default function RootLayout({
               <main className="min-h-screen">
                 {children}
               </main>
+              <Footer />
               <Toaster position="top-right" />
             </AuthProvider>
           </ThemeProvider>

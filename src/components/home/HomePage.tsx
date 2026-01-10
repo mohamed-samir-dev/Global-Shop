@@ -6,6 +6,7 @@ import { HomePageSkeleton } from '@/components/skeletons';
 import HeroSection from '@/components/home/HeroSection';
 import PromoBanner from '@/components/home/PromoBanner';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
+import TestimonialsSection from '@/components/home/TestimonialsSection';
 import { heroSlides } from '@/data/heroData';
 
 export default function HomePage() {
@@ -23,6 +24,7 @@ export default function HomePage() {
       <HeroSection slides={heroSlides} />
       <PromoBanner />
       <FeaturedProducts />
+      <TestimonialsSection />
     </div>
 );
 }
