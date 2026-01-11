@@ -18,7 +18,7 @@ export default function ResultsInfo({ filters }: ResultsInfoProps) {
   });
 
   return (
-    <p className={`text-sm ${
+    <p className={`text-xs sm:text-sm ${
       isDarkMode ? 'text-gray-400' : 'text-gray-600'
     }`}>
       {t('shop.results.showing')} <span className="font-medium">{Math.min(filteredCount, 24)}</span>{" "}

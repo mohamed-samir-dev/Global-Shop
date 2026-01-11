@@ -31,8 +31,8 @@ export default function ProductsPage() {
     }`} dir={isArabic ? 'rtl' : 'ltr'}>
       <PageHeader />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+        <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8">
           <FilterSidebar
             filters={filters}
             showMobileFilters={showMobileFilters}
@@ -43,7 +43,7 @@ export default function ProductsPage() {
             handleArrayFilterChange={handleArrayFilterChange}
             clearAllFilters={clearAllFilters}
           />
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <SortControls filters={filters} handleFilterChange={handleFilterChange} />
             <ProductsSection filters={filters} />
           </div>

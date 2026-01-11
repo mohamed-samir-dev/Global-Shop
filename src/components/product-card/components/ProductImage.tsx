@@ -11,7 +11,7 @@ export const ProductImage = ({ product }: ProductImageProps) => {
   const isValid = isValidImageUrl(imageUrl);
 
   return (
-    <div className={`w-full aspect-square sm:h-48 border rounded-lg mb-3 relative overflow-hidden ${
+    <div className={`w-full aspect-square border rounded-lg mb-2 sm:mb-4 relative overflow-hidden ${
       isDarkMode 
         ? 'border-gray-600 bg-gray-700' 
         : 'border-gray-200 bg-gray-50'
@@ -22,11 +22,11 @@ export const ProductImage = ({ product }: ProductImageProps) => {
           src={imageUrl}
           alt={product.name}
           fill
-          className="object-cover"
-          sizes="(max-width: 384px) 100vw, 384px"
+          className="object-cover hover:scale-105 transition-transform duration-300"
+          sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
         />
       ) : (
-        <div className={`w-full h-full flex items-center justify-center text-2xl ${
+        <div className={`w-full h-full flex items-center justify-center text-xl sm:text-3xl ${
           isDarkMode ? 'text-gray-500' : 'text-gray-400'
         }`}>
           📦

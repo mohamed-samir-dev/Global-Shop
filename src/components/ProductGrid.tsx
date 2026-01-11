@@ -1,7 +1,9 @@
 'use client';
 
+import { useState, useRef } from 'react';
 import { Product } from '@/types';
 import ProductCard from './ProductCard';
+import Pagination from './pagination/Pagination';
 import { ShoppingCart, Sparkles } from 'lucide-react';
 
 interface ProductGridProps {
@@ -10,6 +12,18 @@ interface ProductGridProps {
 }
 
 export default function ProductGrid({ products, onAddToCart }: ProductGridProps) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 9;
+  const gridRef = useRef<HTMLDivElement>(null);
+  
+  const totalPages = Math.ceil(products.length / productsPerPage);
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const displayedProducts = products.slice(startIndex, startIndex + productsPerPage);
+  
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    gridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
   const handleAddToCart = (product: Product) => {
     onAddToCart?.(product);
     // You can add toast notification here
@@ -43,15 +57,23 @@ export default function ProductGrid({ products, onAddToCart }: ProductGridProps)
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-      {products.map((product) => (
-        <ProductCard
-          key={product._id}
-          product={product}
-          onAddToCart={handleAddToCart}
-          onToggleWishlist={handleToggleWishlist}
-        />
-      ))}
-    </div>
+    <>
+      <div ref={gridRef} className="grid grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-3 sm:gap-6 lg:gap-8 auto-rows-fr">
+        {displayedProducts.map((product) => (
+          <ProductCard
+            key={product._id}
+            product={product}
+            onAddToCart={handleAddToCart}
+            onToggleWishlist={handleToggleWishlist}
+          />
+        ))}
+      </div>
+      
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
+    </>
   );
 }

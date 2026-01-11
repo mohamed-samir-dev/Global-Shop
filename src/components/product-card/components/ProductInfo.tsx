@@ -14,7 +14,7 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
     <>
       {/* Product Name */}
       <Link href={`/products/${product._id}`}>
-        <h3 className={`font-semibold text-left text-base mb-2 line-clamp-2 transition-colors ${
+        <h3 className={`font-bold sm:font-semibold text-left text-xs sm:text-base mb-1.5 sm:mb-3 line-clamp-2 leading-tight transition-colors ${
           isDarkMode ? 'text-white hover:text-gray-300' : 'text-[#272525] hover:text-gray-700'
         }`}>
           {product.name}
@@ -22,17 +22,19 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
       </Link>
       
       {/* Rating */}
-      <StarRating />
+      <div className="mb-1.5 sm:mb-3">
+        <StarRating />
+      </div>
 
       {/* Price */}
-      <div className="flex items-center gap-2 mb-4">
-        <span className={`text-xl font-bold ${
+      <div className="flex items-center gap-1.5 sm:gap-3">
+        <span className={`text-sm sm:text-xl font-extrabold sm:font-bold ${
           isDarkMode ? 'text-white' : 'text-gray-900'
         }`}>
           ${currentPrice?.toFixed(2) || '0.00'}
         </span>
         {hasDiscount && originalPrice && originalPrice > (currentPrice || 0) && (
-          <span className={`text-sm line-through ${
+          <span className={`text-xs sm:text-sm line-through ${
             isDarkMode ? 'text-gray-400' : 'text-gray-500'
           }`}>
             ${originalPrice.toFixed(2)}

@@ -28,11 +28,11 @@ export default function SortControls({
   ];
   
   return (
-    <div className={`flex flex-col gap-4 mb-6 ${isArabic ? 'sm:flex-row-reverse' : 'sm:flex-row'} sm:items-center sm:justify-between`}>
+    <div className={`flex flex-col gap-3 sm:gap-4 mb-4 sm:mb-6 ${isArabic ? 'sm:flex-row-reverse' : 'sm:flex-row'} sm:items-center sm:justify-between`}>
       <ResultsInfo filters={filters} />
-      <div className={`flex items-center gap-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+      <div className={`flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 ${isArabic ? 'sm:flex-row-reverse' : ''}`}>
         <div className="flex items-center gap-2">
-          <span className={`text-sm font-medium ${
+          <span className={`text-xs sm:text-sm font-medium ${
             isDarkMode ? 'text-gray-300' : 'text-gray-700'
           }`}>{t('shop.controls.view') as string}</span>
           <div className={`flex border rounded-md overflow-hidden ${
@@ -40,7 +40,7 @@ export default function SortControls({
           }`}>
             <button
               onClick={() => handleFilterChange("viewMode", "grid")}
-              className={`p-2 ${
+              className={`p-1.5 sm:p-2 ${
                 filters.viewMode === 'grid' 
                   ? 'bg-[#B39E7A] text-white' 
                   : isDarkMode 
@@ -48,11 +48,11 @@ export default function SortControls({
                     : 'bg-white text-gray-600 hover:bg-gray-50'
               }`}
             >
-              <Grid size={16} />
+              <Grid size={14} className="sm:w-4 sm:h-4" />
             </button>
             <button
               onClick={() => handleFilterChange("viewMode", "list")}
-              className={`p-2 ${
+              className={`p-1.5 sm:p-2 ${
                 filters.viewMode === 'list' 
                   ? 'bg-[#B39E7A] text-white' 
                   : isDarkMode 
@@ -60,14 +60,14 @@ export default function SortControls({
                     : 'bg-white text-gray-600 hover:bg-gray-50'
               }`}
             >
-              <List size={16} />
+              <List size={14} className="sm:w-4 sm:h-4" />
             </button>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
           <label
             htmlFor="sort"
-            className={`text-sm font-medium ${
+            className={`text-xs sm:text-sm font-medium whitespace-nowrap ${
               isDarkMode ? 'text-gray-300' : 'text-gray-700'
             }`}
           >
@@ -77,7 +77,7 @@ export default function SortControls({
             id="sort"
             value={filters.sortBy}
             onChange={(e) => handleFilterChange("sortBy", e.target.value)}
-            className={`px-3 py-2 text-sm border accent-[#C1B092] ${
+            className={`px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm border accent-[#C1B092] rounded-md flex-1 sm:flex-none min-w-0 ${
               isDarkMode 
                 ? 'bg-gray-800 text-white border-gray-600'
                 : 'bg-white text-black border-gray-300'

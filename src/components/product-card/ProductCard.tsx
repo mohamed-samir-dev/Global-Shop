@@ -30,10 +30,10 @@ export default function ProductCard({ product, onAddToCart, onToggleWishlist }: 
   };
 
   return (
-    <div className={`border rounded-lg p-3 w-70 max-w-md mx-auto h-95 relative ${
+    <div className={`border rounded-lg p-2 sm:p-4 w-full relative transition-all duration-200 hover:shadow-lg flex flex-col h-full ${
       isDarkMode 
-        ? 'bg-gray-800 border-gray-600' 
-        : 'bg-white border-gray-200'
+        ? 'bg-gray-800 border-gray-600 hover:border-gray-500' 
+        : 'bg-white border-gray-200 hover:border-gray-300'
     } ${isArabic ? 'rtl' : 'ltr'}`}>
       <WishlistButton 
         isWishlisted={isWishlisted} 
@@ -46,13 +46,17 @@ export default function ProductCard({ product, onAddToCart, onToggleWishlist }: 
         discountPercentage={discountPercentage}
       />
       
-      <ProductInfo product={product} />
-      
-      <ProductActions 
-        product={product}
-        isOutOfStock={isOutOfStock}
-        onAddToCart={handleAddToCart}
-      />
+      <div className="flex-1 flex flex-col">
+        <ProductInfo product={product} />
+        
+        <div className="mt-auto pt-2 sm:pt-3">
+          <ProductActions 
+            product={product}
+            isOutOfStock={isOutOfStock}
+            onAddToCart={handleAddToCart}
+          />
+        </div>
+      </div>
     </div>
   );
 }
