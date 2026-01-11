@@ -42,7 +42,28 @@ export default function RootLayout({
                 {children}
               </main>
               <Footer />
-              <Toaster position="top-right" />
+              <Toaster 
+                position="top-right" 
+                toastOptions={{
+                  className: 'text-sm sm:text-base',
+                  style: {
+                    padding: '12px 16px',
+                    fontSize: '14px',
+                  },
+                  success: {
+                    style: {
+                      background: '#10B981',
+                      color: 'white',
+                    },
+                  },
+                  error: {
+                    style: {
+                      background: '#EF4444',
+                      color: 'white',
+                    },
+                  },
+                }}
+              />
             </AuthProvider>
           </ThemeProvider>
         </I18nProvider>

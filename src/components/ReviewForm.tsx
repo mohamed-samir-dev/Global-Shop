@@ -47,18 +47,18 @@ export default function ReviewForm({ productId, onReviewAdded }: ReviewFormProps
 
   if (!user) {
     return (
-      <div className="bg-gray-50 rounded-lg p-6 text-center">
-        <p className="text-gray-600">Please login to add a review</p>
+      <div className="bg-gray-50 rounded-lg p-4 sm:p-6 text-center">
+        <p className="text-gray-600 text-sm sm:text-base">Please login to add a review</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-white border rounded-lg p-6">
-      <h3 className="text-lg font-semibold mb-4">Add Your Review</h3>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="bg-white border rounded-lg p-4 sm:p-6">
+      <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Add Your Review</h3>
+      <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Rating *</label>
+          <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Rating *</label>
           <div className="flex space-x-1">
             {[1, 2, 3, 4, 5].map((star) => (
               <button
@@ -68,7 +68,7 @@ export default function ReviewForm({ productId, onReviewAdded }: ReviewFormProps
                 className="focus:outline-none"
               >
                 <Star
-                  className={`w-6 h-6 ${
+                  className={`w-5 h-5 sm:w-6 sm:h-6 ${
                     star <= rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
                   } hover:text-yellow-400 transition-colors`}
                 />
@@ -77,19 +77,19 @@ export default function ReviewForm({ productId, onReviewAdded }: ReviewFormProps
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Comment</label>
+          <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Comment</label>
           <textarea
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            rows={4}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            rows={3}
+            className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Share your experience with this product..."
           />
         </div>
         <button
           type="submit"
           disabled={isSubmitting || rating === 0}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-blue-600 text-white py-2 sm:py-3 px-4 text-sm sm:text-base rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? 'Submitting...' : 'Submit Review'}
         </button>

@@ -23,39 +23,36 @@ export default function SimpleProductCard({
   return (
     <div className="group relative" dir={isArabic ? 'rtl' : 'ltr'}>
       {/* Product Image */}
-      <div
-        className="relative aspect-square overflow-hidden  rounded-lg mb-3"
-          
-      >
+      <div className="relative aspect-square overflow-hidden rounded-lg mb-2 sm:mb-3">
         <Image
           src={product.mainImage}
           alt={product.name}
           fill
-          className="object-cover"
+          className="object-cover group-hover:scale-105 transition-transform duration-300"
         />
       </div>
 
       {/* Product Info */}
-      <div>
+      <div className="space-y-2">
         <h3
-          className={`font-semibold text-sm mb-2 line-clamp-2 leading-tight ${
+          className={`font-semibold text-xs sm:text-sm lg:text-base mb-1 sm:mb-2 line-clamp-2 leading-tight ${
             isDarkMode ? "text-white" : "text-[#0D0D0D]"
           }`}
         >
           {product.name}
         </h3>
 
-        <div className={`flex items-center mb-3 ${isArabic ? 'justify-end' : 'justify-between'}`}>
-          <div className="flex items-baseline gap-2">
+        <div className={`flex items-center mb-2 sm:mb-3 ${isArabic ? 'justify-end' : 'justify-start'}`}>
+          <div className="flex items-baseline gap-1 sm:gap-2">
             <span
-              className={`font-bold text-lg ${
+              className={`font-bold text-sm sm:text-base lg:text-lg ${
                 isDarkMode ? "text-white" : "text-[#0D0D0D]"
               }`}
             >
               ${displayPrice}
             </span>
             {hasDiscount && (
-              <span className="text-gray-500 line-through text-sm">
+              <span className="text-gray-500 line-through text-xs sm:text-sm">
                 ${product.basePrice}
               </span>
             )}
@@ -70,10 +67,10 @@ export default function SimpleProductCard({
             onAddToCart(product);
           }}
           disabled={product.stock === 0}
-          className={`w-full py-2.5 px-4 rounded-full text-sm flex items-center justify-center gap-2 transition ${isArabic ? 'font-arabic' : ''}
+          className={`w-full py-2 sm:py-2.5 px-2 sm:px-4 rounded-full text-xs sm:text-sm flex items-center justify-center gap-1 sm:gap-2 transition ${isArabic ? 'font-arabic' : ''}
     ${
       product.stock > 0
-        ? "bg-[#0D0D0D]  text-white cursor-pointer hover:opacity-90"
+        ? "bg-[#0D0D0D] text-white cursor-pointer hover:opacity-90"
         : "bg-gray-200 text-gray-500 cursor-not-allowed pointer-events-none"
     }
   `}
