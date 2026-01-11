@@ -33,41 +33,20 @@ export default function ProductsPage() {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
-          {isArabic ? (
-            <>
-              <div className="flex-1">
-                <SortControls filters={filters} handleFilterChange={handleFilterChange} />
-                <ProductsSection filters={filters} />
-              </div>
-              <FilterSidebar
-                filters={filters}
-                showMobileFilters={showMobileFilters}
-                showCategoryDropdown={showCategoryDropdown}
-                setShowMobileFilters={setShowMobileFilters}
-                setShowCategoryDropdown={setShowCategoryDropdown}
-                handleFilterChange={handleFilterChange}
-                handleArrayFilterChange={handleArrayFilterChange}
-                clearAllFilters={clearAllFilters}
-              />
-            </>
-          ) : (
-            <>
-              <FilterSidebar
-                filters={filters}
-                showMobileFilters={showMobileFilters}
-                showCategoryDropdown={showCategoryDropdown}
-                setShowMobileFilters={setShowMobileFilters}
-                setShowCategoryDropdown={setShowCategoryDropdown}
-                handleFilterChange={handleFilterChange}
-                handleArrayFilterChange={handleArrayFilterChange}
-                clearAllFilters={clearAllFilters}
-              />
-              <div className="flex-1">
-                <SortControls filters={filters} handleFilterChange={handleFilterChange} />
-                <ProductsSection filters={filters} />
-              </div>
-            </>
-          )}
+          <FilterSidebar
+            filters={filters}
+            showMobileFilters={showMobileFilters}
+            showCategoryDropdown={showCategoryDropdown}
+            setShowMobileFilters={setShowMobileFilters}
+            setShowCategoryDropdown={setShowCategoryDropdown}
+            handleFilterChange={handleFilterChange}
+            handleArrayFilterChange={handleArrayFilterChange}
+            clearAllFilters={clearAllFilters}
+          />
+          <div className="flex-1">
+            <SortControls filters={filters} handleFilterChange={handleFilterChange} />
+            <ProductsSection filters={filters} />
+          </div>
         </div>
       </div>
       
