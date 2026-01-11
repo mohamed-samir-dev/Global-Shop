@@ -13,10 +13,21 @@ export function Footer() {
     <footer className={`${isDarkMode ? "bg-[#1A1D23] text-white" : "bg-gray-900 text-white"} transition-colors duration-300`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 ${isArabic ? "text-right" : "text-left"}`}>
-          <AboutUs />
-          <CustomerService />
-          <QuickLinks />
-          <SocialMedia />
+          {isArabic ? (
+            <>
+              <SocialMedia />
+              <QuickLinks />
+              <CustomerService />
+              <AboutUs />
+            </>
+          ) : (
+            <>
+              <AboutUs />
+              <CustomerService />
+              <QuickLinks />
+              <SocialMedia />
+            </>
+          )}
         </div>
         {/* Copyright Line */}
         <div className={`mt-12 pt-8 border-t ${isDarkMode ? "border-gray-700" : "border-gray-800"}`}>
