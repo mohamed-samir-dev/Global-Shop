@@ -7,7 +7,7 @@ import {
   FilterChangeHandler,
   ArrayFilterChangeHandler,
 } from "../types";
-import { CATEGORIES, BRANDS, AVAILABILITY_OPTIONS } from "../constants";
+import { CATEGORIES, BRANDS } from "../constants";
 
 interface FilterSidebarProps {
   filters: Filters;
@@ -285,68 +285,6 @@ export default function FilterSidebar({
               </label>
             ))}
           </div>
-        </div>
-
-        {/* Availability Filter */}
-        <div className="mb-8">
-          <h3
-            className={`text-sm font-medium mb-3 ${
-              isArabic ? "text-right" : "text-left"
-            } ${isDarkMode ? "text-white" : "text-gray-900"}`}
-          >
-            {isArabic ? "التوافر" : "Availability"}
-          </h3>
-          <div className="space-y-2">
-            {AVAILABILITY_OPTIONS.map((status) => (
-              <label
-                key={status}
-                className={`flex items-center ${
-                  isArabic ? "flex-row-reverse justify-start" : "justify-start"
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="availability"
-                  value={status}
-                  checked={filters.availability === status}
-                  onChange={(e) =>
-                    handleFilterChange("availability", e.target.value)
-                  }
-                  className="w-4 h-4 accent-[#C1B092]"
-                />
-                <span
-                  className={`text-sm ${isArabic ? "ml-3" : "ml-3"} ${
-                    isDarkMode ? "text-gray-300" : "text-gray-700"
-                  }`}
-                >
-                  {status}
-                </span>
-              </label>
-            ))}
-          </div>
-        </div>
-
-        {/* Discount Filter */}
-        <div className="mb-6">
-          <label
-            className={`flex items-center ${
-              isArabic ? "flex-row-reverse justify-start" : "justify-start"
-            }`}
-          >
-            <input
-              type="checkbox"
-              checked={filters.discount}
-              onChange={(e) => handleFilterChange("discount", e.target.checked)}
-              className="w-4 h-4 accent-[#C1B092]"
-            />
-            <span
-              className={`text-sm font-medium ${isArabic ? "ml-3 " : "ml-3"} ${
-                isDarkMode ? "text-white" : "text-gray-900"
-              }`}
-            >
-              {isArabic ? "عرض خاص" : "On Sale"}
-            </span>
-          </label>
         </div>
       </div>
     </div>
