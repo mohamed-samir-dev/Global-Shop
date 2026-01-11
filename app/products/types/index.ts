@@ -4,6 +4,8 @@ export type Filters = {
   rating: string[];
   brand: string[];
   size: string[];
+  availability: string;
+  discount: boolean;
   sortBy: string;
   viewMode: 'grid' | 'list';
 };
