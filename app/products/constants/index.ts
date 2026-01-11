@@ -1,4 +1,3 @@
-import { useTranslation } from '@/i18n';
 
 export const CATEGORIES = [
   "Men",
@@ -24,8 +23,6 @@ export const BRANDS = [
   "Uniqlo",
 ];
 
-export const AVAILABILITY_OPTIONS = ["In Stock", "Out of Stock", "Pre-order"];
-
 export const SORT_OPTIONS = [
   { value: "featured", label: "Featured" },
   { value: "price-low", label: "Price: Low to High" },
@@ -41,8 +38,6 @@ export const DEFAULT_FILTERS = {
   rating: [] as string[],
   brand: [] as string[],
   size: [] as string[],
-  availability: "",
-  discount: false,
   sortBy: "featured",
   viewMode: "grid" as const,
 };
