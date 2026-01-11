@@ -23,7 +23,7 @@ export const useTranslation = () => {
 
   // Return a safe translation function that handles SSR
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const safeT = useCallback((key: string, options?: any) => {
+  const safeT = useCallback((key: string, options?: any): string => {
     if (!isHydrated) {
       // Return English fallbacks during SSR
       const fallbacks: Record<string, string> = {
@@ -36,11 +36,14 @@ export const useTranslation = () => {
         'subscription.description': 'Subscribe to our newsletter and be the first to know about exclusive deals, new arrivals, and special promotions.',
         'subscription.emailPlaceholder': 'Enter your email address',
         'subscription.subscribe': 'Subscribe',
-        'subscription.subscribing': 'Subscribing...'
+        'subscription.subscribing': 'Subscribing...',
+        'shop.results.showing': 'Showing',
+        'shop.results.of': 'of',
+        'shop.results.results': 'results'
       };
-      return fallbacks[key] || key;
+      return fallbacks[key] || String(key);
     }
-    return t(key, options);
+    return String(t(key, options));
   }, [t, isHydrated]);
 
   return {
