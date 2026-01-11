@@ -38,6 +38,8 @@ export const DEFAULT_FILTERS = {
   rating: [] as string[],
   brand: [] as string[],
   size: [] as string[],
+  availability: "All",
+  discount: false,
   sortBy: "featured",
   viewMode: "grid" as const,
 };
