@@ -154,15 +154,17 @@ export default function Navbar() {
           </div>
           
           <div className={`flex items-center ${isArabic ? 'flex-row-reverse space-x-reverse space-x-2' : 'space-x-2'}`}>
-            {/* User Avatar with Dropdown */}
-            <UserMenu 
-              user={user}
-              logout={logout}
-              isArabic={isArabic}
-              isDarkMode={isDarkMode}
-              isLoading={isLoading}
-              isMobile={true}
-            />
+            {/* User Avatar with Dropdown - Hidden on screens 300px and below */}
+            <div className="min-[301px]:block hidden">
+              <UserMenu 
+                user={user}
+                logout={logout}
+                isArabic={isArabic}
+                isDarkMode={isDarkMode}
+                isLoading={isLoading}
+                isMobile={true}
+              />
+            </div>
             
             <Link href="/cart" className={`p-1.5 rounded-lg transition-all relative cursor-pointer ${
               isDarkMode 
@@ -239,6 +241,25 @@ export default function Navbar() {
                     isArabic={isArabic} 
                     isDarkMode={isDarkMode} 
                     isMobile={true}
+                    onLinkClick={() => setIsMobileMenuOpen(false)}
+                  />
+                </motion.div>
+                
+                {/* User Menu for screens 300px and below */}
+                <motion.div 
+                  className={`max-[300px]:block hidden pt-3 border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.25 }}
+                >
+                  <UserMenu 
+                    user={user}
+                    logout={logout}
+                    isArabic={isArabic}
+                    isDarkMode={isDarkMode}
+                    isLoading={isLoading}
+                    isMobile={true}
+                    isInMobileMenu={true}
                   />
                 </motion.div>
                 
@@ -251,11 +272,20 @@ export default function Navbar() {
                 >
                   <LanguageToggle 
                     language={language}
-                    toggleLanguage={toggleLanguage}
+                    toggleLanguage={() => {
+                      toggleLanguage();
+                      setIsMobileMenuOpen(false);
+                    }}
                     isArabic={isArabic}
                     isDarkMode={isDarkMode}
                   />
-                  <DarkModeToggle isDarkMode={isDarkMode} onToggle={toggleDarkMode} />
+                  <DarkModeToggle 
+                    isDarkMode={isDarkMode} 
+                    onToggle={() => {
+                      toggleDarkMode();
+                      setIsMobileMenuOpen(false);
+                    }} 
+                  />
                 </motion.div>
               </div>
             </motion.div>

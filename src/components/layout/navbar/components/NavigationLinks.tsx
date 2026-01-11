@@ -7,9 +7,10 @@ interface NavigationLinksProps {
   isDarkMode: boolean;
   isMobile?: boolean;
   isTablet?: boolean;
+  onLinkClick?: () => void;
 }
 
-export const NavigationLinks = ({ isArabic, isDarkMode, isMobile = false, isTablet = false }: NavigationLinksProps) => {
+export const NavigationLinks = ({ isArabic, isDarkMode, isMobile = false, isTablet = false, onLinkClick }: NavigationLinksProps) => {
   const { t, isReady } = useTranslation();
   const [mounted, setMounted] = useState(false);
   
@@ -55,7 +56,7 @@ export const NavigationLinks = ({ isArabic, isDarkMode, isMobile = false, isTabl
   return (
     <div className={containerClass}>
       {displayLinks.map((link) => (
-        <Link key={link.href} href={link.href} className={linkClass}>
+        <Link key={link.href} href={link.href} className={linkClass} onClick={onLinkClick}>
           {String(link.label)}
         </Link>
       ))}

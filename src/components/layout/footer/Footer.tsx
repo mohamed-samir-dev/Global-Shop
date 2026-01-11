@@ -15,10 +15,10 @@ export function Footer() {
         <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 ${isArabic ? "text-right" : "text-left"}`}>
           {isArabic ? (
             <>
-              <SocialMedia />
-              <QuickLinks />
-              <CustomerService />
-              <AboutUs />
+              <div className="lg:order-4"><AboutUs /></div>
+              <div className="lg:order-3"><CustomerService /></div>
+              <div className="lg:order-2"><QuickLinks /></div>
+              <div className="lg:order-1"><SocialMedia /></div>
             </>
           ) : (
             <>
