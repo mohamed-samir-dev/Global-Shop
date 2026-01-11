@@ -186,6 +186,11 @@ export const en = {
     },
     copyright: '© {{year}} Global Shop. All rights reserved.'
   },
+  product: {
+    actions: {
+      addToCart: 'Add to Cart'
+    }
+  },
   testimonials: {
     title: 'What Customers Say',
     description: 'Discover the experiences of our satisfied customers',

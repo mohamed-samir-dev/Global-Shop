@@ -25,8 +25,8 @@ export const NavigationLinks = ({ isArabic, isDarkMode, isMobile = false, isTabl
     { href: '/contact', label: t('navbar.contact') }
   ];
 
-  // Only reverse for Arabic after component is mounted and i18n is ready
-  const displayLinks = (mounted && isReady && isArabic) ? [...links].reverse() : links;
+  // Only reverse for Arabic when NOT in mobile mode (keep original order in mobile menu switcher)
+  const displayLinks = (mounted && isReady && isArabic && !isMobile) ? [...links].reverse() : links;
 
   const containerClass = isMobile 
     ? 'space-y-1' 

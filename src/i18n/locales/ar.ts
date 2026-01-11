@@ -186,6 +186,11 @@ export const ar = {
     },
     copyright: '© {{year}}  المتجر العالمي. جميع الحقوق محفوظة'
   },
+  product: {
+    actions: {
+      addToCart: 'أضف إلى السلة'
+    }
+  },
   testimonials: {
     title: 'ماذا يقول العملاء',
     description: 'اكتشف تجارب عملائنا الراضين',
