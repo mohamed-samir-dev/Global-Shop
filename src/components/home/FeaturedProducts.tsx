@@ -48,9 +48,9 @@ export default function FeaturedProducts() {
           <div className="text-center mb-12">
             <div className={`h-8 w-64 mx-auto rounded ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'} animate-pulse`}></div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             {[...Array(8)].map((_, index) => (
-              <div key={index} className={`h-80 rounded-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} animate-pulse`}></div>
+              <div key={index} className={`h-64 sm:h-72 lg:h-80 rounded-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} animate-pulse`}></div>
             ))}
           </div>
         </div>
@@ -59,18 +59,17 @@ export default function FeaturedProducts() {
   }
 
   return (
-    <section className={`py-16 transition-colors duration-300 ${isDarkMode ? 'bg-[#191C21]' : 'bg-gray-50'}`} dir={isArabic ? 'rtl' : 'ltr'}>
-      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-10">
-        <div className="mb-10">
-          <h2 className={`text-3xl md:text-4xl font-bold transition-colors duration-300 ${
+    <section className={`py-8 sm:py-12 lg:py-16 transition-colors duration-300 ${isDarkMode ? 'bg-[#191C21]' : 'bg-gray-50'}`} dir={isArabic ? 'rtl' : 'ltr'}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-6 sm:mb-8 lg:mb-10">
+          <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold transition-colors duration-300 ${
             isDarkMode ? 'text-white' : 'text-gray-900'
           } ${isArabic ? 'font-arabic text-right' : 'text-left'}`}>
             {isArabic ? 'المنتجات المميزة' : 'Featured Products'}
           </h2>
-         
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
           {products.map((product) => (
             <SimpleProductCard
               key={product._id}
