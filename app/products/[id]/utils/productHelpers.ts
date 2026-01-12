@@ -1,9 +1,12 @@
 import { Product } from '@/types';
 
 export const calculateDiscount = (product: Product) => {
-  const hasDiscount = !!(product.price && product.basePrice && product.basePrice > product.price);
-  const discountPercentage = hasDiscount && product.price 
-    ? Math.round(((product.basePrice! - product.price) / product.basePrice!) * 100) 
+  const currentPrice = product.finalPrice || product.price || product.basePrice;
+  const originalPrice = product.basePrice;
+  
+  const hasDiscount = !!(currentPrice && originalPrice && originalPrice > currentPrice);
+  const discountPercentage = hasDiscount && currentPrice 
+    ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100) 
     : 0;
   
   return { hasDiscount, discountPercentage };
@@ -35,5 +38,9 @@ export const getStockStatus = (countInStock: number = 0, t: (key: string, option
 };
 
 export const getProductImages = (product: Product) => {
-  return [product.image].filter(Boolean);
+  const images = [];
+  if (product.mainImage) images.push(product.mainImage);
+  if (product.imageGallery) images.push(...product.imageGallery);
+  if (product.image) images.push(product.image); // Legacy support
+  return images.filter(Boolean);
 };
