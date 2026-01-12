@@ -38,7 +38,7 @@ export default function ProductSpecifications({ product }: ProductSpecifications
         {specifications.map((spec, index) => (
           <div key={index} className="flex flex-col sm:flex-row sm:justify-between sm:items-start border-b border-gray-200 pb-2 last:border-b-0 gap-1 sm:gap-0">
             <span className="font-medium text-gray-700 capitalize text-sm sm:text-base">{spec.label}:</span>
-            <span className="text-gray-600 text-sm sm:text-base sm:text-right sm:max-w-xs break-words">{spec.value}</span>
+            <span className="text-gray-600 text-sm sm:text-base sm:text-right sm:max-w-xs rap-break-word">{spec.value}</span>
           </div>
         ))}
       </div>

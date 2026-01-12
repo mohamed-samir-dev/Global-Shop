@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Star } from 'lucide-react';
 import { ProductReview } from '@/src/types';
 import { productAPI } from '@/src/lib/api';
@@ -14,7 +14,7 @@ export default function ProductReviews({ productId, averageRating, totalReviews 
   const [reviews, setReviews] = useState<ProductReview[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchReviews = async () => {
+  const fetchReviews = useCallback(async () => {
     try {
       const data = await productAPI.getReviews(productId);
       setReviews(data);
@@ -23,12 +23,17 @@ export default function ProductReviews({ productId, averageRating, totalReviews 
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [productId]);
 
   useEffect(() => {
     fetchReviews();
-  }, [productId]);
+  }, [productId, fetchReviews]);
 
+/**
+ * Handles the event when a new review is added
+ * This function is typically called after a review submission
+ * It triggers a refresh of the reviews list
+ */
   const handleReviewAdded = () => {
     fetchReviews();
   };
