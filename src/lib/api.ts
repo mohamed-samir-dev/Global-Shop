@@ -47,6 +47,8 @@ export const productAPI = {
 
   deleteProduct: (id: string) => api.delete(`/products/${id}`),
 
+  getReviews: (id: string) => api.get(`/products/${id}/reviews`).then(res => res.data),
+
   addReview: (id: string, reviewData: { rating: number; comment?: string }) =>
     api.post(`/products/${id}/reviews`, reviewData),
 };
