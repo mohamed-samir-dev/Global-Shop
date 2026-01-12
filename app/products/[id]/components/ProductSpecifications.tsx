@@ -24,21 +24,21 @@ export default function ProductSpecifications({ product }: ProductSpecifications
 
   if (specifications.length === 0) {
     return (
-      <div className="bg-gray-50 rounded-lg p-6">
-        <h3 className="text-lg font-semibold mb-4">Specifications</h3>
-        <p className="text-gray-500">No specifications available for this product.</p>
+      <div className="bg-gray-50 rounded-lg p-3 sm:p-4 md:p-6">
+        <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Specifications</h3>
+        <p className="text-gray-500 text-sm sm:text-base">No specifications available for this product.</p>
       </div>
     );
   }
 
   return (
-    <div className="">
-      <h3 className="text-lg font-semibold mb-4">Specifications</h3>
-      <div className="space-y-3">
+    <div>
+      <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Specifications</h3>
+      <div className="space-y-2 sm:space-y-3">
         {specifications.map((spec, index) => (
-          <div key={index} className="flex justify-between items-start border-b border-gray-200 pb-2 last:border-b-0">
-            <span className="font-medium text-gray-700 capitalize">{spec.label}:</span>
-            <span className="text-gray-600 text-right max-w-xs">{spec.value}</span>
+          <div key={index} className="flex flex-col sm:flex-row sm:justify-between sm:items-start border-b border-gray-200 pb-2 last:border-b-0 gap-1 sm:gap-0">
+            <span className="font-medium text-gray-700 capitalize text-sm sm:text-base">{spec.label}:</span>
+            <span className="text-gray-600 text-sm sm:text-base sm:text-right sm:max-w-xs break-words">{spec.value}</span>
           </div>
         ))}
       </div>

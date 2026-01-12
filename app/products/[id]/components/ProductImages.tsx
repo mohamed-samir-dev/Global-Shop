@@ -27,15 +27,15 @@ export default function ProductImages({
 
   return (
     <>
-      <div className="flex space-x-4">
-        {/* Sub Images - Vertical Stack */}
+      <div className="space-y-3">
+        {/* Sub Images - Horizontal on mobile, Vertical on desktop */}
         {images.length > 1 && (
-          <div className="flex flex-col space-y-2 w-20">
+          <div className="flex space-x-2 w-full overflow-x-auto pb-2">
             {images.map((image, index) => (
               <button
                 key={index}
                 onClick={() => setActiveImageIndex(index)}
-                className={`w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
+                className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 transition-all ${
                   activeImageIndex === index ? 'border-blue-600 ring-2 ring-blue-200' : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
@@ -52,20 +52,20 @@ export default function ProductImages({
         )}
         
         {/* Main Image */}
-        <div className="relative flex-1 aspect-square bg-white rounded-2xl overflow-hidden shadow-lg max-w-md group">
-         
+        <div className="relative flex-1 h-80 min-[950px]:h-full min-[950px]:min-h-[400px] bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-lg group">
           <button
             onClick={() => setIsModalOpen(true)}
-            className="absolute bottom-4 right-4 z-10 p-2 bg-white bg-opacity-80 rounded-full shadow-lg hover:bg-opacity-100 transition-opacity"
+            className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 z-10 p-2 bg-white bg-opacity-80 rounded-full shadow-lg hover:bg-opacity-100 transition-opacity"
           >
-            <ZoomIn    className="w-5 h-5 text-gray-600 cursor-pointer" />
+            <ZoomIn className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 cursor-pointer" />
           </button>
           <Image
             src={currentImage || '/placeholder-image.jpg'}
             alt={product.name}
             fill
             className="object-cover hover:scale-105 transition-transform duration-500"
-            sizes="(max-width: 768px) 100vw, 400px"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+            priority
           />
         </div>
       </div>

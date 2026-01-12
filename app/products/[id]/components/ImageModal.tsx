@@ -92,16 +92,16 @@ export default function ImageModal({ isOpen, images, currentIndex, onClose, onNa
 
   return (
     <div 
-      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-300"
+      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 animate-in fade-in duration-300"
       onClick={onClose}
     >
-      <div className="relative max-w-2xl max-h-[80vh] w-full animate-in zoom-in-95 duration-300">
+      <div className="relative max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-4xl max-h-[90vh] sm:max-h-[80vh] w-full animate-in zoom-in-95 duration-300">
         <button
           onClick={onClose}
-          className="absolute -top-12 right-0 z-10 p-3 text-white/80 hover:text-white hover:bg-white/10 rounded-full transition-all duration-200 backdrop-blur-sm"
+          className="absolute -top-8 sm:-top-12 right-0 z-10 p-2 sm:p-3 text-white/80 hover:text-white hover:bg-white/10 rounded-full transition-all duration-200 backdrop-blur-sm"
           aria-label="Close modal"
         >
-          <X className="w-6 h-6" />
+          <X className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
         
         {(images?.length || 0) > 1 && (
@@ -109,24 +109,24 @@ export default function ImageModal({ isOpen, images, currentIndex, onClose, onNa
             <button
               onClick={goToPrevious}
               disabled={currentIndex === 0}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-3 text-white/80 hover:text-white hover:bg-white/10 rounded-full transition-all duration-200 backdrop-blur-sm disabled:opacity-30 disabled:cursor-not-allowed"
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 p-2 sm:p-3 text-white/80 hover:text-white hover:bg-white/10 rounded-full transition-all duration-200 backdrop-blur-sm disabled:opacity-30 disabled:cursor-not-allowed"
               aria-label="Previous image"
             >
-              <ChevronLeft className="w-6 h-6" />
+              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
             <button
               onClick={goToNext}
               disabled={currentIndex === (images?.length || 0) - 1}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-3 text-white/80 hover:text-white hover:bg-white/10 rounded-full transition-all duration-200 backdrop-blur-sm disabled:opacity-30 disabled:cursor-not-allowed"
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 p-2 sm:p-3 text-white/80 hover:text-white hover:bg-white/10 rounded-full transition-all duration-200 backdrop-blur-sm disabled:opacity-30 disabled:cursor-not-allowed"
               aria-label="Next image"
             >
-              <ChevronRight className="w-6 h-6" />
+              <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
           </>
         )}
         
         <div 
-          className={`relative bg-white rounded-2xl overflow-hidden shadow-2xl ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+          className={`relative bg-white rounded-lg sm:rounded-2xl overflow-hidden shadow-2xl ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
           onClick={(e) => e.stopPropagation()}
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
@@ -144,12 +144,12 @@ export default function ImageModal({ isOpen, images, currentIndex, onClose, onNa
             alt={`Image ${currentIndex + 1} of ${images?.length || 0}`}
             width={1200}
             height={800}
-            className={`w-full h-auto max-h-[80vh] object-contain select-none ${isDragging ? 'pointer-events-none' : ''}`}
+            className={`w-full h-auto max-h-[90vh] sm:max-h-[80vh] object-contain select-none ${isDragging ? 'pointer-events-none' : ''}`}
             priority
             draggable={false}
           />
           {(images?.length || 0) > 1 && (
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm backdrop-blur-sm">
+            <div className="absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm backdrop-blur-sm">
               {currentIndex + 1} / {images?.length || 0}
             </div>
           )}
