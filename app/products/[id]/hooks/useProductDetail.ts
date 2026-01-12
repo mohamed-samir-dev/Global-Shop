@@ -40,7 +40,7 @@ export const useProductDetail = (productId: string) => {
   };
 
   const updateQuantity = (newQuantity: number) => {
-    const maxStock = product?.countInStock ?? 0;
+    const maxStock = product?.stock ?? product?.countInStock ?? 0;
     setSelectedQuantity(Math.max(1, Math.min(maxStock, newQuantity)));
   };
 
