@@ -223,6 +223,11 @@ class CartService {
     return response.data;
   }
 
+  static async proceedToCheckout(): Promise<any> {
+    const response = await cartAPI.proceedToCheckout();
+    return response.data;
+  }
+
   private static createEmptyCart(): GuestCart {
     return {
       items: [],

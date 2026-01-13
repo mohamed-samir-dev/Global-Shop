@@ -237,18 +237,25 @@ export const useCart = () => {
   const proceedToCheckout = async () => {
     if (!user) {
       // Redirect to login for guest users
-      toast.error('Please login to proceed to checkout');
       return { requiresLogin: true };
     }
 
-    // Validate cart before checkout
-    const validation = await validateCart();
-    if (!validation.isValid) {
-      toast.error('Please review cart items before checkout');
-      return { isValid: false, errors: validation.errors };
+    try {
+      setIsLoading(true);
+      const result = await CartService.proceedToCheckout();
+      return result;
+    } catch (error: unknown) {
+      console.error('Error proceeding to checkout:', error);
+      const message = error instanceof Error ? error.message : 'Failed to proceed to checkout';
+      toast.error(message);
+      return { 
+        requiresLogin: false, 
+        isValid: false, 
+        errors: [{ error: message }] 
+      };
+    } finally {
+      setIsLoading(false);
     }
-
-    return { isValid: true, canProceed: true };
   };
 
   const isInCart = (productId: string) => {

@@ -77,6 +77,7 @@ export const cartAPI = {
   mergeCart: (guestCartItems: GuestCartItem[]) =>
     api.post('/cart/merge', { guestCartItems }),
   validateCart: () => api.post('/cart/validate'),
+  proceedToCheckout: () => api.post('/cart/checkout'),
 };
 
 export const testimonialAPI = {
