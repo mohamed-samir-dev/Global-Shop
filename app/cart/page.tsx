@@ -4,6 +4,7 @@ import { useTheme } from '@/context/ThemeContext';
 import { useTranslation } from '@/i18n/hooks/useTranslation';
 import { useCart } from '@/hooks/useCart';
 import { useAuth } from '@/src/context/AuthContext';
+import CheckoutButton from '@/src/components/checkout/CheckoutButton';
 import { 
   ShoppingCartIcon, 
   TrashIcon, 
@@ -482,10 +483,7 @@ export default function Cart() {
                 
                 
                 {user ? (
-                  <button className="w-full bg-gradient-to-r from-slate-900 to-slate-800 text-white py-4 px-6 rounded-xl hover:from-slate-800 hover:to-slate-700 transition-all duration-300 font-semibold text-base shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-3">
-                    <CreditCardIcon className="w-5 h-5" />
-                    {isArabic ? 'الدفع الآن' : 'Proceed to Checkout'}
-                  </button>
+                  <CheckoutButton />
                 ) : (
                   <div className="space-y-3">
                     <div className={`flex items-center justify-center gap-2 p-4 rounded-xl border-2 border-dashed ${
