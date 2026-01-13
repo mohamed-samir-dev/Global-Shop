@@ -1,6 +1,7 @@
 'use client';
 
 import { useTheme } from '@/context/ThemeContext';
+import { useCart } from '@/hooks/useCart';
 import ProductGrid from "@/src/components/ProductGrid";
 import ProductList from "@/src/components/ProductList";
 import { useProducts } from "@/src/hooks/useProducts";
@@ -13,14 +14,14 @@ interface ProductsSectionProps {
 
 export default function ProductsSection({ filters }: ProductsSectionProps) {
   const { isDarkMode } = useTheme();
+  const { addToCart } = useCart();
   const { products, loading, error } = useProducts({
     ...filters,
     searchQuery: "",
   });
 
   const handleAddToCart = (product: Product) => {
-    console.log("Adding to cart:", product);
-    // TODO: Implement cart functionality
+    addToCart(product);
   };
 
   if (loading) {
