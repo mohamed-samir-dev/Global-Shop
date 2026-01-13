@@ -1,6 +1,18 @@
 import axios from "axios";
 import { AuthResponse, Product, User } from "@/types";
 
+interface CartOptions {
+  size?: string;
+  color?: string;
+  [key: string]: unknown;
+}
+
+interface GuestCartItem {
+  productId: string;
+  quantity: number;
+  options?: CartOptions;
+}
+
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
@@ -51,6 +63,20 @@ export const productAPI = {
 
   addReview: (id: string, reviewData: { rating: number; comment?: string }) =>
     api.post(`/products/${id}/reviews`, reviewData),
+};
+
+export const cartAPI = {
+  getCart: () => api.get('/cart'),
+  addToCart: (productId: string, quantity: number = 1, options: CartOptions = {}) =>
+    api.post('/cart/add', { productId, quantity, options }),
+  updateCartItem: (productId: string, quantity: number, options: CartOptions = {}) =>
+    api.put('/cart/update', { productId, quantity, options }),
+  removeFromCart: (productId: string, options: CartOptions = {}) =>
+    api.delete('/cart/remove', { data: { productId, options } }),
+  clearCart: () => api.delete('/cart/clear'),
+  mergeCart: (guestCartItems: GuestCartItem[]) =>
+    api.post('/cart/merge', { guestCartItems }),
+  validateCart: () => api.post('/cart/validate'),
 };
 
 export const testimonialAPI = {
