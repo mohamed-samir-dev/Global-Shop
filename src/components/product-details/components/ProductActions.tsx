@@ -1,11 +1,17 @@
 import { Product } from '@/types';
 import { ShoppingCart, Heart, Share2 } from 'lucide-react';
+import { useCart } from '@/hooks/useCart';
 
 interface ProductActionsProps {
   product: Product;
 }
 
 export const ProductActions = ({ product }: ProductActionsProps) => {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart(product);
+  };
   return (
     <>
       {/* Stock Status */}
@@ -25,6 +31,7 @@ export const ProductActions = ({ product }: ProductActionsProps) => {
       {/* Action Buttons */}
       <div className="flex space-x-4">
         <button
+          onClick={handleAddToCart}
           disabled={product.availability === 'out_of_stock'}
           className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
         >

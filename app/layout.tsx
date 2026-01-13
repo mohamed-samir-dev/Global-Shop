@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { I18nProvider } from "@/components/I18nProvider";
+import ReduxProvider from "@/components/ReduxProvider";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/layout";
 import { Toaster } from "react-hot-toast";
@@ -34,39 +35,41 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
-        <I18nProvider>
-          <ThemeProvider>
-            <AuthProvider>
-              <Navbar />
-              <main className="min-h-screen">
-                {children}
-              </main>
-              <Footer />
-              <Toaster 
-                position="top-right" 
-                toastOptions={{
-                  className: 'text-sm sm:text-base',
-                  style: {
-                    padding: '12px 16px',
-                    fontSize: '14px',
-                  },
-                  success: {
+        <ReduxProvider>
+          <I18nProvider>
+            <ThemeProvider>
+              <AuthProvider>
+                <Navbar />
+                <main className="min-h-screen">
+                  {children}
+                </main>
+                <Footer />
+                <Toaster 
+                  position="top-right" 
+                  toastOptions={{
+                    className: 'text-sm sm:text-base',
                     style: {
-                      background: '#10B981',
-                      color: 'white',
+                      padding: '12px 16px',
+                      fontSize: '14px',
                     },
-                  },
-                  error: {
-                    style: {
-                      background: '#EF4444',
-                      color: 'white',
+                    success: {
+                      style: {
+                        background: '#10B981',
+                        color: 'white',
+                      },
                     },
-                  },
-                }}
-              />
-            </AuthProvider>
-          </ThemeProvider>
-        </I18nProvider>
+                    error: {
+                      style: {
+                        background: '#EF4444',
+                        color: 'white',
+                      },
+                    },
+                  }}
+                />
+              </AuthProvider>
+            </ThemeProvider>
+          </I18nProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

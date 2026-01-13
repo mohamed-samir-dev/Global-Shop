@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useTheme } from '@/context/ThemeContext';
 import { useTranslation } from '@/i18n/hooks/useTranslation';
+import { useCart } from '@/hooks/useCart';
 import { Product } from '@/types';
 import { productAPI } from '@/lib/api';
 import SimpleProductCard from './SimpleProductCard';
@@ -12,6 +13,8 @@ export default function FeaturedProducts() {
   const { isArabic } = useTranslation();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchLatestProducts = async () => {
@@ -38,7 +41,7 @@ export default function FeaturedProducts() {
   }, []);
 
   const handleAddToCart = (product: Product) => {
-    console.log('Add to cart:', product.name);
+    addToCart(product);
   };
 
   if (loading) {

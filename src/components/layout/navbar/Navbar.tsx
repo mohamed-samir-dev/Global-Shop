@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
 import { useTheme } from '@/context/ThemeContext';
 import { useTranslation } from '@/i18n';
+import { useAppSelector } from '@/hooks/redux';
 import DarkModeToggle from '@/components/DarkModeToggle';
 import { NavbarSkeleton } from '@/components/skeletons';
 import { ShoppingCartIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
@@ -21,6 +22,7 @@ export default function Navbar() {
   const { user, logout, isLoading } = useAuth();
   const { isDarkMode, toggleDarkMode } = useTheme();
   const { language, toggleLanguage, isArabic } = useTranslation();
+  const cartItemCount = useAppSelector(state => state.cart.itemCount);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -78,9 +80,11 @@ export default function Navbar() {
                 : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
             }`}>
               <ShoppingCartIcon className="h-5 w-5" />
-              <span className={`absolute -top-1 ${isArabic ? '-left-1' : '-right-1'} bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium`}>
-                0
-              </span>
+              {cartItemCount > 0 && (
+                <span className={`absolute -top-1 ${isArabic ? '-left-1' : '-right-1'} bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium`}>
+                  {cartItemCount > 99 ? '99+' : cartItemCount}
+                </span>
+              )}
             </Link>
 
             <UserMenu 
@@ -115,9 +119,11 @@ export default function Navbar() {
                   : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
               }`}>
                 <ShoppingCartIcon className="h-4 w-4" />
-                <span className={`absolute -top-1 ${isArabic ? '-left-1' : '-right-1'} bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium text-[10px]`}>
-                  0
-                </span>
+                {cartItemCount > 0 && (
+                  <span className={`absolute -top-1 ${isArabic ? '-left-1' : '-right-1'} bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium text-[10px]`}>
+                    {cartItemCount > 99 ? '99+' : cartItemCount}
+                  </span>
+                )}
               </Link>
               <UserMenu 
                 user={user}
@@ -172,9 +178,11 @@ export default function Navbar() {
                 : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
             }`}>
               <ShoppingCartIcon className="h-4 w-4" />
-              <span className={`absolute -top-0.5 ${isArabic ? '-left-0.5' : '-right-0.5'} bg-red-500 text-white text-[10px] rounded-full h-3.5 w-3.5 flex items-center justify-center font-medium`}>
-                0
-              </span>
+              {cartItemCount > 0 && (
+                <span className={`absolute -top-0.5 ${isArabic ? '-left-0.5' : '-right-0.5'} bg-red-500 text-white text-[10px] rounded-full h-3.5 w-3.5 flex items-center justify-center font-medium`}>
+                  {cartItemCount > 99 ? '99+' : cartItemCount}
+                </span>
+              )}
             </Link>
             
             {/* Mobile Menu Button */}
