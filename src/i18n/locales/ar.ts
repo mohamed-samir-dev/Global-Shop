@@ -189,6 +189,26 @@ export const ar = {
   product: {
     actions: {
       addToCart: 'أضف إلى السلة'
+    },
+    details: {
+      color: 'اللون',
+      size: 'المقاس',
+      quantity: 'الكمية',
+      inStock: 'متوفر',
+      outOfStock: 'غير متوفر',
+      onlyLeft: 'فقط متبقي',
+      watchlist: 'قائمة المراقبة',
+      description: 'الوصف',
+      specifications: 'المواصفات',
+      brand: 'العلامة التجارية',
+      category: 'الفئة',
+      sku: 'رمز المنتج',
+      weight: 'الوزن',
+      material: 'المادة',
+      warranty: 'الضمان',
+      returnPolicy: 'سياسة الإرجاع',
+      dimensions: 'الأبعاد',
+      noSpecifications: 'لا توجد مواصفات متاحة لهذا المنتج'
     }
   },
   testimonials: {

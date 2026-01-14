@@ -6,9 +6,9 @@ import { useAuth } from '@/context/AuthContext';
 import { useTheme } from '@/context/ThemeContext';
 import { useTranslation } from '@/i18n';
 import { useWishlist } from '@/hooks/useWishlist';
-import WishlistService from '@/services/wishlistService';
+import WishlistService, { GuestWishlist, WishlistItem } from '@/services/wishlistService';
 import { Product } from '@/types';
-import { HeartIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { HeartIcon, TrashIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -18,14 +18,10 @@ export default function WishlistPage() {
   const { isDarkMode } = useTheme();
   const { isArabic } = useTranslation();
   const { userWishlist, isLoading, removeFromWishlist } = useWishlist();
-  const [guestWishlist, setGuestWishlist] = useState<any>(null);
+  const [guestWishlist, setGuestWishlist] = useState<GuestWishlist | null>(() => 
+    !user ? WishlistService.getGuestWishlist() : null
+  );
   const router = useRouter();
-
-  useEffect(() => {
-    if (!user) {
-      setGuestWishlist(WishlistService.getGuestWishlist());
-    }
-  }, [user]);
 
   const wishlistItems = user 
     ? userWishlist?.items || [] 
@@ -60,6 +56,12 @@ export default function WishlistPage() {
       <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8">
           <div className="flex items-center gap-2 sm:gap-3">
+            <button
+              onClick={() => router.back()}
+              className={`p-2 rounded-lg transition-colors ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-200'}`}
+            >
+              <ArrowLeftIcon className={`h-5 w-5 sm:h-6 sm:w-6 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`} />
+            </button>
             <HeartSolidIcon className={`h-6 w-6 sm:h-8 sm:w-8 ${isDarkMode ? 'text-red-400' : 'text-red-500'}`} />
             <h1 className={`text-2xl sm:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
               My Wishlist
@@ -90,8 +92,8 @@ export default function WishlistPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-            {wishlistItems.map((item: any) => {
-              const product = user ? item.productId : item.product;
+            {wishlistItems.map((item: WishlistItem | { productId: Product; addedAt: string }) => {
+              const product = user ? (item as { productId: Product }).productId : (item as WishlistItem).product;
               if (!product) return null;
 
               return (
@@ -129,7 +131,7 @@ export default function WishlistPage() {
                       <span className={`text-xl sm:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                         ${product.finalPrice?.toFixed(2) || product.basePrice?.toFixed(2)}
                       </span>
-                      {product.finalPrice < product.basePrice && (
+                      {product.finalPrice !== undefined && product.finalPrice < product.basePrice && (
                         <span className={`text-xs sm:text-sm line-through ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>
                           ${product.basePrice?.toFixed(2)}
                         </span>

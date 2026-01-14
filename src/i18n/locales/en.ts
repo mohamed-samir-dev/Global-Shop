@@ -189,6 +189,15 @@ export const en = {
   product: {
     actions: {
       addToCart: 'Add to Cart'
+    },
+    details: {
+      color: 'Color',
+      size: 'Size',
+      quantity: 'Quantity',
+      outOfStock: 'Out of Stock',
+      inStock: 'In Stock',
+      onlyLeft: 'Only',
+      watchlist: 'Wishlist'
     }
   },
   testimonials: {

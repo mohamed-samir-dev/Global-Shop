@@ -37,9 +37,9 @@ export default function SimpleProductCard({
         <h3
           className={`font-semibold text-xs sm:text-sm lg:text-base mb-1 sm:mb-2 line-clamp-2 leading-tight ${
             isDarkMode ? "text-white" : "text-[#0D0D0D]"
-          }`}
+          } ${isArabic ? 'text-right' : 'text-left'}`}
         >
-          {product.name}
+          {isArabic && product.nameAr ? product.nameAr : product.name}
         </h3>
 
         <div className={`flex items-center mb-2 sm:mb-3 ${isArabic ? 'justify-end' : 'justify-start'}`}>

@@ -5,6 +5,7 @@ import { useState } from 'react';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { useProductDetail } from './hooks/useProductDetail';
 import { calculateDiscount } from './utils/productHelpers';
+import { useTranslation } from '@/i18n/hooks/useTranslation';
 import {
   ProductImages,
   ProductInfo,
@@ -16,6 +17,7 @@ import {
 export default function ProductDetailPage() {
   const [activeTab, setActiveTab] = useState('description');
   const params = useParams();
+  const { t, isArabic } = useTranslation();
   const {
     product,
     isLoading,
@@ -39,13 +41,9 @@ export default function ProductDetailPage() {
   const { hasDiscount, discountPercentage } = calculateDiscount(product);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Container with responsive padding */}
+    <div className="min-h-screen bg-gray-50" dir={isArabic ? 'rtl' : 'ltr'}>
       <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 md:py-6 lg:py-8">
-        
-        {/* Product Images and Info - Responsive Grid */}
         <div className="grid grid-cols-1 min-[1100px]:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-12 mb-6 sm:mb-8 lg:mb-12 min-[950px]:items-stretch">
-          {/* Product Images */}
           <div className="order-1">
             <ProductImages
               product={product}
@@ -55,8 +53,6 @@ export default function ProductDetailPage() {
               discountPercentage={discountPercentage}
             />
           </div>
-          
-          {/* Product Info */}
           <div className="order-2 flex flex-col justify-center">
             <ProductInfo
               product={product}
@@ -71,11 +67,8 @@ export default function ProductDetailPage() {
           </div>
         </div>
 
-        {/* Description/Specifications and Reviews - Responsive Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
-          {/* Description and Specifications */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-            {/* Tab Headers */}
             <div className="border-b border-gray-200">
               <nav className="flex px-3 sm:px-4 md:px-6" aria-label="Tabs">
                 <button
@@ -86,7 +79,7 @@ export default function ProductDetailPage() {
                       : 'border-transparent text-gray-500 hover:text-gray-700'
                   }`}
                 >
-                  Description
+                  {t('product.details.description')}
                 </button>
                 <button
                   onClick={() => setActiveTab('specifications')}
@@ -96,21 +89,16 @@ export default function ProductDetailPage() {
                       : 'border-transparent text-gray-500 hover:text-gray-700'
                   }`}
                 >
-                  Specifications
+                  {t('product.details.specifications')}
                 </button>
               </nav>
             </div>
-            
-            {/* Tab Content */}
             <div className="p-3 sm:p-4 md:p-6">
               {activeTab === 'description' && <ProductDescription product={product} />}
               {activeTab === 'specifications' && <ProductSpecifications product={product} />}
             </div>
           </div>
-          
-          {/* Reviews */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4 md:p-6">
-            {/* Header */}
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3">
               <div className="flex items-center gap-2 sm:gap-3">
                 <span className="text-2xl sm:text-3xl font-bold text-gray-900">4.5</span>
@@ -129,8 +117,6 @@ export default function ProductDetailPage() {
                 </svg>
               </button>
             </div>
-
-            {/* Rating Bars */}
             <div className="space-y-2 mb-4 sm:mb-6">
               {[{rating: 5, count: 10, width: '90%'}, {rating: 4, count: 0, width: '0%'}, {rating: 3, count: 0, width: '0%'}, {rating: 2, count: 0, width: '0%'}, {rating: 1, count: 1, width: '10%'}].map(({rating, count, width}) => (
                 <div key={rating} className="flex items-center gap-2 sm:gap-3">
@@ -142,8 +128,6 @@ export default function ProductDetailPage() {
                 </div>
               ))}
             </div>
-
-            {/* Reviews */}
             <div className="space-y-3 sm:space-y-4">
               <div className="border-b border-gray-100 pb-3 last:border-b-0 last:pb-0">
                 <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">Recent Altx</h4>

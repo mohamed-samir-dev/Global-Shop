@@ -63,36 +63,42 @@ export default function Cart() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header with breadcrumb */}
         <div className="mb-6 sm:mb-8">
-          <div className={`flex items-center gap-2 mb-3 sm:mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
-            <Link href="/products" className={`flex items-center gap-2 text-xs sm:text-sm transition-colors ${
+          <div className={`flex items-center gap-2 mb-3 sm:mb-4`}>
+            <Link href="/products" className={`flex items-center gap-2 text-xs sm:text-sm transition-colors  ${
               isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
             }`}>
-              <ArrowLeftIcon className="w-3 h-3 sm:w-4 sm:h-4" />
+              <ArrowLeftIcon className={`w-3 h-3 sm:w-4 sm:h-4 `} />
               {isArabic ? 'العودة للتسوق' : 'Continue Shopping'}
             </Link>
           </div>
-          <div className={`flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 ${isArabic ? 'sm:flex-row-reverse' : ''}`}>
-            <div>
+          <div className={`flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 `}>
+            <div className={isArabic ? 'w-full sm:w-auto flex flex-col items-end' : ''}>
               <h1 className={`text-2xl sm:text-3xl font-bold mb-1 sm:mb-2 ${
                 isDarkMode ? 'text-white' : 'text-slate-900'
-              } ${isArabic ? 'text-right font-arabic' : 'text-left'}`}>
+              } ${isArabic ? 'text-right w-full' : 'text-left'}`}>
                 {isArabic ? 'سلة التسوق' : 'Shopping Cart'}
               </h1>
               {itemCount > 0 && (
                 <p className={`text-xs sm:text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-600'} ${
-                  isArabic ? 'text-right' : 'text-left'
+                  isArabic ? 'text-right w-full' : 'text-left'
                 }`}>
-                  {itemCount} {itemCount === 1 ? 'item' : 'items'} • ${total.toFixed(2)} total
+                  {isArabic 
+                    ? `${itemCount} ${itemCount === 1 ? 'منتج' : 'منتجات'} • $${total.toFixed(2)} الإجمالي`
+                    : `${itemCount} ${itemCount === 1 ? 'item' : 'items'} • $${total.toFixed(2)} total`
+                  }
                 </p>
               )}
             </div>
             {itemCount > 0 && (
-              <div className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm ${
+              <div className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm ${isArabic ? 'flex-row-reverse' : ''} ${
                 isDarkMode ? 'bg-emerald-900/20 text-emerald-400' : 'bg-emerald-50 text-emerald-700'
               }`}>
                 <TruckIcon className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span className="font-medium">
-                  {subtotal >= 100 ? (isArabic ? 'شحن مجاني' : 'Free Shipping') : `$${(100 - subtotal).toFixed(2)} away`}
+                  {subtotal >= 100 
+                    ? (isArabic ? 'شحن مجاني' : 'Free Shipping') 
+                    : (isArabic ? `متبقي $${(100 - subtotal).toFixed(2)}` : `$${(100 - subtotal).toFixed(2)} away`)
+                  }
                 </span>
               </div>
             )}
@@ -129,20 +135,20 @@ export default function Cart() {
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 max-w-md mx-auto">
               <Link
                 href="/products"
-                className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-slate-900 text-white font-medium rounded-xl hover:bg-slate-800 transition-all hover:scale-105 shadow-lg text-sm sm:text-base w-full sm:w-auto"
+                className={`inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-slate-900 text-white font-medium rounded-xl hover:bg-slate-800 transition-all hover:scale-105 shadow-lg text-sm sm:text-base w-full sm:w-auto ${isArabic ? 'flex-row-reverse' : ''}`}
               >
-                <ShoppingCartIcon className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                <ShoppingCartIcon className={`w-4 h-4 sm:w-5 sm:h-5 ${isArabic ? 'ml-2' : 'mr-2'}`} />
                 {isArabic ? 'ابدأ التسوق' : 'Start Shopping'}
               </Link>
               <Link
                 href="/categories"
-                className={`inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 font-medium rounded-xl transition-all hover:scale-105 text-sm sm:text-base w-full sm:w-auto ${
+                className={`inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 font-medium rounded-xl transition-all hover:scale-105 text-sm sm:text-base w-full sm:w-auto ${isArabic ? 'flex-row-reverse' : ''} ${
                   isDarkMode 
                     ? 'border-slate-600 text-slate-300 hover:bg-slate-700'
                     : 'border-slate-300 text-slate-700 hover:bg-slate-50'
                 }`}
               >
-                <TagIcon className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                <TagIcon className={`w-4 h-4 sm:w-5 sm:h-5 ${isArabic ? 'ml-2' : 'mr-2'}`} />
                 {isArabic ? 'تصفح الفئات' : 'Browse Categories'}
               </Link>
             </div>
@@ -171,13 +177,13 @@ export default function Cart() {
                           />
                           <div className={`absolute inset-0 bg-linear-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
                           {hasDiscount && (
-                            <div className="absolute top-2 left-2 bg-linear-to-r from-red-500 to-red-600 text-white text-xs px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg font-semibold shadow-lg">
+                            <div className={`absolute top-2 ${isArabic ? 'right-2' : 'left-2'} bg-linear-to-r from-red-500 to-red-600 text-white text-xs px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg font-semibold shadow-lg`}>
                               -{Math.round(((originalPrice - price) / originalPrice) * 100)}%
                             </div>
                           )}
                           {item.product.stock < 10 && (
-                            <div className="absolute bottom-2 right-2 bg-orange-500 text-white text-xs px-2 py-1 rounded-md font-medium">
-                              {item.product.stock} left
+                            <div className={`absolute bottom-2 ${isArabic ? 'left-2' : 'right-2'} bg-orange-500 text-white text-xs px-2 py-1 rounded-md font-medium`}>
+                              {isArabic ? `${item.product.stock} متبقي` : `${item.product.stock} left`}
                             </div>
                           )}
                         </div>
@@ -192,7 +198,7 @@ export default function Cart() {
                                 <h3 className={`font-semibold text-base sm:text-lg line-clamp-2 mb-2 sm:mb-3 ${
                                   isDarkMode ? 'text-white' : 'text-slate-900'
                                 } ${isArabic ? 'text-right' : 'text-left'}`}>
-                                  {item.product.name}
+                                  {isArabic && item.product.nameAr ? item.product.nameAr : item.product.name}
                                 </h3>
                               </Link>
                               <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
@@ -210,7 +216,7 @@ export default function Cart() {
                                 )}
                                 {hasDiscount && (
                                   <span className="text-xs sm:text-sm font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
-                                    Save ${(originalPrice - price).toFixed(2)}
+                                    {isArabic ? `وفر $${(originalPrice - price).toFixed(2)}` : `Save $${(originalPrice - price).toFixed(2)}`}
                                   </span>
                                 )}
                               </div>
@@ -222,7 +228,7 @@ export default function Cart() {
                               </div>
                             </div>
                             
-                            <div className="flex sm:flex-row flex-col items-center gap-2">
+                            <div className={`flex sm:flex-row flex-col items-center gap-2 ${isArabic ? 'sm:flex-row-reverse' : ''}`}>
                               <button
                                 className={`p-2 sm:p-2.5 rounded-xl transition-all duration-200 hover:scale-110 ${
                                   isDarkMode 
@@ -292,7 +298,7 @@ export default function Cart() {
                               </div>
                             </div>
                             
-                            <div className="text-right">
+                            <div className={`text-right ${isArabic ? 'text-left' : 'text-right'}`}>
                               <div className={`text-xl sm:text-2xl font-bold ${
                                 isDarkMode ? 'text-white' : 'text-slate-900'
                               }`}>
@@ -301,7 +307,7 @@ export default function Cart() {
                               <div className={`text-xs sm:text-sm ${
                                 isDarkMode ? 'text-slate-400' : 'text-slate-500'
                               }`}>
-                                ${price.toFixed(2)} each
+                                {isArabic ? `$${price.toFixed(2)} للواحد` : `$${price.toFixed(2)} each`}
                               </div>
                             </div>
                           </div>
@@ -345,7 +351,7 @@ export default function Cart() {
                   <span className={`text-xs sm:text-sm ${
                     isDarkMode ? 'text-slate-400' : 'text-slate-600'
                   }`}>
-                    {items.length} {items.length === 1 ? 'product' : 'products'}
+                    {isArabic ? `${items.length} ${items.length === 1 ? 'منتج' : 'منتجات'}` : `${items.length} ${items.length === 1 ? 'product' : 'products'}`}
                   </span>
                 </div>
                 
@@ -405,10 +411,10 @@ export default function Cart() {
                 </div>
                 
                 {/* Estimated Delivery */}
-                <div className={`flex justify-between items-center py-2 sm:py-3 px-3 sm:px-4 rounded-lg ${
+                <div className={`flex justify-between items-center py-2 sm:py-3 px-3 sm:px-4 rounded-lg ${isArabic ? 'flex-row-reverse' : ''} ${
                   isDarkMode ? 'bg-slate-700/50' : 'bg-blue-50'
-                } ${isArabic ? 'flex-row-reverse' : ''}`}>
-                  <div className="flex items-center gap-1.5 sm:gap-2">
+                }`}>
+                  <div className={`flex items-center gap-1.5 sm:gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
                     <TruckIcon className="w-3 h-3 sm:w-4 sm:h-4 text-blue-500" />
                     <span className={`text-xs sm:text-sm font-medium ${
                       isDarkMode ? 'text-slate-300' : 'text-slate-700'
@@ -458,11 +464,11 @@ export default function Cart() {
                       {isArabic ? 'كود الخصم' : 'Promo Code'}
                     </span>
                   </div>
-                  <div className="flex flex-col sm:flex-row gap-2">
+                  <div className={`flex flex-col sm:flex-row gap-2 ${isArabic ? 'sm:flex-row-reverse' : ''}`}>
                     <input
                       type="text"
                       placeholder={isArabic ? 'أدخل كود الخصم' : 'Enter promo code'}
-                      className={`flex-1 w-full px-2.5 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm rounded-lg border ${
+                      className={`flex-1 w-full px-2.5 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm rounded-lg border ${isArabic ? 'text-right' : 'text-left'} ${
                         isDarkMode 
                           ? 'bg-slate-800 border-slate-600 text-white placeholder-slate-400'
                           : 'bg-white border-slate-300 text-slate-900 placeholder-slate-500'
@@ -479,7 +485,7 @@ export default function Cart() {
                   <CheckoutButton />
                 ) : (
                   <div className="space-y-2 sm:space-y-3">
-                    <div className={`flex items-center justify-center gap-2 p-3 sm:p-4 rounded-xl border-2 border-dashed ${
+                    <div className={`flex items-center justify-center gap-2 p-3 sm:p-4 rounded-xl border-2 border-dashed ${isArabic ? 'flex-row-reverse' : ''} ${
                       isDarkMode ? 'border-slate-600 bg-slate-700/30 text-slate-300' : 'border-slate-300 bg-slate-50 text-slate-600'
                     }`}>
                       <LockClosedIcon className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -489,7 +495,7 @@ export default function Cart() {
                     </div>
                     <Link 
                       href="/login"
-                      className="w-full bg-linear-to-r from-blue-600 to-blue-700 text-white py-3 sm:py-4 px-4 sm:px-6 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-semibold text-sm sm:text-base shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2 sm:gap-3"
+                      className={`w-full bg-linear-to-r from-blue-600 to-blue-700 text-white py-3 sm:py-4 px-4 sm:px-6 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-semibold text-sm sm:text-base shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2 sm:gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}
                     >
                       <LockClosedIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                       {isArabic ? 'تسجيل الدخول للمتابعة' : 'Login to Continue'}
@@ -512,19 +518,19 @@ export default function Cart() {
                 <div className={`space-y-2 sm:space-y-3 pt-4 sm:pt-6 border-t-2 ${
                   isDarkMode ? 'border-slate-700' : 'border-slate-200'
                 }`}>
-                  <div className={`flex items-center gap-2 sm:gap-3 text-xs sm:text-sm ${
+                  <div className={`flex items-center gap-2 sm:gap-3 text-xs sm:text-sm ${isArabic ? 'flex-row-reverse' : ''} ${
                     isDarkMode ? 'text-slate-300' : 'text-slate-600'
                   }`}>
                     <ShieldCheckIcon className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500" />
                     <span>{isArabic ? 'دفع آمن ومضمون' : 'Secure & Safe Payment'}</span>
                   </div>
-                  <div className={`flex items-center gap-2 sm:gap-3 text-xs sm:text-sm ${
+                  <div className={`flex items-center gap-2 sm:gap-3 text-xs sm:text-sm ${isArabic ? 'flex-row-reverse' : ''} ${
                     isDarkMode ? 'text-slate-300' : 'text-slate-600'
                   }`}>
                     <TruckIcon className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500" />
                     <span>{isArabic ? 'توصيل سريع ومجاني' : 'Fast & Free Delivery'}</span>
                   </div>
-                  <div className={`flex items-center gap-2 sm:gap-3 text-xs sm:text-sm ${
+                  <div className={`flex items-center gap-2 sm:gap-3 text-xs sm:text-sm ${isArabic ? 'flex-row-reverse' : ''} ${
                     isDarkMode ? 'text-slate-300' : 'text-slate-600'
                   }`}>
                     <HeartIcon className="w-4 h-4 sm:w-5 sm:h-5 text-pink-500" />
@@ -536,7 +542,7 @@ export default function Cart() {
                     <div className={`mt-3 sm:mt-4 p-2.5 sm:p-3 rounded-lg bg-linear-to-r from-orange-500/10 to-red-500/10 border ${
                       isDarkMode ? 'border-orange-500/20' : 'border-orange-200'
                     }`}>
-                      <div className="flex items-center gap-1.5 sm:gap-2 mb-1">
+                      <div className={`flex items-center gap-1.5 sm:gap-2 mb-1 ${isArabic ? 'flex-row-reverse' : ''}`}>
                         <TagIcon className="w-3 h-3 sm:w-4 sm:h-4 text-orange-500" />
                         <span className={`text-xs sm:text-sm font-semibold ${
                           isDarkMode ? 'text-orange-400' : 'text-orange-600'
@@ -544,7 +550,7 @@ export default function Cart() {
                           {isArabic ? 'عرض خاص!' : 'Special Offer!'}
                         </span>
                       </div>
-                      <p className={`text-xs ${
+                      <p className={`text-xs ${isArabic ? 'text-right' : 'text-left'} ${
                         isDarkMode ? 'text-slate-300' : 'text-slate-600'
                       }`}>
                         {isArabic 

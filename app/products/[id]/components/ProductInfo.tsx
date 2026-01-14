@@ -1,6 +1,7 @@
 import { Product } from '@/types';
 import { Heart } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from '@/i18n/hooks/useTranslation';
 
 interface ProductInfoProps {
   product: Product;
@@ -15,6 +16,7 @@ interface ProductInfoProps {
 
 function ColorSelector({ colors }: { colors: string[] }) {
   const [selectedColor, setSelectedColor] = useState(colors[0]);
+  const { t } = useTranslation();
 
   const getColorValue = (color: string) => {
     const colorMap: { [key: string]: string } = {
@@ -36,7 +38,7 @@ function ColorSelector({ colors }: { colors: string[] }) {
 
   return (
     <div>
-      <h3 className="text-sm font-medium text-gray-900 mb-2 sm:mb-3">Color: <span className="font-normal text-gray-600 capitalize">{selectedColor}</span></h3>
+      <h3 className="text-sm font-medium text-gray-900 mb-2 sm:mb-3">{t('product.details.color')}: <span className="font-normal text-gray-600 capitalize">{selectedColor}</span></h3>
       <div className="flex flex-wrap gap-2 sm:gap-3">
         {colors.map((color, index) => {
           const colorValue = getColorValue(color);
@@ -82,46 +84,40 @@ export default function ProductInfo({
   onAddToCart,
   onWishlistToggle,
 }: ProductInfoProps) {
+  const { t, isArabic } = useTranslation();
   const isOutOfStock = (product.stock ?? product.countInStock ?? 0) === 0;
   const currentPrice = product.finalPrice || product.price || product.basePrice;
   const originalPrice = product.basePrice;
   const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || '');
+  const productName = isArabic && product.nameAr ? product.nameAr : product.name;
 
   return (
     <div className="space-y-4 sm:space-y-6">
-      {/* Product Name */}
-      <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">{product.name}</h1>
-      
-      {/* Price */}
+      <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">{productName}</h1>
       <div className="flex flex-wrap items-center gap-2 sm:gap-3">
         <span className="text-2xl sm:text-3xl font-bold text-gray-900">
-          ${currentPrice?.toFixed(2) || 'N/A'}
+          {isArabic ? `${currentPrice?.toFixed(2) || 'N/A'} $` : `$${currentPrice?.toFixed(2) || 'N/A'}`}
         </span>
         {hasDiscount && originalPrice && (
           <>
             <span className="text-lg sm:text-xl text-gray-500 line-through">
-              ${originalPrice.toFixed(2)}
+              {isArabic ? `${originalPrice.toFixed(2)} $` : `$${originalPrice.toFixed(2)}`}
             </span>
             <span className="bg-red-100 text-red-800 px-2 py-1 rounded-md text-xs sm:text-sm font-semibold">
-              {discountPercentage || Math.round(((originalPrice - currentPrice!) / originalPrice) * 100)}% OFF
+              {discountPercentage || Math.round(((originalPrice - currentPrice!) / originalPrice) * 100)}% {isArabic ? 'خصم' : 'OFF'}
             </span>
           </>
         )}
       </div>
-      
-      {/* Colors */}
       {product.colors && product.colors.length > 0 && (
         <ColorSelector colors={product.colors} />
       )}
-      
-      {/* Sizes */}
       {product.sizes && product.sizes.length > 0 && (
         <div>
-          <h3 className="text-sm font-medium text-gray-900 mb-2 sm:mb-3">Size</h3>
+          <h3 className="text-sm font-medium text-gray-900 mb-2 sm:mb-3">{t('product.details.size')}</h3>
           <div className="flex flex-wrap gap-2 sm:gap-3">
             {product.sizes.map((size, index) => {
               const isSelected = selectedSize === size;
-              
               return (
                 <button
                   key={index}
@@ -139,8 +135,6 @@ export default function ProductInfo({
           </div>
         </div>
       )}
-      
-      {/* Stock Status */}
       <div className="flex items-center space-x-2">
         <div className={`w-2 h-2 rounded-full ${
           isOutOfStock ? 'bg-red-500' : (product.stock ?? product.countInStock ?? 0) <= 10 ? 'bg-yellow-500' : 'bg-green-500'
@@ -148,17 +142,15 @@ export default function ProductInfo({
         <span className={`text-xs sm:text-sm font-medium ${
           isOutOfStock ? 'text-red-600' : (product.stock ?? product.countInStock ?? 0) <= 10 ? 'text-yellow-600' : 'text-green-600'
         }`}>
-          {isOutOfStock ? 'Out of Stock' : 
+          {isOutOfStock ? t('product.details.outOfStock') : 
            (product.stock ?? product.countInStock ?? 0) <= 10 ? 
-           `Only ${product.stock ?? product.countInStock} left` : 
-           'In Stock'}
+           `${t('product.details.onlyLeft')} ${product.stock ?? product.countInStock}` : 
+           t('product.details.inStock')}
         </span>
       </div>
-      
-      {/* Quantity */}
       {!isOutOfStock && (
         <div>
-          <h3 className="text-sm font-medium text-gray-900 mb-2 sm:mb-3">Quantity</h3>
+          <h3 className="text-sm font-medium text-gray-900 mb-2 sm:mb-3">{t('product.details.quantity')}</h3>
           <div className="inline-flex items-center bg-gray-50 rounded-lg p-1">
             <button
               onClick={() => onQuantityChange(Math.max(1, selectedQuantity - 1))}
@@ -178,15 +170,13 @@ export default function ProductInfo({
           </div>
         </div>
       )}
-      
-      {/* Add to Cart and Wishlist */}
       <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">
         <button
           onClick={onAddToCart}
           disabled={isOutOfStock}
           className="flex-1 bg-[#1A1A1A] cursor-pointer text-white py-3 sm:py-4 px-6 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base transition-all hover:bg-gray-800"
         >
-          {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
+          {isOutOfStock ? t('product.details.outOfStock') : t('product.actions.addToCart')}
         </button>
         <button
           onClick={onWishlistToggle}
@@ -197,7 +187,7 @@ export default function ProductInfo({
           }`}
         >
           <Heart className={`w-4 h-4 sm:w-5 sm:h-5 ${isWishlisted ? 'fill-current' : ''}`} />
-          <span className="hidden sm:inline">WatchList</span>
+          <span className="hidden sm:inline">{t('product.details.watchlist')}</span>
         </button>
       </div>
     </div>
