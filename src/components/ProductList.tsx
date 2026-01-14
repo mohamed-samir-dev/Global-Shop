@@ -5,6 +5,7 @@ import { ShoppingCart, Star, Heart, Eye } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useTheme } from '@/context/ThemeContext';
+import { useTranslation } from '@/i18n/hooks/useTranslation';
 
 interface ProductListProps {
   products: Product[];
@@ -13,6 +14,7 @@ interface ProductListProps {
 
 export default function ProductList({ products, onAddToCart }: ProductListProps) {
   const { isDarkMode } = useTheme();
+  const { isArabic } = useTranslation();
   const handleAddToCart = (product: Product) => {
     onAddToCart?.(product);
     console.log('Added to cart:', product.name);
@@ -48,7 +50,7 @@ export default function ProductList({ products, onAddToCart }: ProductListProps)
                 <Link href={`/products/${product._id}`}>
                   <h3 className={`text-base md:text-lg font-semibold line-clamp-2 hover:text-[#B39E7A] transition-colors ${
                     isDarkMode ? 'text-white' : 'text-gray-900'
-                  }`}>{product.name}</h3>
+                  }`}>{isArabic && product.nameAr ? product.nameAr : product.name}</h3>
                 </Link>
                 <button className={`p-2 rounded-full transition-all shrink-0 ${
                   isDarkMode 

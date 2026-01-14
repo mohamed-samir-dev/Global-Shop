@@ -2,12 +2,14 @@
 
 import Link from 'next/link';
 import { useTheme } from '@/context/ThemeContext';
+import { useTranslation } from '@/i18n/hooks/useTranslation';
 import { ProductInfoProps } from '../types';
 import { getProductPricing } from '../utils';
 import { StarRating } from './StarRating';
 
 export const ProductInfo = ({ product }: ProductInfoProps) => {
   const { isDarkMode } = useTheme();
+  const { isArabic } = useTranslation();
   const { currentPrice, originalPrice, hasDiscount } = getProductPricing(product);
 
   return (
@@ -17,7 +19,7 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
         <h3 className={`font-bold sm:font-semibold text-left text-xs sm:text-base mb-1.5 sm:mb-3 line-clamp-2 leading-tight transition-colors ${
           isDarkMode ? 'text-white hover:text-gray-300' : 'text-[#272525] hover:text-gray-700'
         }`}>
-          {product.name}
+          {isArabic && product.nameAr ? product.nameAr : product.name}
         </h3>
       </Link>
       
