@@ -80,6 +80,19 @@ export const cartAPI = {
   proceedToCheckout: () => api.post('/cart/checkout'),
 };
 
+export const wishlistAPI = {
+  getWishlist: () => api.get('/wishlist'),
+  addToWishlist: (productId: string) =>
+    api.post('/wishlist/add', { productId }),
+  removeFromWishlist: (productId: string) =>
+    api.delete('/wishlist/remove', { data: { productId } }),
+  clearWishlist: () => api.delete('/wishlist/clear'),
+  mergeWishlist: (guestWishlistItems: { productId: string }[]) =>
+    api.post('/wishlist/merge', { guestWishlistItems }),
+  checkInWishlist: (productId: string) =>
+    api.get(`/wishlist/check/${productId}`),
+};
+
 export const testimonialAPI = {
   getTestimonials: () => api.get("/testimonials"),
   createTestimonial: (testimonialData: {
