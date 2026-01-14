@@ -45,13 +45,6 @@ export default function Cart() {
   const tax = subtotal * 0.08;
   const finalTotal = subtotal + shipping + tax;
   
-  // Calculate total savings
-  const totalSavings = items.reduce((savings, item) => {
-    const originalPrice = item.product.basePrice;
-    const currentPrice = Number(item.product.finalPrice || item.product.basePrice) || 0;
-    return savings + ((originalPrice - currentPrice) * item.quantity);
-  }, 0);
-  
   // Calculate estimated delivery date
   const estimatedDelivery = new Date();
   estimatedDelivery.setDate(estimatedDelivery.getDate() + (shipping === 0 ? 2 : 5));
@@ -169,16 +162,16 @@ export default function Cart() {
                     }`}>
                       <div className={`flex flex-col sm:flex-row gap-4 sm:gap-5 ${isArabic ? 'sm:flex-row-reverse' : ''}`}>
                         {/* Product Image */}
-                        <div className="relative w-full sm:w-24 md:w-28 h-32 sm:h-24 md:h-28 rounded-2xl overflow-hidden flex-shrink-0 group-hover:scale-105 transition-transform duration-300">
+                        <div className="relative w-full sm:w-24 md:w-28 h-32 sm:h-24 md:h-28 rounded-2xl overflow-hidden shrink-0 group-hover:scale-105 transition-transform duration-300">
                           <Image
                             src={item.product.mainImage}
                             alt={item.product.name}
                             fill
                             className="object-cover"
                           />
-                          <div className={`absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+                          <div className={`absolute inset-0 bg-linear-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
                           {hasDiscount && (
-                            <div className="absolute top-2 left-2 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg font-semibold shadow-lg">
+                            <div className="absolute top-2 left-2 bg-linear-to-r from-red-500 to-red-600 text-white text-xs px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg font-semibold shadow-lg">
                               -{Math.round(((originalPrice - price) / originalPrice) * 100)}%
                             </div>
                           )}
@@ -280,7 +273,7 @@ export default function Cart() {
                                 >
                                   <MinusIcon className="w-3 h-3 sm:w-4 sm:h-4" />
                                 </button>
-                                <div className={`px-3 sm:px-4 py-2 sm:py-3 text-center min-w-[2.5rem] sm:min-w-[3.5rem] font-bold text-base sm:text-lg border-x ${
+                                <div className={`px-3 sm:px-4 py-2 sm:py-3 text-center min-w-10 sm:min-w-14 font-bold text-base sm:text-lg border-x ${
                                   isDarkMode ? 'text-white border-slate-600' : 'text-slate-900 border-slate-300'
                                 }`}>
                                   {item.quantity}
@@ -496,7 +489,7 @@ export default function Cart() {
                     </div>
                     <Link 
                       href="/login"
-                      className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 sm:py-4 px-4 sm:px-6 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-semibold text-sm sm:text-base shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2 sm:gap-3"
+                      className="w-full bg-linear-to-r from-blue-600 to-blue-700 text-white py-3 sm:py-4 px-4 sm:px-6 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-semibold text-sm sm:text-base shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2 sm:gap-3"
                     >
                       <LockClosedIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                       {isArabic ? 'تسجيل الدخول للمتابعة' : 'Login to Continue'}
@@ -540,7 +533,7 @@ export default function Cart() {
                   
                   {/* Promotional Banner */}
                   {subtotal < 100 && (
-                    <div className={`mt-3 sm:mt-4 p-2.5 sm:p-3 rounded-lg bg-gradient-to-r from-orange-500/10 to-red-500/10 border ${
+                    <div className={`mt-3 sm:mt-4 p-2.5 sm:p-3 rounded-lg bg-linear-to-r from-orange-500/10 to-red-500/10 border ${
                       isDarkMode ? 'border-orange-500/20' : 'border-orange-200'
                     }`}>
                       <div className="flex items-center gap-1.5 sm:gap-2 mb-1">
