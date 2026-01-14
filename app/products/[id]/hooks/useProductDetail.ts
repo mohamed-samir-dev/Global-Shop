@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { productAPI } from '@/lib/api';
 import { Product } from '@/types';
 import { useCart } from '@/hooks/useCart';
+import { useWishlist } from '@/hooks/useWishlist';
 import toast from 'react-hot-toast';
 
 export const useProductDetail = (productId: string) => {
@@ -11,12 +12,26 @@ export const useProductDetail = (productId: string) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const { addToCart } = useCart();
+  const { toggleWishlist, isInWishlist } = useWishlist();
 
   useEffect(() => {
     if (productId) {
       fetchProduct(productId);
     }
   }, [productId]);
+
+  useEffect(() => {
+    if (product) {
+      checkWishlistStatus();
+    }
+  }, [product]);
+
+  const checkWishlistStatus = async () => {
+    if (product) {
+      const inWishlist = await isInWishlist(product._id);
+      setIsWishlisted(inWishlist);
+    }
+  };
 
   const fetchProduct = async (id: string) => {
     try {
@@ -32,16 +47,16 @@ export const useProductDetail = (productId: string) => {
   const handleAddToCart = () => {
     if (product) {
       console.log('Adding to cart:', product.name, 'Quantity:', selectedQuantity);
-      // Add the product to cart with the selected quantity
       const success = addToCart(product, selectedQuantity);
       console.log('Add to cart result:', success);
-      // The toast message is handled by the useCart hook
     }
   };
 
-  const handleWishlistToggle = () => {
-    setIsWishlisted(!isWishlisted);
-    toast.success(isWishlisted ? 'Removed from wishlist' : 'Added to wishlist');
+  const handleWishlistToggle = async () => {
+    if (product) {
+      await toggleWishlist(product);
+      await checkWishlistStatus();
+    }
   };
 
   const updateQuantity = (newQuantity: number) => {

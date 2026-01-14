@@ -56,6 +56,11 @@ export const useWishlist = () => {
   };
 
   const loadUserWishlist = async () => {
+    if (!user || !token) {
+      setUserWishlist({ items: [], totalItems: 0 });
+      return;
+    }
+    
     setIsLoading(true);
     try {
       const response = await WishlistService.getUserWishlist();

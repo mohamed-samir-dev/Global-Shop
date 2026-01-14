@@ -11,13 +11,18 @@ import {
   ProductInfo, 
   ProductActions 
 } from './components';
+import { useEffect } from 'react';
 
 export default function ProductCard({ product, onAddToCart, onToggleWishlist }: ProductCardProps) {
   const { isDarkMode } = useTheme();
   const { isArabic } = useTranslation();
-  const { isWishlisted, handleToggle } = useWishlist(onToggleWishlist);
+  const { isWishlisted, handleToggle, checkWishlist } = useWishlist(onToggleWishlist);
   const { hasDiscount, discountPercentage } = getProductPricing(product);
   const isOutOfStock = isProductOutOfStock(product);
+
+  useEffect(() => {
+    checkWishlist(product._id);
+  }, [product._id]);
 
   const handleWishlistToggle = () => {
     handleToggle(product);
