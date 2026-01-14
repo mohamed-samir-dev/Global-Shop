@@ -26,7 +26,7 @@ export default function ProductsSection({ filters }: ProductsSectionProps) {
 
   if (loading) {
     return (
-      <div className={filters.viewMode === 'grid' ? "grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8" : "space-y-4 sm:space-y-6"}>
+      <div className={filters.viewMode === 'grid' ? "grid grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-6" : "space-y-3 md:space-y-4"}>
         {Array.from({ length: 8 }).map((_, i) => (
           <div
             key={i}
