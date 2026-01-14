@@ -7,9 +7,10 @@ import { useAuth } from '@/context/AuthContext';
 import { useTheme } from '@/context/ThemeContext';
 import { useTranslation } from '@/i18n';
 import { useAppSelector } from '@/hooks/redux';
+import { useWishlist } from '@/hooks/useWishlist';
 import DarkModeToggle from '@/components/DarkModeToggle';
 import { NavbarSkeleton } from '@/components/skeletons';
-import { ShoppingCartIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { ShoppingCartIcon, Bars3Icon, XMarkIcon, HeartIcon } from '@heroicons/react/24/outline';
 import { 
   Logo, 
   SearchBar, 
@@ -23,6 +24,7 @@ export default function Navbar() {
   const { isDarkMode, toggleDarkMode } = useTheme();
   const { language, toggleLanguage, isArabic } = useTranslation();
   const cartItemCount = useAppSelector(state => state.cart.itemCount);
+  const { wishlistCount } = useWishlist();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -73,6 +75,20 @@ export default function Navbar() {
 
             <DarkModeToggle isDarkMode={isDarkMode} onToggle={toggleDarkMode} />
 
+            {/* Wishlist */}
+            <Link href="/wishlist" className={`p-2 rounded-lg transition-all relative cursor-pointer ${
+              isDarkMode 
+                ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
+                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+            }`}>
+              <HeartIcon className="h-5 w-5" />
+              {wishlistCount > 0 && (
+                <span className={`absolute -top-1 ${isArabic ? '-left-1' : '-right-1'} bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium`}>
+                  {wishlistCount > 99 ? '99+' : wishlistCount}
+                </span>
+              )}
+            </Link>
+
             {/* Shopping Cart */}
             <Link href="/cart" className={`p-2 rounded-lg transition-all relative cursor-pointer ${
               isDarkMode 
@@ -113,6 +129,18 @@ export default function Navbar() {
                 isDarkMode={isDarkMode}
               />
               <DarkModeToggle isDarkMode={isDarkMode} onToggle={toggleDarkMode} />
+              <Link href="/wishlist" className={`p-2 rounded-lg transition-all relative cursor-pointer ${
+                isDarkMode 
+                  ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+              }`}>
+                <HeartIcon className="h-4 w-4" />
+                {wishlistCount > 0 && (
+                  <span className={`absolute -top-1 ${isArabic ? '-left-1' : '-right-1'} bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium text-[10px]`}>
+                    {wishlistCount > 99 ? '99+' : wishlistCount}
+                  </span>
+                )}
+              </Link>
               <Link href="/cart" className={`p-2 rounded-lg transition-all relative cursor-pointer ${
                 isDarkMode 
                   ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
@@ -171,6 +199,19 @@ export default function Navbar() {
                 isMobile={true}
               />
             </div>
+            
+            <Link href="/wishlist" className={`p-1.5 rounded-lg transition-all relative cursor-pointer ${
+              isDarkMode 
+                ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
+                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+            }`}>
+              <HeartIcon className="h-4 w-4" />
+              {wishlistCount > 0 && (
+                <span className={`absolute -top-0.5 ${isArabic ? '-left-0.5' : '-right-0.5'} bg-red-500 text-white text-[10px] rounded-full h-3.5 w-3.5 flex items-center justify-center font-medium`}>
+                  {wishlistCount > 99 ? '99+' : wishlistCount}
+                </span>
+              )}
+            </Link>
             
             <Link href="/cart" className={`p-1.5 rounded-lg transition-all relative cursor-pointer ${
               isDarkMode 

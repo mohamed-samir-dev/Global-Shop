@@ -30,7 +30,7 @@ export default function ProductCard({ product, onAddToCart, onToggleWishlist }: 
   };
 
   return (
-    <div className={`border rounded-lg p-2 sm:p-4 w-full relative transition-all duration-200 hover:shadow-lg flex flex-col h-full ${
+    <div className={`border rounded-lg p-3 md:p-4 w-full relative transition-all duration-200 hover:shadow-lg flex flex-col h-full ${
       isDarkMode 
         ? 'bg-gray-800 border-gray-600 hover:border-gray-500' 
         : 'bg-white border-gray-200 hover:border-gray-300'
@@ -46,10 +46,10 @@ export default function ProductCard({ product, onAddToCart, onToggleWishlist }: 
         discountPercentage={discountPercentage}
       />
       
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col min-h-0">
         <ProductInfo product={product} />
         
-        <div className="mt-auto pt-2 sm:pt-3">
+        <div className="mt-auto pt-3">
           <ProductActions 
             product={product}
             isOutOfStock={isOutOfStock}
