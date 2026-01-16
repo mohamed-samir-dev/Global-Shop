@@ -161,18 +161,6 @@ export default function NewProductPage() {
           Number(formData.stock) > 0
             ? ("in_stock" as const)
             : ("out_of_stock" as const),
-
-        // Add admin review if provided (only user ID reference)
-        reviews:
-          formData.adminReviewRating && user
-            ? [
-                {
-                  user: user._id,
-                  rating: Number(formData.adminReviewRating),
-                  comment: formData.adminReviewComment,
-                },
-              ]
-            : [],
         averageRating: formData.adminReviewRating
           ? Number(formData.adminReviewRating)
           : 0,
