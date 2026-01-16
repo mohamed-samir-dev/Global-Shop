@@ -18,12 +18,16 @@ export default function ProductImages({
   setActiveImageIndex,
 }: ProductImagesProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMainLoaded, setIsMainLoaded] = useState(false);
   
   const images = product.imageGallery && product.imageGallery.length > 0 
     ? product.imageGallery.filter(Boolean) as string[]
     : [product.mainImage || product.image].filter(Boolean) as string[];
 
   const currentImage = images[activeImageIndex] || images[0];
+  
+  const cdnUrl = process.env.NEXT_PUBLIC_CDN_URL;
+  const optimizedImage = cdnUrl && currentImage ? `${cdnUrl}/${currentImage.split('/').pop()}` : currentImage;
 
   return (
     <>
@@ -44,6 +48,7 @@ export default function ProductImages({
                   alt={`${product.name} ${index + 1}`} 
                   width={80}
                   height={80}
+                  loading="lazy"
                   className="w-full h-full object-cover" 
                 />
               </button>
@@ -60,12 +65,15 @@ export default function ProductImages({
             <ZoomIn className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 cursor-pointer" />
           </button>
           <Image
-            src={currentImage || '/placeholder-image.jpg'}
+            src={optimizedImage || '/placeholder-image.jpg'}
             alt={product.name}
             fill
-            className="object-cover hover:scale-105 transition-transform duration-500"
+            loading="lazy"
+            onLoad={() => setIsMainLoaded(true)}
+            className={`object-cover hover:scale-105 transition-all duration-500 ${
+              isMainLoaded ? 'blur-0' : 'blur-sm scale-105'
+            }`}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
-            priority
           />
         </div>
       </div>

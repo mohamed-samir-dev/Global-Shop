@@ -197,7 +197,18 @@ export const en = {
       outOfStock: 'Out of Stock',
       inStock: 'In Stock',
       onlyLeft: 'Only',
-      watchlist: 'Wishlist'
+      watchlist: 'Wishlist',
+      description: 'Description',
+      specifications: 'Specifications',
+      brand: 'Brand',
+      category: 'Category',
+      sku: 'SKU',
+      weight: 'Weight',
+      material: 'Material',
+      warranty: 'Warranty',
+      returnPolicy: 'Return Policy',
+      dimensions: 'Dimensions',
+      noSpecifications: 'No specifications available for this product'
     }
   },
   testimonials: {

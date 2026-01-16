@@ -76,6 +76,19 @@ export default function NewProductPage() {
     setIsSubmitting(true);
 
     try {
+      const basePrice = Number(formData.basePrice);
+      const discountValue = Number(formData.discountValue) || 0;
+      
+      // Calculate final price
+      let finalPrice = basePrice;
+      if (discountValue > 0) {
+        if (formData.discountType === 'percentage') {
+          finalPrice = basePrice - (basePrice * discountValue / 100);
+        } else {
+          finalPrice = basePrice - discountValue;
+        }
+      }
+
       const productData = {
         name: formData.name,
         nameAr: formData.nameAr,
@@ -83,11 +96,12 @@ export default function NewProductPage() {
         shortDescriptionAr: formData.shortDescriptionAr,
         description: formData.description,
         descriptionAr: formData.descriptionAr,
-        basePrice: Number(formData.basePrice),
+        basePrice,
         discount: {
           type: formData.discountType as "percentage" | "fixed",
-          value: Number(formData.discountValue) || 0,
+          value: discountValue,
         },
+        finalPrice,
         currency: formData.currency,
         mainImage: formData.mainImage,
         imageGallery: formData.imageGallery.filter((img) => img.trim()),
@@ -148,20 +162,14 @@ export default function NewProductPage() {
             ? ("in_stock" as const)
             : ("out_of_stock" as const),
 
-        // Add admin review if provided
+        // Add admin review if provided (only user ID reference)
         reviews:
           formData.adminReviewRating && user
             ? [
                 {
-                  _id: `temp_${Date.now()}`,
-                  user: {
-                    _id: user._id,
-                    name: user.name,
-                    email: user.email
-                  },
+                  user: user._id,
                   rating: Number(formData.adminReviewRating),
                   comment: formData.adminReviewComment,
-                  date: new Date().toISOString(),
                 },
               ]
             : [],
