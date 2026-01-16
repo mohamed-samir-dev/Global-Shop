@@ -13,6 +13,11 @@ export const CATEGORIES = [
 export const BRANDS = [
   "Nike",
   "Adidas",
+  "Jordan",
+  "Puma",
+  "Reebok",
+  "New Balance",
+  "Under Armour",
   "Apple",
   "Samsung",
   "Sony",
@@ -21,6 +26,11 @@ export const BRANDS = [
   "Zara",
   "H&M",
   "Uniqlo",
+  "Gucci",
+  "Louis Vuitton",
+  "Prada",
+  "Versace",
+  "Ralph Lauren",
 ];
 
 export const SORT_OPTIONS = [
