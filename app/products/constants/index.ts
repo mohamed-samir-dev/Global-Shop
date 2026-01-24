@@ -44,7 +44,7 @@ export const SORT_OPTIONS = [
 
 export const DEFAULT_FILTERS = {
   category: [] as string[],
-  priceRange: [0, 500] as [number, number],
+  priceRange: [0, 10000] as [number, number],
   rating: [] as string[],
   brand: [] as string[],
   size: [] as string[],
