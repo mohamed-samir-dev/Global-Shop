@@ -138,8 +138,10 @@ export function useProducts(filters: Filters) {
         filtered.sort((a, b) => b.totalReviews - a.totalReviews);
         break;
       default:
-        // Featured - keep original order or sort by rating
-        filtered.sort((a, b) => b.averageRating - a.averageRating);
+        // Featured - show newest first
+        filtered.sort((a, b) => 
+          new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
+        );
     }
 
     return filtered;
