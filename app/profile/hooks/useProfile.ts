@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { authAPI, wishlistAPI } from "@/src/lib/api";
+import CheckoutService from "@/services/checkoutService";
 import { User } from "@/types";
 
 export const useProfile = () => {
@@ -37,8 +38,14 @@ export const useProfile = () => {
 
     const fetchStats = async () => {
       try {
-        const wishlistRes = await wishlistAPI.getWishlist();
-        setStats({ orders: 0, wishlist: wishlistRes.data?.items?.length || 0 });
+        const [wishlistRes, ordersRes] = await Promise.all([
+          wishlistAPI.getWishlist(),
+          CheckoutService.getUserOrders(1, 1)
+        ]);
+        setStats({ 
+          orders: ordersRes.total || 0, 
+          wishlist: wishlistRes.data?.items?.length || 0 
+        });
       } catch (error) {
         console.error("Failed to fetch stats:", error);
       }
