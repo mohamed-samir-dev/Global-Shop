@@ -33,7 +33,7 @@ export const QuickStats = ({ stats }: QuickStatsProps) => {
         </div>
       </div>
 
-      <div className="bg-gradient-to-br from-blue-600 to-indigo-700 shadow-lg rounded-2xl p-6 text-white">
+      <div className="bg-linear-to-br from-blue-600 to-indigo-700 shadow-lg rounded-2xl p-6 text-white">
         <h3 className="text-lg font-bold mb-3">Need Help?</h3>
         <p className="text-sm text-blue-100 mb-4">Our support team is here to assist you with any questions.</p>
         <button className="w-full bg-white text-blue-600 px-4 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors">

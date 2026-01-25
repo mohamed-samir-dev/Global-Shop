@@ -10,9 +10,9 @@ interface ProfileHeaderProps {
 export const ProfileHeader = ({ user, onEditClick, onLogout }: ProfileHeaderProps) => {
   return (
     <div className="bg-white shadow-xl rounded-2xl overflow-hidden mb-6">
-      <div className="relative h-48 bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800">
+      <div className="relative h-48 bg-linear-to-r from-blue-600 via-blue-700 to-indigo-800">
         <div className="absolute inset-0 bg-black opacity-10"></div>
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/20 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-linear-to-t from-black/20 to-transparent"></div>
       </div>
       
       <div className="relative px-6 pb-6">
@@ -20,7 +20,7 @@ export const ProfileHeader = ({ user, onEditClick, onLogout }: ProfileHeaderProp
           <div className="flex flex-col sm:flex-row sm:items-end sm:space-x-5">
             <div className="relative">
               <div className="h-40 w-40 rounded-2xl bg-white p-2 shadow-2xl ring-4 ring-white">
-                <div className="h-full w-full rounded-xl bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 flex items-center justify-center text-white text-5xl font-bold shadow-inner">
+                <div className="h-full w-full rounded-xl bg-linear-to-br from-blue-500 via-blue-600 to-indigo-700 flex items-center justify-center text-white text-5xl font-bold shadow-inner">
                   {user.name?.charAt(0).toUpperCase() || "U"}
                 </div>
               </div>
