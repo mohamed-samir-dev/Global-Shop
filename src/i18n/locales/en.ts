@@ -303,5 +303,56 @@ export const en = {
       subtitle: "Thank you for contacting us. We'll get back to you within 24 hours.",
       close: 'Close'
     }
+  },
+  profile: {
+    loading: 'Loading...',
+    failedToLoad: 'Failed to load profile',
+    header: {
+      verifiedAccount: 'Verified Account',
+      editProfile: 'Edit Profile',
+      logout: 'Logout'
+    },
+    accountInfo: {
+      title: 'Account Information',
+      fullName: 'Full Name',
+      emailAddress: 'Email Address',
+      accountStatus: 'Account Status',
+      activeVerified: 'Active & Verified',
+      memberSince: 'Member Since',
+      userId: 'User ID'
+    },
+    quickStats: {
+      title: 'Quick Stats',
+      orders: 'Orders',
+      wishlist: 'Wishlist',
+      needHelp: 'Need Help?',
+      supportDesc: 'Our support team is here to assist you with any questions.',
+      contactSupport: 'Contact Support'
+    },
+    editModal: {
+      title: 'Edit Profile',
+      fullName: 'Full Name',
+      fullNamePlaceholder: 'Enter your name',
+      emailAddress: 'Email Address',
+      emailPlaceholder: 'Enter your email',
+      changePassword: 'Change Password (Optional)',
+      currentPassword: 'Current Password',
+      currentPasswordPlaceholder: 'Enter current password',
+      newPassword: 'New Password',
+      newPasswordPlaceholder: 'Enter new password',
+      confirmPassword: 'Confirm New Password',
+      confirmPasswordPlaceholder: 'Confirm new password',
+      passwordsDoNotMatch: 'Passwords do not match',
+      requirements: {
+        atLeast8: 'At least 8 characters',
+        uppercase: 'One uppercase letter',
+        lowercase: 'One lowercase letter',
+        number: 'One number',
+        specialChar: 'One special character'
+      },
+      cancel: 'Cancel',
+      saveChanges: 'Save Changes',
+      updating: 'Updating...'
+    }
   }
 };
