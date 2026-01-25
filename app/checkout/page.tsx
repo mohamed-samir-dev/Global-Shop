@@ -3,20 +3,28 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { useTheme } from '@/context/ThemeContext';
 import { useCart } from '@/hooks/useCart';
 import CheckoutService, { ShippingAddress, CheckoutValidation } from '@/services/checkoutService';
 import toast from 'react-hot-toast';
+import { motion, AnimatePresence } from 'framer-motion';
+import { CheckoutProgress } from '@/components/checkout/CheckoutProgress';
+import { ShippingForm } from '@/components/checkout/ShippingForm';
+import { PaymentForm } from '@/components/checkout/PaymentForm';
+import { OrderSummary } from '@/components/checkout/OrderSummary';
+import { useTranslation } from '@/i18n/hooks/useTranslation';
 
 const CheckoutPage = () => {
   const router = useRouter();
   const { user } = useAuth();
+  const { isDarkMode } = useTheme();
   const { itemCount, clearCart } = useCart();
+  const { t, isArabic } = useTranslation();
   
   const [isLoading, setIsLoading] = useState(false);
   const [validation, setValidation] = useState<CheckoutValidation | null>(null);
   const [currentStep, setCurrentStep] = useState(1);
   
-  // Form states
   const [shippingAddress, setShippingAddress] = useState<ShippingAddress>({
     fullName: '',
     address: '',
@@ -26,10 +34,10 @@ const CheckoutPage = () => {
     phone: ''
   });
   
-  const [paymentMethod, setPaymentMethod] = useState('stripe');
+  const [paymentMethod, setPaymentMethod] = useState('cod');
   const [notes, setNotes] = useState('');
+  const [governorate, setGovernorate] = useState('');
 
-  // Redirect if not authenticated
   useEffect(() => {
     if (!user) {
       router.push('/login?redirect=checkout');
@@ -37,13 +45,13 @@ const CheckoutPage = () => {
     }
     
     if (itemCount === 0) {
-      toast.error('Your cart is empty');
+      toast.error(t('checkout.messages.emptyCart'));
       router.push('/cart');
       return;
     }
 
-    // Validate checkout on mount
     validateCheckout();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, itemCount]);
 
   const validateCheckout = async () => {
@@ -53,10 +61,10 @@ const CheckoutPage = () => {
       setValidation(result);
       
       if (!result.isValid) {
-        toast.error('Please review cart items before checkout');
+        toast.error(t('checkout.messages.reviewCart'));
       }
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'An error occurred');
       router.push('/cart');
     } finally {
       setIsLoading(false);
@@ -66,14 +74,13 @@ const CheckoutPage = () => {
   const handleAddressSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate required fields
-    const requiredFields = ['fullName', 'address', 'city', 'postalCode', 'country'];
+    const requiredFields = ['fullName', 'address', 'city', 'postalCode', 'country', 'phone'];
     const missingFields = requiredFields.filter(field => 
       !shippingAddress[field as keyof ShippingAddress]
     );
     
     if (missingFields.length > 0) {
-      toast.error('Please fill in all required fields');
+      toast.error(t('checkout.messages.fillRequired'));
       return;
     }
     
@@ -82,13 +89,12 @@ const CheckoutPage = () => {
 
   const handleOrderSubmit = async () => {
     if (!validation?.isValid) {
-      toast.error('Please resolve cart issues before proceeding');
+      toast.error(t('checkout.messages.resolveIssues'));
       return;
     }
 
     setIsLoading(true);
     try {
-      // Create order
       const orderResult = await CheckoutService.createOrder(
         shippingAddress,
         paymentMethod,
@@ -96,7 +102,6 @@ const CheckoutPage = () => {
       );
 
       if (orderResult.success) {
-        // Simulate payment processing
         const paymentResult = {
           id: `pay_${Date.now()}`,
           status: 'completed',
@@ -105,16 +110,13 @@ const CheckoutPage = () => {
           transaction_id: `txn_${Date.now()}`
         };
 
-        // Process payment
         await CheckoutService.processPayment(orderResult.order._id, paymentResult);
-        
-        // Clear cart and redirect to success
         await clearCart();
-        toast.success('Order placed successfully!');
+        toast.success(t('checkout.messages.orderSuccess'));
         router.push(`/order-success?orderId=${orderResult.order._id}`);
       }
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'An error occurred');
     } finally {
       setIsLoading(false);
     }
@@ -122,276 +124,65 @@ const CheckoutPage = () => {
 
   if (!user || !validation) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+      <div className={`min-h-screen flex items-center justify-center ${
+        isDarkMode ? 'bg-slate-900' : 'bg-linear-to-br from-blue-50 to-indigo-100'
+      }`}>
+        <motion.div 
+          animate={{ rotate: 360 }}
+          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+          className="rounded-full h-16 w-16 border-4 border-blue-600 border-t-transparent"
+        />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Checkout</h1>
+    <div className={`min-h-screen py-6 sm:py-8 md:py-12 ${isArabic ? 'rtl' : 'ltr'} ${
+      isDarkMode ? 'bg-slate-900' : 'bg-linear-to-br from-blue-50 via-white to-purple-50'
+    }`}>
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-6 sm:mb-8 md:mb-12"
+        >
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+            {t('checkout.title')}
+          </h1>
+          <p className={`text-sm sm:text-base ${isDarkMode ? 'text-slate-400' : 'text-gray-600'}`}>{t('checkout.subtitle')}</p>
+        </motion.div>
         
-        {/* Progress Steps */}
-        <div className="mb-8">
-          <div className="flex items-center">
-            <div className={`flex items-center ${currentStep >= 1 ? 'text-blue-600' : 'text-gray-400'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                currentStep >= 1 ? 'bg-blue-600 text-white' : 'bg-gray-300'
-              }`}>
-                1
-              </div>
-              <span className="ml-2 font-medium">Shipping</span>
-            </div>
-            <div className="flex-1 h-1 mx-4 bg-gray-300">
-              <div className={`h-full ${currentStep >= 2 ? 'bg-blue-600' : 'bg-gray-300'}`}></div>
-            </div>
-            <div className={`flex items-center ${currentStep >= 2 ? 'text-blue-600' : 'text-gray-400'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                currentStep >= 2 ? 'bg-blue-600 text-white' : 'bg-gray-300'
-              }`}>
-                2
-              </div>
-              <span className="ml-2 font-medium">Payment</span>
-            </div>
-          </div>
-        </div>
+        <CheckoutProgress currentStep={currentStep} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mt-10 sm:mt-10 md:mt-16">
           <div className="lg:col-span-2">
-            {currentStep === 1 && (
-              <div className="bg-white rounded-lg shadow p-6">
-                <h2 className="text-xl font-semibold mb-6">Shipping Address</h2>
-                <form onSubmit={handleAddressSubmit} className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Full Name *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={shippingAddress.fullName}
-                      onChange={(e) => setShippingAddress(prev => ({
-                        ...prev,
-                        fullName: e.target.value
-                      }))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Address *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={shippingAddress.address}
-                      onChange={(e) => setShippingAddress(prev => ({
-                        ...prev,
-                        address: e.target.value
-                      }))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        City *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={shippingAddress.city}
-                        onChange={(e) => setShippingAddress(prev => ({
-                          ...prev,
-                          city: e.target.value
-                        }))}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Postal Code *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={shippingAddress.postalCode}
-                        onChange={(e) => setShippingAddress(prev => ({
-                          ...prev,
-                          postalCode: e.target.value
-                        }))}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Country *
-                    </label>
-                    <select
-                      required
-                      value={shippingAddress.country}
-                      onChange={(e) => setShippingAddress(prev => ({
-                        ...prev,
-                        country: e.target.value
-                      }))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option value="">Select Country</option>
-                      <option value="US">United States</option>
-                      <option value="CA">Canada</option>
-                      <option value="UK">United Kingdom</option>
-                      <option value="AU">Australia</option>
-                    </select>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Phone Number
-                    </label>
-                    <input
-                      type="tel"
-                      value={shippingAddress.phone}
-                      onChange={(e) => setShippingAddress(prev => ({
-                        ...prev,
-                        phone: e.target.value
-                      }))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  
-                  <button
-                    type="submit"
-                    className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
-                  >
-                    Continue to Payment
-                  </button>
-                </form>
-              </div>
-            )}
+            <AnimatePresence mode="wait">
+              {currentStep === 1 && (
+                <ShippingForm
+                  shippingAddress={shippingAddress}
+                  setShippingAddress={setShippingAddress}
+                  governorate={governorate}
+                  setGovernorate={setGovernorate}
+                  onSubmit={handleAddressSubmit}
+                />
+              )}
 
-            {currentStep === 2 && (
-              <div className="bg-white rounded-lg shadow p-6">
-                <h2 className="text-xl font-semibold mb-6">Payment Method</h2>
-                
-                <div className="space-y-4 mb-6">
-                  <div className="flex items-center">
-                    <input
-                      type="radio"
-                      id="stripe"
-                      name="payment"
-                      value="stripe"
-                      checked={paymentMethod === 'stripe'}
-                      onChange={(e) => setPaymentMethod(e.target.value)}
-                      className="mr-3"
-                    />
-                    <label htmlFor="stripe" className="flex items-center">
-                      <span>Credit/Debit Card</span>
-                    </label>
-                  </div>
-                  
-                  <div className="flex items-center">
-                    <input
-                      type="radio"
-                      id="paypal"
-                      name="payment"
-                      value="paypal"
-                      checked={paymentMethod === 'paypal'}
-                      onChange={(e) => setPaymentMethod(e.target.value)}
-                      className="mr-3"
-                    />
-                    <label htmlFor="paypal">PayPal</label>
-                  </div>
-                </div>
-                
-                <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Order Notes (Optional)
-                  </label>
-                  <textarea
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                    rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Any special instructions for your order..."
-                  />
-                </div>
-                
-                <div className="flex space-x-4">
-                  <button
-                    onClick={() => setCurrentStep(1)}
-                    className="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400 transition-colors"
-                  >
-                    Back
-                  </button>
-                  <button
-                    onClick={handleOrderSubmit}
-                    disabled={isLoading || !validation?.isValid}
-                    className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
-                  >
-                    {isLoading ? 'Processing...' : 'Place Order'}
-                  </button>
-                </div>
-              </div>
-            )}
+              {currentStep === 2 && (
+                <PaymentForm
+                  paymentMethod={paymentMethod}
+                  setPaymentMethod={setPaymentMethod}
+                  notes={notes}
+                  setNotes={setNotes}
+                  isLoading={isLoading}
+                  validation={validation}
+                  onBack={() => setCurrentStep(1)}
+                  onSubmit={handleOrderSubmit}
+                />
+              )}
+            </AnimatePresence>
           </div>
 
-          {/* Order Summary */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow p-6 sticky top-4">
-              <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
-              
-              {validation?.errors && validation.errors.length > 0 && (
-                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
-                  <h4 className="text-sm font-medium text-red-800 mb-2">Cart Issues:</h4>
-                  {validation.errors.map((error, index) => (
-                    <p key={index} className="text-sm text-red-600">
-                      • {error.message}
-                    </p>
-                  ))}
-                </div>
-              )}
-              
-              {validation?.validItems && (
-                <div className="space-y-3 mb-4">
-                  {validation.validItems.map((item, index) => (
-                    <div key={index} className="flex justify-between text-sm">
-                      <span>{item.name} × {item.quantity}</span>
-                      <span>${item.itemTotal.toFixed(2)}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-              
-              {validation?.pricing && (
-                <div className="border-t pt-4 space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span>Subtotal:</span>
-                    <span>${validation.pricing.subtotal.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span>Tax:</span>
-                    <span>${validation.pricing.taxPrice.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span>Shipping:</span>
-                    <span>${validation.pricing.shippingPrice.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between font-semibold text-lg border-t pt-2">
-                    <span>Total:</span>
-                    <span>${validation.pricing.totalPrice.toFixed(2)}</span>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
+          <OrderSummary validation={validation} />
         </div>
       </div>
     </div>
