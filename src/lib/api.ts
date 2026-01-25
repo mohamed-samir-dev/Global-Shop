@@ -41,6 +41,8 @@ export const authAPI = {
     api.post<AuthResponse>("/users/login", credentials),
 
   getUsers: () => api.get<User[]>("/users"),
+
+  getUserProfile: () => api.get<User>("/users/profile"),
 };
 
 export const productAPI = {
