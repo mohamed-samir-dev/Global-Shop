@@ -109,7 +109,12 @@ class CheckoutService {
   async getUserOrders(page: number = 1, limit: number = 10) {
     try {
       const response = await api.get(`/checkout/orders?page=${page}&limit=${limit}`);
-      return response.data;
+      return {
+        orders: response.data.orders,
+        totalPages: response.data.pagination?.pages || 1,
+        currentPage: response.data.pagination?.page || 1,
+        total: response.data.pagination?.total || 0
+      };
     } catch (error: any) {
       throw new Error(error.response?.data?.message || 'Failed to get orders');
     }
