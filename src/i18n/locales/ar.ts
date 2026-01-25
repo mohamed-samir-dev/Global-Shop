@@ -248,5 +248,58 @@ export const ar = {
     leaveReview: 'اترك تقييمك',
     loginToReview: 'سجل الدخول لترك تقييم',
     loginRequired: 'يرجى تسجيل الدخول لترك تقييم'
+  },
+  contact: {
+    hero: {
+      badge: 'اتصل بنا',
+      title: 'لنبدأ',
+      highlight: 'محادثة',
+      subtitle: 'هل لديك أسئلة؟ نحن هنا للمساعدة. تواصل معنا وسنرد عليك خلال 24 ساعة.'
+    },
+    cards: {
+      email: 'البريد الإلكتروني',
+      emailInfo: 'support@shophere.com',
+      phone: 'الهاتف',
+      phoneInfo: '+1 (555) 123-4567',
+      location: 'الموقع',
+      locationInfo: 'القاهرة',
+      hours: 'ساعات العمل',
+      hoursInfo: 'الإثنين-الجمعة 9ص-6م'
+    },
+    form: {
+      title: 'أرسل لنا رسالة',
+      subtitle: 'املأ النموذج أدناه وسنعود إليك قريباً',
+      fullName: 'الاسم الكامل',
+      fullNamePlaceholder: 'أحمد محمد',
+      email: 'عنوان البريد الإلكتروني',
+      emailPlaceholder: 'ahmed@example.com',
+      subject: 'الموضوع',
+      subjectPlaceholder: 'كيف يمكننا مساعدتك؟',
+      message: 'الرسالة',
+      messagePlaceholder: 'أخبرنا المزيد عن استفسارك...',
+      sending: 'جاري الإرسال...',
+      sendButton: 'إرسال الرسالة ←'
+    },
+    sidebar: {
+      whyReachOut: 'لماذا تتواصل معنا؟',
+      quickResponse: 'استجابة سريعة',
+      quickResponseDesc: 'احصل على إجابات خلال 24 ساعة',
+      expertSupport: 'دعم متخصص',
+      expertSupportDesc: 'فريق متخصص جاهز للمساعدة',
+      personalizedCare: 'رعاية شخصية',
+      personalizedCareDesc: 'حلول مخصصة لك',
+      businessHours: 'ساعات العمل',
+      monday: 'الإثنين - الجمعة',
+      mondayTime: '9ص - 6م',
+      saturday: 'السبت',
+      saturdayTime: '10ص - 4م',
+      sunday: 'الأحد',
+      sundayTime: 'مغلق'
+    },
+    modal: {
+      title: 'تم إرسال الرسالة بنجاح!',
+      subtitle: 'شكراً لتواصلك معنا. سنعود إليك خلال 24 ساعة.',
+      close: 'إغلاق'
+    }
   }
 };
