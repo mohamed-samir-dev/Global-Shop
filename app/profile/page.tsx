@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import { useTheme } from "@/context/ThemeContext";
 import { useProfile } from "./hooks/useProfile";
 import { ProfileHeader } from "./components/ProfileHeader";
 import { AccountInfo } from "./components/AccountInfo";
@@ -12,6 +13,7 @@ import { useTranslation } from "@/src/i18n/hooks/useTranslation";
 
 export default function ProfilePage() {
   const { logout } = useAuth();
+  const { isDarkMode } = useTheme();
   const { user, loading, error, stats, setUser, setError } = useProfile();
   const [showEditModal, setShowEditModal] = useState(false);
   const router = useRouter();
@@ -19,7 +21,9 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center dark:bg-gray-900">
+      <div className={`min-h-screen flex items-center justify-center ${
+        isDarkMode ? 'bg-slate-900' : 'bg-gray-50'
+      }`}>
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
       </div>
     );
@@ -27,17 +31,23 @@ export default function ProfilePage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center dark:bg-gray-900">
-        <p className="text-gray-600 dark:text-gray-400">{t('profile.failedToLoad')}</p>
+      <div className={`min-h-screen flex items-center justify-center ${
+        isDarkMode ? 'bg-slate-900' : 'bg-gray-50'
+      }`}>
+        <p className={isDarkMode ? 'text-slate-400' : 'text-gray-600'}>{t('profile.failedToLoad')}</p>
       </div>
     );
   }
 
   return (
-    <div className={`min-h-screen bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-8 px-4 sm:px-6 lg:px-8 ${isArabic ? 'rtl' : 'ltr'}`}>
+    <div className={`min-h-screen py-8 px-4 sm:px-6 lg:px-8 ${isArabic ? 'rtl' : 'ltr'} ${
+      isDarkMode ? 'bg-slate-900' : 'bg-gray-50'
+    }`}>
       <div className="max-w-6xl mx-auto">
         {error && (
-          <div className="bg-red-50 dark:bg-red-900/30 border-l-4 border-red-500 text-red-700 dark:text-red-300 px-6 py-4 rounded-lg mb-6 shadow-sm">
+          <div className={`border-l-4 border-red-500 px-6 py-4 rounded-lg mb-6 shadow-sm ${
+            isDarkMode ? 'bg-red-900/30 text-red-300' : 'bg-red-50 text-red-700'
+          }`}>
             <p className="font-medium">{error}</p>
           </div>
         )}
