@@ -354,5 +354,166 @@ export const en = {
       saveChanges: 'Save Changes',
       updating: 'Updating...'
     }
+  },
+  checkout: {
+    title: 'Secure Checkout',
+    subtitle: 'Complete your order in just a few steps',
+    progress: {
+      shipping: 'Shipping',
+      payment: 'Payment'
+    },
+    shipping: {
+      title: 'Shipping Address',
+      fullName: 'Full Name',
+      fullNamePlaceholder: 'Enter your full name',
+      address: 'Street Address',
+      addressPlaceholder: 'Building number, street name',
+      governorate: 'Governorate',
+      selectGovernorate: 'Select Governorate',
+      postalCode: 'Postal Code',
+      postalCodePlaceholder: '12345',
+      district: 'District/Area',
+      districtPlaceholder: 'e.g., Nasr City, Maadi, Dokki',
+      phone: 'Phone Number',
+      phonePlaceholder: '01XXXXXXXXX',
+      phoneHint: 'Egyptian mobile number (11 digits)',
+      continue: 'Continue to Payment →'
+    },
+    payment: {
+      title: 'Payment Method',
+      sslEncrypted: 'SSL Encrypted',
+      cod: {
+        title: 'Cash on Delivery (COD)',
+        noFees: 'No Fees',
+        description: 'Pay with cash when your order is delivered to your doorstep',
+        inspect: 'Inspect before payment',
+        trusted: 'Most trusted payment method',
+        recommended: 'Recommended for Egypt'
+      },
+      card: {
+        title: 'Credit/Debit Card',
+        secure: 'Secure',
+        description: 'Pay securely with your card - Instant processing',
+        accepted: 'Visa, Mastercard, Meeza accepted',
+        pci: 'PCI-DSS compliant security',
+        secure3d: '3D Secure authentication',
+        cardNumber: 'Card Number',
+        cardNumberPlaceholder: '1234 5678 9012 3456',
+        cardholderName: 'Cardholder Name',
+        cardholderPlaceholder: 'John Doe',
+        expiryDate: 'Expiry Date',
+        expiryPlaceholder: 'MM/YY',
+        cvv: 'CVV',
+        cvvPlaceholder: '123',
+        cardInfo: 'Card Information'
+      },
+      wallet: {
+        title: 'Mobile Wallet',
+        fast: 'Fast',
+        description: 'Quick and convenient mobile payment',
+        providers: 'Vodafone Cash, Orange Cash, Etisalat Cash',
+        instant: 'Instant payment confirmation',
+        noCard: 'No card details required',
+        mobileNumber: 'Mobile Number',
+        mobilePlaceholder: '01XXXXXXXXX',
+        mobileHint: 'Enter your registered mobile wallet number',
+        walletDetails: 'Mobile Wallet Details'
+      },
+      codNotice: 'Please prepare the exact amount for a smooth delivery experience. Our delivery agent will collect the payment when your order arrives.',
+      experimentalNotice: '⚠️ Experimental Site Notice',
+      experimentalDesc: 'This is a demonstration website for testing purposes only. No actual charges will be made to your account, and no real transactions will be processed.',
+      securityInfo: 'Payment Security Information',
+      securityDesc: 'All transactions are encrypted and secure. We never store your payment information. Your financial data is protected by industry-standard SSL encryption.'
+    },
+    shipping2: {
+      title: 'Shipping & Security',
+      deliveryTime: '2-5 Days',
+      deliveryLabel: 'Delivery Time',
+      freeShipping: 'Free Shipping',
+      freeShippingDesc: 'Orders over 500 EGP',
+      secure: '100% Secure',
+      secureDesc: 'Protected Payment'
+    },
+    notes: {
+      label: 'Order Notes (Optional)',
+      placeholder: 'Any special instructions for your order...'
+    },
+    actions: {
+      back: '← Back',
+      confirm: 'Confirm Order ✓',
+      processing: 'Processing...'
+    },
+    summary: {
+      title: 'Order Summary',
+      cartIssues: '⚠ Cart Issues:',
+      subtotal: 'Subtotal:',
+      tax: 'Tax (14%):',
+      shipping: 'Shipping:',
+      free: 'FREE',
+      total: 'Total:',
+      secureCheckout: 'Secure checkout guaranteed'
+    },
+    messages: {
+      emptyCart: 'Your cart is empty',
+      reviewCart: 'Please review cart items before checkout',
+      fillRequired: 'Please fill in all required fields',
+      resolveIssues: 'Please resolve cart issues before proceeding',
+      orderSuccess: 'Order placed successfully!'
+    }
+  },
+  orderSuccess: {
+    title: 'Order Confirmed!',
+    thankYou: 'Thank you for your purchase',
+    orderNumber: 'Order Number:',
+    orderItems: 'Order Items',
+    qty: 'Qty:',
+    shippingAddress: 'Shipping Address',
+    phone: 'Phone:',
+    summary: 'Summary',
+    subtotal: 'Subtotal',
+    shipping: 'Shipping',
+    tax: 'Tax',
+    discount: 'Discount',
+    total: 'Total',
+    orderDate: 'Order Date',
+    status: 'Status',
+    payment: 'Payment',
+    paid: 'Paid',
+    pending: 'Pending',
+    whatsNext: "What's Next?",
+    emailConfirmation: 'Email confirmation sent',
+    trackingInfo: 'Tracking info when shipped',
+    deliveryTime: 'Delivery in 3-5 business days',
+    continueShopping: 'Continue Shopping',
+    viewOrders: 'View Orders'
+  },
+  orders: {
+    title: 'My Orders',
+    subtitle: 'View and track your order history',
+    loading: 'Loading orders...',
+    noOrders: 'No Orders Yet',
+    noOrdersDesc: "You haven't placed any orders yet.",
+    startShopping: 'Start Shopping',
+    orderNumber: 'Order Number',
+    date: 'Date',
+    total: 'Total',
+    status: 'Status',
+    qty: 'Qty:',
+    moreItems: 'more item(s)',
+    viewDetails: 'View Details',
+    reorder: 'Reorder',
+    previous: 'Previous',
+    next: 'Next',
+    page: 'Page',
+    of: 'of',
+    statuses: {
+      pending: 'Pending',
+      processing: 'Processing',
+      shipped: 'Shipped',
+      delivered: 'Delivered',
+      cancelled: 'Cancelled'
+    },
+    paid: 'Paid',
+    unpaid: 'Pending'
   }
 };
