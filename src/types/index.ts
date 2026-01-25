@@ -2,7 +2,11 @@ export interface User {
   _id: string;
   name: string;
   email: string;
+  phone?: string;
+  dateOfBirth?: string;
+  role?: string;
   isAdmin: boolean;
+  createdAt?: string;
 }
 
 export interface ProductVariant {
