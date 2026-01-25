@@ -1,5 +1,7 @@
 import { Package, Heart } from "lucide-react";
 import { useTranslation } from "@/src/i18n/hooks/useTranslation";
+import { useTheme } from "@/context/ThemeContext";
+import Link from "next/link";
 
 interface QuickStatsProps {
   stats: { orders: number; wishlist: number };
@@ -7,32 +9,53 @@ interface QuickStatsProps {
 
 export const QuickStats = ({ stats }: QuickStatsProps) => {
   const { t } = useTranslation();
+  const { isDarkMode } = useTheme();
   
   return (
     <div className="space-y-4 sm:space-y-6">
-      <div className="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-4 sm:p-6">
-        <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">{t('profile.quickStats.title')}</h3>
+      <div className={`shadow-lg rounded-2xl p-4 sm:p-6 ${
+        isDarkMode ? 'bg-slate-800' : 'bg-white'
+      }`}>
+        <h3 className={`text-lg sm:text-xl font-bold mb-3 sm:mb-4 ${
+          isDarkMode ? 'text-white' : 'text-gray-900'
+        }`}>{t('profile.quickStats.title')}</h3>
         
         <div className="space-y-3 sm:space-y-4">
-          <div className="flex items-center justify-between p-3 sm:p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="p-1.5 sm:p-2 bg-blue-600 rounded-lg shrink-0">
-                <Package className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+          <Link href="/orders" className="block">
+            <div className={`flex items-center justify-between p-3 sm:p-4 rounded-xl transition-colors cursor-pointer ${
+              isDarkMode ? 'bg-blue-900/20 hover:bg-blue-900/30' : 'bg-blue-50 hover:bg-blue-100'
+            }`}>
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="p-1.5 sm:p-2 bg-blue-600 rounded-lg shrink-0">
+                  <Package className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                </div>
+                <span className={`text-sm sm:text-base font-medium text-gray-700 ${
+            isDarkMode ? 'text-white' : 'text-black'
+          }`}>{t('profile.quickStats.orders')}</span>
               </div>
-              <span className="text-sm sm:text-base font-medium text-gray-700 dark:text-gray-200">{t('profile.quickStats.orders')}</span>
+              <span className={`text-xl sm:text-2xl font-bold ${
+                isDarkMode ? 'text-blue-400' : 'text-blue-600'
+              }`}>{stats.orders}</span>
             </div>
-            <span className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">{stats.orders}</span>
-          </div>
+          </Link>
 
-          <div className="flex items-center justify-between p-3 sm:p-4 bg-red-50 dark:bg-red-900/20 rounded-xl">
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="p-1.5 sm:p-2 bg-red-600 rounded-lg shrink-0">
-                <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+          <Link href="/wishlist" className="block">
+            <div className={`flex items-center justify-between p-3 sm:p-4 rounded-xl transition-colors cursor-pointer ${
+              isDarkMode ? 'bg-red-900/20 hover:bg-red-900/30' : 'bg-red-50 hover:bg-red-100'
+            }`}>
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="p-1.5 sm:p-2 bg-red-600 rounded-lg shrink-0">
+                  <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                </div>
+                <span className={`text-sm sm:text-base font-medium text-gray-700 ${
+            isDarkMode ? 'text-white' : 'text-black'
+          }`}>{t('profile.quickStats.wishlist')}</span>
               </div>
-              <span className="text-sm sm:text-base font-medium text-gray-700 dark:text-gray-200">{t('profile.quickStats.wishlist')}</span>
+              <span className={`text-xl sm:text-2xl font-bold ${
+                isDarkMode ? 'text-red-400' : 'text-red-600'
+              }`}>{stats.wishlist}</span>
             </div>
-            <span className="text-xl sm:text-2xl font-bold text-red-600 dark:text-red-400">{stats.wishlist}</span>
-          </div>
+          </Link>
         </div>
       </div>
 
