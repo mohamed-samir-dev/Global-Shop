@@ -250,5 +250,58 @@ export const en = {
     leaveReview: 'Leave a Review',
     loginToReview: 'Login to Leave a Review',
     loginRequired: 'Please login to leave a review'
+  },
+  contact: {
+    hero: {
+      badge: 'Contact Us',
+      title: "Let's Start a",
+      highlight: 'Conversation',
+      subtitle: "Have questions? We're here to help. Reach out and we'll get back to you within 24 hours."
+    },
+    cards: {
+      email: 'Email',
+      emailInfo: 'support@shophere.com',
+      phone: 'Phone',
+      phoneInfo: '+1 (555) 123-4567',
+      location: 'Location',
+      locationInfo: 'Cairo',
+      hours: 'Hours',
+      hoursInfo: 'Mon-Fri 9AM-6PM'
+    },
+    form: {
+      title: 'Send us a Message',
+      subtitle: "Fill out the form below and we'll get back to you shortly",
+      fullName: 'Full Name',
+      fullNamePlaceholder: 'John Doe',
+      email: 'Email Address',
+      emailPlaceholder: 'john@example.com',
+      subject: 'Subject',
+      subjectPlaceholder: 'How can we help you?',
+      message: 'Message',
+      messagePlaceholder: 'Tell us more about your inquiry...',
+      sending: 'Sending...',
+      sendButton: 'Send Message →'
+    },
+    sidebar: {
+      whyReachOut: 'Why Reach Out?',
+      quickResponse: 'Quick Response',
+      quickResponseDesc: 'Get answers within 24 hours',
+      expertSupport: 'Expert Support',
+      expertSupportDesc: 'Dedicated team ready to help',
+      personalizedCare: 'Personalized Care',
+      personalizedCareDesc: 'Tailored solutions for you',
+      businessHours: 'Business Hours',
+      monday: 'Monday - Friday',
+      mondayTime: '9AM - 6PM',
+      saturday: 'Saturday',
+      saturdayTime: '10AM - 4PM',
+      sunday: 'Sunday',
+      sundayTime: 'Closed'
+    },
+    modal: {
+      title: 'Message Sent Successfully!',
+      subtitle: "Thank you for contacting us. We'll get back to you within 24 hours.",
+      close: 'Close'
+    }
   }
 };
