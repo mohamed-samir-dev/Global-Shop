@@ -301,5 +301,56 @@ export const ar = {
       subtitle: 'شكراً لتواصلك معنا. سنعود إليك خلال 24 ساعة.',
       close: 'إغلاق'
     }
+  },
+  profile: {
+    loading: 'جاري التحميل...',
+    failedToLoad: 'فشل تحميل الملف الشخصي',
+    header: {
+      verifiedAccount: 'حساب موثق',
+      editProfile: 'تعديل الملف الشخصي',
+      logout: 'تسجيل الخروج'
+    },
+    accountInfo: {
+      title: 'معلومات الحساب',
+      fullName: 'الاسم الكامل',
+      emailAddress: 'عنوان البريد الإلكتروني',
+      accountStatus: 'حالة الحساب',
+      activeVerified: 'نشط وموثق',
+      memberSince: 'عضو منذ',
+      userId: 'معرف المستخدم'
+    },
+    quickStats: {
+      title: 'إحصائيات سريعة',
+      orders: 'الطلبات',
+      wishlist: 'قائمة الأمنيات',
+      needHelp: 'تحتاج مساعدة؟',
+      supportDesc: 'فريق الدعم لدينا هنا لمساعدتك في أي استفسارات.',
+      contactSupport: 'اتصل بالدعم'
+    },
+    editModal: {
+      title: 'تعديل الملف الشخصي',
+      fullName: 'الاسم الكامل',
+      fullNamePlaceholder: 'أدخل اسمك',
+      emailAddress: 'عنوان البريد الإلكتروني',
+      emailPlaceholder: 'أدخل بريدك الإلكتروني',
+      changePassword: 'تغيير كلمة المرور (اختياري)',
+      currentPassword: 'كلمة المرور الحالية',
+      currentPasswordPlaceholder: 'أدخل كلمة المرور الحالية',
+      newPassword: 'كلمة المرور الجديدة',
+      newPasswordPlaceholder: 'أدخل كلمة المرور الجديدة',
+      confirmPassword: 'تأكيد كلمة المرور الجديدة',
+      confirmPasswordPlaceholder: 'أكد كلمة المرور الجديدة',
+      passwordsDoNotMatch: 'كلمات المرور غير متطابقة',
+      requirements: {
+        atLeast8: 'على الأقل 8 أحرف',
+        uppercase: 'حرف كبير واحد',
+        lowercase: 'حرف صغير واحد',
+        number: 'رقم واحد',
+        specialChar: 'رمز خاص واحد'
+      },
+      cancel: 'إلغاء',
+      saveChanges: 'حفظ التغييرات',
+      updating: 'جاري التحديث...'
+    }
   }
 };
