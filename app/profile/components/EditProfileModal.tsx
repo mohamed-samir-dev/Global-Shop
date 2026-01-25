@@ -1,7 +1,27 @@
 import { useState } from "react";
-import { User as UserIcon, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { User as UserIcon, Mail, Lock, Eye, EyeOff, CheckCircle2, XCircle } from "lucide-react";
 import { authAPI } from "@/src/lib/api";
 import { User } from "@/types";
+import { z } from "zod";
+import { useTranslation } from "@/src/i18n/hooks/useTranslation";
+
+const passwordSchema = z.string()
+  .min(8, "Password must be at least 8 characters")
+  .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+  .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+  .regex(/[0-9]/, "Password must contain at least one number")
+  .regex(/[^A-Za-z0-9]/, "Password must contain at least one special character");
+
+const PasswordRequirement = ({ met, text }: { met: boolean; text: string }) => (
+  <div className="flex items-center gap-2 text-sm">
+    {met ? (
+      <CheckCircle2 className="w-4 h-4 text-green-500" />
+    ) : (
+      <XCircle className="w-4 h-4 text-gray-300 dark:text-gray-600" />
+    )}
+    <span className={met ? "text-green-600 dark:text-green-400" : "text-gray-500 dark:text-gray-400"}>{text}</span>
+  </div>
+);
 
 interface EditProfileModalProps {
   user: User;
@@ -11,6 +31,7 @@ interface EditProfileModalProps {
 }
 
 export const EditProfileModal = ({ user, onClose, onUpdate, onError }: EditProfileModalProps) => {
+  const { t, isArabic } = useTranslation();
   const [formData, setFormData] = useState({ 
     name: user.name, 
     email: user.email, 
@@ -20,6 +41,16 @@ export const EditProfileModal = ({ user, onClose, onUpdate, onError }: EditProfi
   });
   const [showPasswords, setShowPasswords] = useState({ current: false, new: false, confirm: false });
   const [isUpdating, setIsUpdating] = useState(false);
+
+  const validatePassword = (password: string) => {
+    if (!password) return true;
+    try {
+      passwordSchema.parse(password);
+      return true;
+    } catch {
+      return false;
+    }
+  };
 
   const handleUpdateProfile = async () => {
     setIsUpdating(true);
@@ -32,6 +63,11 @@ export const EditProfileModal = ({ user, onClose, onUpdate, onError }: EditProfi
       if (formData.email !== user.email) updates.email = formData.email;
       
       if (formData.newPassword) {
+        if (!validatePassword(formData.newPassword)) {
+          onError("Password does not meet strength requirements");
+          setIsUpdating(false);
+          return;
+        }
         if (formData.newPassword !== formData.confirmPassword) {
           onError("New passwords do not match");
           setIsUpdating(false);
@@ -65,121 +101,136 @@ export const EditProfileModal = ({ user, onClose, onUpdate, onError }: EditProfi
   };
 
   return (
-    <div className="fixed inset-0 backdrop-blur-md  flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8 max-h-[90vh] overflow-y-auto">
-        <h3 className="text-3xl font-bold text-gray-900 mb-6">Edit Profile</h3>
+    <div className={`fixed inset-0 backdrop-blur-md flex items-center justify-center z-50 p-4 ${isArabic ? 'rtl' : 'ltr'}`}>
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-lg w-full p-4 sm:p-6 lg:p-8 max-h-[90vh] overflow-y-auto">
+        <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">{t('profile.editModal.title')}</h3>
         
-        <div className="space-y-5">
+        <div className="space-y-4 sm:space-y-5">
           <div>
-            <label className="block text-sm font-semibold text-black  mb-2">Full Name</label>
+            <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">{t('profile.editModal.fullName')}</label>
             <div className="relative">
-              <UserIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-black " />
+              <UserIcon className={`absolute ${isArabic ? 'right-3' : 'left-3'} top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400 dark:text-gray-500`} />
               <input
                 type="text"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full text-black  pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter your name"
+                className={`w-full text-sm sm:text-base text-gray-900 dark:text-white dark:bg-gray-700 ${isArabic ? 'pr-10 sm:pr-11 pl-4' : 'pl-10 sm:pl-11 pr-4'} py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                placeholder={t('profile.editModal.fullNamePlaceholder')}
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
+            <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">{t('profile.editModal.emailAddress')}</label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Mail className={`absolute ${isArabic ? 'right-3' : 'left-3'} top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400 dark:text-gray-500`} />
               <input
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full text-black  pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter your email"
+                className={`w-full text-sm sm:text-base text-gray-900 dark:text-white dark:bg-gray-700 ${isArabic ? 'pr-10 sm:pr-11 pl-4' : 'pl-10 sm:pl-11 pr-4'} py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                placeholder={t('profile.editModal.emailPlaceholder')}
               />
             </div>
           </div>
 
-          <div className="border-t border-gray-200 pt-5">
-            <p className="text-sm font-semibold text-gray-700 mb-4">Change Password (Optional)</p>
+          <div className="border-t border-gray-200 dark:border-gray-600 pt-4 sm:pt-5">
+            <p className="text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-200 mb-3 sm:mb-4">{t('profile.editModal.changePassword')}</p>
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Current Password</label>
+            <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">{t('profile.editModal.currentPassword')}</label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Lock className={`absolute ${isArabic ? 'right-3' : 'left-3'} top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400 dark:text-gray-500`} />
               <input
                 type={showPasswords.current ? "text" : "password"}
                 value={formData.currentPassword}
                 onChange={(e) => setFormData({ ...formData, currentPassword: e.target.value })}
-                className="w-full text-black  pl-11 pr-11 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter current password"
+                className={`w-full text-sm sm:text-base text-gray-900 dark:text-white dark:bg-gray-700 ${isArabic ? 'pr-10 sm:pr-11 pl-10 sm:pl-11' : 'pl-10 sm:pl-11 pr-10 sm:pr-11'} py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                placeholder={t('profile.editModal.currentPasswordPlaceholder')}
               />
               <button
                 type="button"
                 onClick={() => setShowPasswords({ ...showPasswords, current: !showPasswords.current })}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className={`absolute ${isArabic ? 'left-3' : 'right-3'} top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300`}
               >
-                {showPasswords.current ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                {showPasswords.current ? <EyeOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <Eye className="w-4 h-4 sm:w-5 sm:h-5" />}
               </button>
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">New Password</label>
+            <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">{t('profile.editModal.newPassword')}</label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Lock className={`absolute ${isArabic ? 'right-3' : 'left-3'} top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400 dark:text-gray-500`} />
               <input
                 type={showPasswords.new ? "text" : "password"}
                 value={formData.newPassword}
-                onChange={(e) => setFormData({ ...formData, newPassword: e.target.value })}
-                className="w-full pl-11 text-black  pr-11 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter new password"
+                onChange={(e) => {
+                  setFormData({ ...formData, newPassword: e.target.value });
+                  validatePassword(e.target.value);
+                }}
+                className={`w-full text-sm sm:text-base ${isArabic ? 'pr-10 sm:pr-11 pl-10 sm:pl-11' : 'pl-10 sm:pl-11 pr-10 sm:pr-11'} text-gray-900 dark:text-white dark:bg-gray-700 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                placeholder={t('profile.editModal.newPasswordPlaceholder')}
               />
               <button
                 type="button"
                 onClick={() => setShowPasswords({ ...showPasswords, new: !showPasswords.new })}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className={`absolute ${isArabic ? 'left-3' : 'right-3'} top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300`}
               >
-                {showPasswords.new ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                {showPasswords.new ? <EyeOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <Eye className="w-4 h-4 sm:w-5 sm:h-5" />}
               </button>
             </div>
+            {formData.newPassword && (
+              <div className="mt-2 space-y-1">
+                <PasswordRequirement met={formData.newPassword.length >= 8} text={t('profile.editModal.requirements.atLeast8')} />
+                <PasswordRequirement met={/[A-Z]/.test(formData.newPassword)} text={t('profile.editModal.requirements.uppercase')} />
+                <PasswordRequirement met={/[a-z]/.test(formData.newPassword)} text={t('profile.editModal.requirements.lowercase')} />
+                <PasswordRequirement met={/[0-9]/.test(formData.newPassword)} text={t('profile.editModal.requirements.number')} />
+                <PasswordRequirement met={/[^A-Za-z0-9]/.test(formData.newPassword)} text={t('profile.editModal.requirements.specialChar')} />
+              </div>
+            )}
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Confirm New Password</label>
+            <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">{t('profile.editModal.confirmPassword')}</label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Lock className={`absolute ${isArabic ? 'right-3' : 'left-3'} top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400 dark:text-gray-500`} />
               <input
                 type={showPasswords.confirm ? "text" : "password"}
                 value={formData.confirmPassword}
                 onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                className="w-full text-black  pl-11 pr-11 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Confirm new password"
+                className={`w-full text-sm sm:text-base text-gray-900 dark:text-white dark:bg-gray-700 ${isArabic ? 'pr-10 sm:pr-11 pl-10 sm:pl-11' : 'pl-10 sm:pl-11 pr-10 sm:pr-11'} py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                placeholder={t('profile.editModal.confirmPasswordPlaceholder')}
               />
               <button
                 type="button"
                 onClick={() => setShowPasswords({ ...showPasswords, confirm: !showPasswords.confirm })}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className={`absolute ${isArabic ? 'left-3' : 'right-3'} top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300`}
               >
-                {showPasswords.confirm ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                {showPasswords.confirm ? <EyeOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <Eye className="w-4 h-4 sm:w-5 sm:h-5" />}
               </button>
             </div>
+            {formData.confirmPassword && formData.newPassword && formData.confirmPassword !== formData.newPassword && (
+              <p className="mt-2 text-xs sm:text-sm text-red-600 dark:text-red-400">{t('profile.editModal.passwordsDoNotMatch')}</p>
+            )}
           </div>
         </div>
 
-        <div className="flex gap-3 mt-8">
+        <div className="flex flex-col sm:flex-row gap-3 mt-6 sm:mt-8">
           <button
             onClick={onClose}
             disabled={isUpdating}
-            className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-colors disabled:opacity-50"
+            className="w-full sm:flex-1 px-4 sm:px-6 py-2.5 sm:py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl text-sm sm:text-base font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors disabled:opacity-50"
           >
-            Cancel
+            {t('profile.editModal.cancel')}
           </button>
           <button
             onClick={handleUpdateProfile}
             disabled={isUpdating}
-            className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 shadow-lg"
+            className="w-full sm:flex-1 px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 text-white rounded-xl text-sm sm:text-base font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 shadow-lg"
           >
-            {isUpdating ? "Updating..." : "Save Changes"}
+            {isUpdating ? t('profile.editModal.updating') : t('profile.editModal.saveChanges')}
           </button>
         </div>
       </div>
