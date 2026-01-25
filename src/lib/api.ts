@@ -43,6 +43,9 @@ export const authAPI = {
   getUsers: () => api.get<User[]>("/users"),
 
   getUserProfile: () => api.get<User>("/users/profile"),
+
+  updateProfile: (userData: Partial<User>) =>
+    api.put<User>("/users/profile", userData),
 };
 
 export const productAPI = {
