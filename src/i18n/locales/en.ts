@@ -14,6 +14,39 @@ export const en = {
     login: 'Login',
     register: 'Register'
   },
+  about: {
+    hero: {
+      title: 'About',
+      brand: 'GlobalShop',
+      subtitle: 'Redefining online shopping with quality, trust, and excellence since 2020'
+    },
+   
+    timeline: {
+      title: 'Our Journey',
+      founded: 'Founded',
+      foundedDesc: 'SHOPHERE was born with a vision to revolutionize online shopping',
+      customers: '10K Customers',
+      customersDesc: 'Reached our first major milestone serving customers worldwide',
+      expansion: 'Global Expansion',
+      expansionDesc: 'Expanded shipping to over 100 countries across 6 continents',
+      products: '50K+ Products',
+      productsDesc: 'Curated collection grew to over 50,000 premium products',
+      leader: 'Industry Leader',
+      leaderDesc: 'Recognized as a top e-commerce platform with 100K+ happy customers'
+    },
+    features: {
+      title: 'Why Choose Us',
+      quality: 'Premium Quality',
+      qualityDesc: 'Handpicked products',
+      shipping: 'Fast Shipping',
+      shippingDesc: 'Worldwide delivery',
+      prices: 'Best Prices',
+      pricesDesc: 'Unbeatable value',
+      secure: 'Secure Payment',
+      secureDesc: '100% protected'
+    },
+   
+  },
   auth: {
     login: {
       title: 'Welcome Back',
