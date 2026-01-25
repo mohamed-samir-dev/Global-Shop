@@ -1,9 +1,10 @@
 interface SuccessModalProps {
   isDarkMode: boolean;
   onClose: () => void;
+  t: (key: string) => string;
 }
 
-export default function SuccessModal({ isDarkMode, onClose }: SuccessModalProps) {
+export default function SuccessModal({ isDarkMode, onClose, t }: SuccessModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
       <div className={`relative max-w-md w-full p-8 rounded-3xl ${isDarkMode ? 'bg-gradient-to-br from-[#1a1f26] to-[#26292E] border border-[#3a3f47]' : 'bg-white'} shadow-2xl transform transition-all`}>
@@ -14,16 +15,16 @@ export default function SuccessModal({ isDarkMode, onClose }: SuccessModalProps)
             </svg>
           </div>
           <h3 className={`text-2xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-            Message Sent Successfully!
+            {t('contact.modal.title')}
           </h3>
           <p className={`mb-6 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-            Thank you for contacting us. We&rsquo;ll get back to you within 24 hours.
+            {t('contact.modal.subtitle')}
           </p>
           <button
             onClick={onClose}
             className="w-full bg-gradient-to-r from-[#B39E7A] to-[#9d8a68] hover:from-[#9d8a68] hover:to-[#8a7759] text-white font-semibold py-3 rounded-xl transition-all duration-300"
           >
-            Close
+            {t('contact.modal.close')}
           </button>
         </div>
       </div>
