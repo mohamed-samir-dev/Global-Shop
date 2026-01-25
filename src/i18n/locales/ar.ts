@@ -352,5 +352,166 @@ export const ar = {
       saveChanges: 'حفظ التغييرات',
       updating: 'جاري التحديث...'
     }
+  },
+  checkout: {
+    title: 'الدفع الآمن',
+    subtitle: 'أكمل طلبك في خطوات بسيطة',
+    progress: {
+      shipping: 'الشحن',
+      payment: 'الدفع'
+    },
+    shipping: {
+      title: 'عنوان الشحن',
+      fullName: 'الاسم الكامل',
+      fullNamePlaceholder: 'أدخل اسمك الكامل',
+      address: 'عنوان الشارع',
+      addressPlaceholder: 'رقم المبنى، اسم الشارع',
+      governorate: 'المحافظة',
+      selectGovernorate: 'اختر المحافظة',
+      postalCode: 'الرمز البريدي',
+      postalCodePlaceholder: '12345',
+      district: 'الحي/المنطقة',
+      districtPlaceholder: 'مثال: مدينة نصر، المعادي، الدقي',
+      phone: 'رقم الهاتف',
+      phonePlaceholder: '01XXXXXXXXX',
+      phoneHint: 'رقم الهاتف المحمول المصري (11 رقم)',
+      continue: 'المتابعة للدفع ←'
+    },
+    payment: {
+      title: 'طريقة الدفع',
+      sslEncrypted: 'مشفر بـ SSL',
+      cod: {
+        title: 'الدفع عند الاستلام',
+        noFees: 'بدون رسوم',
+        description: 'ادفع نقداً عند توصيل طلبك إلى باب منزلك',
+        inspect: 'افحص قبل الدفع',
+        trusted: 'طريقة الدفع الأكثر موثوقية',
+        recommended: 'موصى به لمصر'
+      },
+      card: {
+        title: 'بطاقة ائتمان/خصم',
+        secure: 'آمن',
+        description: 'ادفع بأمان ببطاقتك - معالجة فورية',
+        accepted: 'فيزا، ماستركارد، ميزة مقبولة',
+        pci: 'أمان متوافق مع PCI-DSS',
+        secure3d: 'مصادقة 3D Secure',
+        cardNumber: 'رقم البطاقة',
+        cardNumberPlaceholder: '1234 5678 9012 3456',
+        cardholderName: 'اسم حامل البطاقة',
+        cardholderPlaceholder: 'أحمد محمد',
+        expiryDate: 'تاريخ الانتهاء',
+        expiryPlaceholder: 'MM/YY',
+        cvv: 'CVV',
+        cvvPlaceholder: '123',
+        cardInfo: 'معلومات البطاقة'
+      },
+      wallet: {
+        title: 'المحفظة الإلكترونية',
+        fast: 'سريع',
+        description: 'دفع سريع ومريح عبر الهاتف المحمول',
+        providers: 'فودافون كاش، أورانج كاش، اتصالات كاش',
+        instant: 'تأكيد فوري للدفع',
+        noCard: 'لا حاجة لتفاصيل البطاقة',
+        mobileNumber: 'رقم الهاتف المحمول',
+        mobilePlaceholder: '01XXXXXXXXX',
+        mobileHint: 'أدخل رقم محفظتك الإلكترونية المسجل',
+        walletDetails: 'تفاصيل المحفظة الإلكترونية'
+      },
+      codNotice: 'يرجى تحضير المبلغ المطلوب بالضبط لتجربة توصيل سلسة. سيقوم مندوب التوصيل بتحصيل المبلغ عند وصول طلبك.',
+      experimentalNotice: '⚠️ إشعار موقع تجريبي',
+      experimentalDesc: 'هذا موقع تجريبي لأغراض الاختبار فقط. لن يتم إجراء أي رسوم فعلية على حسابك، ولن تتم معالجة أي معاملات حقيقية.',
+      securityInfo: 'معلومات أمان الدفع',
+      securityDesc: 'جميع المعاملات مشفرة وآمنة. نحن لا نخزن معلومات الدفع الخاصة بك أبداً. بياناتك المالية محمية بتشفير SSL القياسي في الصناعة.'
+    },
+    shipping2: {
+      title: 'الشحن والأمان',
+      deliveryTime: '2-5 أيام',
+      deliveryLabel: 'وقت التوصيل',
+      freeShipping: 'شحن مجاني',
+      freeShippingDesc: 'للطلبات أكثر من 500 جنيه',
+      secure: '100% آمن',
+      secureDesc: 'دفع محمي'
+    },
+    notes: {
+      label: 'ملاحظات الطلب (اختياري)',
+      placeholder: 'أي تعليمات خاصة لطلبك...'
+    },
+    actions: {
+      back: '→ رجوع',
+      confirm: 'تأكيد الطلب ✓',
+      processing: 'جاري المعالجة...'
+    },
+    summary: {
+      title: 'ملخص الطلب',
+      cartIssues: '⚠ مشاكل في السلة:',
+      subtotal: 'المجموع الفرعي:',
+      tax: 'الضريبة (14%):',
+      shipping: 'الشحن:',
+      free: 'مجاني',
+      total: 'الإجمالي:',
+      secureCheckout: 'دفع آمن مضمون'
+    },
+    messages: {
+      emptyCart: 'سلة التسوق فارغة',
+      reviewCart: 'يرجى مراجعة عناصر السلة قبل الدفع',
+      fillRequired: 'يرجى ملء جميع الحقول المطلوبة',
+      resolveIssues: 'يرجى حل مشاكل السلة قبل المتابعة',
+      orderSuccess: 'تم تقديم الطلب بنجاح!'
+    }
+  },
+  orderSuccess: {
+    title: 'تم تأكيد الطلب!',
+    thankYou: 'شكراً لك على الشراء',
+    orderNumber: 'رقم الطلب:',
+    orderItems: 'عناصر الطلب',
+    qty: 'الكمية:',
+    shippingAddress: 'عنوان الشحن',
+    phone: 'الهاتف:',
+    summary: 'الملخص',
+    subtotal: 'المجموع الفرعي',
+    shipping: 'الشحن',
+    tax: 'الضريبة',
+    discount: 'الخصم',
+    total: 'الإجمالي',
+    orderDate: 'تاريخ الطلب',
+    status: 'الحالة',
+    payment: 'الدفع',
+    paid: 'مدفوع',
+    pending: 'قيد الانتظار',
+    whatsNext: 'ما التالي؟',
+    emailConfirmation: 'تم إرسال تأكيد البريد الإلكتروني',
+    trackingInfo: 'معلومات التتبع عند الشحن',
+    deliveryTime: 'التوصيل خلال 3-5 أيام عمل',
+    continueShopping: 'متابعة التسوق',
+    viewOrders: 'عرض الطلبات'
+  },
+  orders: {
+    title: 'طلباتي',
+    subtitle: 'عرض وتتبع سجل طلباتك',
+    loading: 'جاري تحميل الطلبات...',
+    noOrders: 'لا توجد طلبات بعد',
+    noOrdersDesc: 'لم تقم بتقديم أي طلبات بعد.',
+    startShopping: 'ابدأ التسوق',
+    orderNumber: 'رقم الطلب',
+    date: 'التاريخ',
+    total: 'الإجمالي',
+    status: 'الحالة',
+    qty: 'الكمية:',
+    moreItems: 'عنصر إضافي',
+    viewDetails: 'عرض التفاصيل',
+    reorder: 'إعادة الطلب',
+    previous: 'السابق',
+    next: 'التالي',
+    page: 'صفحة',
+    of: 'من',
+    statuses: {
+      pending: 'قيد الانتظار',
+      processing: 'قيد المعالجة',
+      shipped: 'تم الشحن',
+      delivered: 'تم التوصيل',
+      cancelled: 'ملغي'
+    },
+    paid: 'مدفوع',
+    unpaid: 'قيد الانتظار'
   }
 };
