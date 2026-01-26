@@ -55,15 +55,15 @@ export default function CartItem({ item, isDarkMode, isArabic, onRemove, onUpdat
               </Link>
               <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
                 <span className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                  ${price.toFixed(2)}
+                  {isArabic ? `${price.toFixed(2)} ج.م` : `${price.toFixed(2)} EGP`}
                 </span>
                 {hasDiscount && (
                   <>
                     <span className={`text-sm sm:text-base line-through ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>
-                      ${originalPrice.toFixed(2)}
+                      {isArabic ? `${originalPrice.toFixed(2)} ج.م` : `${originalPrice.toFixed(2)} EGP`}
                     </span>
                     <span className="text-xs sm:text-sm font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
-                      {isArabic ? `وفر $${(originalPrice - price).toFixed(2)}` : `Save $${(originalPrice - price).toFixed(2)}`}
+                      {isArabic ? `وفر ${(originalPrice - price).toFixed(2)} ج.م` : `Save ${(originalPrice - price).toFixed(2)} EGP`}
                     </span>
                   </>
                 )}
@@ -141,10 +141,10 @@ export default function CartItem({ item, isDarkMode, isArabic, onRemove, onUpdat
             
             <div className={`text-right ${isArabic ? 'text-left' : 'text-right'}`}>
               <div className={`text-xl sm:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                ${(price * item.quantity).toFixed(2)}
+                {isArabic ? `${(price * item.quantity).toFixed(2)} ج.م` : `${(price * item.quantity).toFixed(2)} EGP`}
               </div>
               <div className={`text-xs sm:text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
-                {isArabic ? `$${price.toFixed(2)} للواحد` : `$${price.toFixed(2)} each`}
+                {isArabic ? `${price.toFixed(2)} ج.م للواحد` : `${price.toFixed(2)} EGP each`}
               </div>
             </div>
           </div>
