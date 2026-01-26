@@ -69,7 +69,7 @@ export const OrderSummary = ({ validation }: OrderSummaryProps) => {
                     isDarkMode ? 'text-slate-400' : 'text-gray-500'
                   }`}>Qty: {item.quantity}</p>
                 </div>
-                <span className="font-bold text-sm sm:text-base text-blue-600">${item.itemTotal.toFixed(2)}</span>
+                <span className="font-bold text-sm sm:text-base text-blue-600">{item.itemTotal.toFixed(2)} EGP</span>
               </motion.div>
             ))}
           </div>
@@ -83,13 +83,13 @@ export const OrderSummary = ({ validation }: OrderSummaryProps) => {
               isDarkMode ? 'text-slate-400' : 'text-gray-600'
             }`}>
               <span>{t('checkout.summary.subtotal')}</span>
-              <span className="font-semibold">${validation.pricing.subtotal.toFixed(2)}</span>
+              <span className="font-semibold">{validation.pricing.subtotal.toFixed(2)} EGP</span>
             </div>
             <div className={`flex justify-between text-sm ${
               isDarkMode ? 'text-slate-400' : 'text-gray-600'
             }`}>
               <span>{t('checkout.summary.tax')}</span>
-              <span className="font-semibold">${validation.pricing.taxPrice.toFixed(2)}</span>
+              <span className="font-semibold">{validation.pricing.taxPrice.toFixed(2)} EGP</span>
             </div>
             <div className={`flex justify-between text-sm ${
               isDarkMode ? 'text-slate-400' : 'text-gray-600'
@@ -99,7 +99,7 @@ export const OrderSummary = ({ validation }: OrderSummaryProps) => {
                 {validation.pricing.shippingPrice === 0 ? (
                   <span className="text-green-600 font-bold">{t('checkout.summary.free')}</span>
                 ) : (
-                  `$${validation.pricing.shippingPrice.toFixed(2)}`
+                  `${validation.pricing.shippingPrice.toFixed(2)} EGP`
                 )}
               </span>
             </div>
@@ -111,12 +111,12 @@ export const OrderSummary = ({ validation }: OrderSummaryProps) => {
               }`}
             >
               <span className={isDarkMode ? 'text-white' : 'text-gray-800'}>{t('checkout.summary.total')}</span>
-              <span className="text-xl sm:text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                ${validation.pricing.totalPrice.toFixed(2)}
+              <span className="text-xl sm:text-2xl bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                {validation.pricing.totalPrice.toFixed(2)} EGP
               </span>
             </motion.div>
             <div className={`p-4 rounded-xl mt-4 border ${
-              isDarkMode ? 'bg-gradient-to-r from-blue-900/20 to-purple-900/20 border-blue-800' : 'bg-gradient-to-r from-blue-50 to-purple-50 border-blue-100'
+              isDarkMode ? 'bg-linear-to-r from-blue-900/20 to-purple-900/20 border-blue-800' : 'bg-linear-to-r from-blue-50 to-purple-50 border-blue-100'
             }`}>
               <p className={`text-xs flex items-center ${
                 isDarkMode ? 'text-slate-300' : 'text-gray-700'
