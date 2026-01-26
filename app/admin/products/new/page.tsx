@@ -23,7 +23,7 @@ export default function NewProductPage() {
     basePrice: "",
     discountType: "percentage",
     discountValue: "",
-    currency: "USD",
+    currency: "EGP",
 
     // Media
     mainImage: "",
@@ -366,10 +366,9 @@ export default function NewProductPage() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   value={formData.currency}
                   onChange={handleChange}
+                  disabled
                 >
-                  <option value="USD">USD</option>
-                  <option value="EUR">EUR</option>
-                  <option value="GBP">GBP</option>
+                  <option value="EGP">EGP</option>
                 </select>
               </div>
             </div>
