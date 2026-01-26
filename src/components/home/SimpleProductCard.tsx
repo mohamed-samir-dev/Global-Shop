@@ -49,11 +49,11 @@ export default function SimpleProductCard({
                 isDarkMode ? "text-white" : "text-[#0D0D0D]"
               }`}
             >
-              ${displayPrice}
+              {isArabic ? `${displayPrice} ج.م` : `${displayPrice} EGP`}
             </span>
             {hasDiscount && (
               <span className="text-gray-500 line-through text-xs sm:text-sm">
-                ${product.basePrice}
+                {isArabic ? `${product.basePrice} ج.م` : `${product.basePrice} EGP`}
               </span>
             )}
           </div>

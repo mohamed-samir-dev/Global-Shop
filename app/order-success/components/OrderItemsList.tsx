@@ -55,7 +55,7 @@ export default function OrderItemsList({ isDarkMode, items, t }: OrderItemsListP
               }`}>{item.name}</h3>
               <p className={`text-sm ${
                 isDarkMode ? 'text-slate-400' : 'text-gray-600'
-              }`}>{t('orderSuccess.qty')} {item.quantity} × ${item.priceAtPurchase.toFixed(2)}</p>
+              }`}>{t('orderSuccess.qty')} {item.quantity} × {item.priceAtPurchase.toFixed(2)} EGP</p>
               {item.options && Object.keys(item.options).length > 0 && (
                 <div className="flex flex-wrap gap-1 mt-2">
                   {Object.entries(item.options).map(([key, value]) => (
@@ -72,7 +72,7 @@ export default function OrderItemsList({ isDarkMode, items, t }: OrderItemsListP
             <div className="text-right">
               <p className={`font-semibold ${
                 isDarkMode ? 'text-white' : 'text-gray-900'
-              }`}>${(item.priceAtPurchase * item.quantity).toFixed(2)}</p>
+              }`}>{(item.priceAtPurchase * item.quantity).toFixed(2)} EGP</p>
             </div>
           </div>
         ))}

@@ -33,13 +33,13 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
         <span className={`text-sm sm:text-xl font-extrabold sm:font-bold ${
           isDarkMode ? 'text-white' : 'text-gray-900'
         }`}>
-          ${currentPrice?.toFixed(2) || '0.00'}
+          {isArabic ? `${currentPrice?.toFixed(2) || '0.00'} ج.م` : `${currentPrice?.toFixed(2) || '0.00'} EGP`}
         </span>
         {hasDiscount && originalPrice && originalPrice > (currentPrice || 0) && (
           <span className={`text-xs sm:text-sm line-through ${
             isDarkMode ? 'text-gray-400' : 'text-gray-500'
           }`}>
-            ${originalPrice.toFixed(2)}
+            {isArabic ? `${originalPrice.toFixed(2)} ج.م` : `${originalPrice.toFixed(2)} EGP`}
           </span>
         )}
       </div>

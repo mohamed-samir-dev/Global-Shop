@@ -129,11 +129,11 @@ export default function WishlistPage() {
 
                     <div className="flex items-center gap-2 mb-3 sm:mb-4">
                       <span className={`text-xl sm:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                        ${product.finalPrice?.toFixed(2) || product.basePrice?.toFixed(2)}
+                        {product.finalPrice?.toFixed(2) || product.basePrice?.toFixed(2)} EGP
                       </span>
                       {product.finalPrice !== undefined && product.finalPrice < product.basePrice && (
                         <span className={`text-xs sm:text-sm line-through ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>
-                          ${product.basePrice?.toFixed(2)}
+                          {product.basePrice?.toFixed(2)} EGP
                         </span>
                       )}
                     </div>

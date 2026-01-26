@@ -6,6 +6,7 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import { useProductDetail } from './hooks/useProductDetail';
 import { calculateDiscount } from './utils/productHelpers';
 import { useTranslation } from '@/i18n/hooks/useTranslation';
+import { useTheme } from '@/context/ThemeContext';
 import {
   ProductImages,
   ProductInfo,
@@ -18,6 +19,7 @@ export default function ProductDetailPage() {
   const [activeTab, setActiveTab] = useState('description');
   const params = useParams();
   const { t, isArabic } = useTranslation();
+  const { isDarkMode } = useTheme();
   const {
     product,
     isLoading,
@@ -41,7 +43,7 @@ export default function ProductDetailPage() {
   const { hasDiscount, discountPercentage } = calculateDiscount(product);
 
   return (
-    <div className="min-h-screen bg-gray-50" dir={isArabic ? 'rtl' : 'ltr'}>
+    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`} dir={isArabic ? 'rtl' : 'ltr'}>
       <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 md:py-6 lg:py-8">
         <div className="grid grid-cols-1 min-[1100px]:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-12 mb-6 sm:mb-8 lg:mb-12 min-[950px]:items-stretch">
           <div className="order-1">
@@ -68,15 +70,15 @@ export default function ProductDetailPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-            <div className="border-b border-gray-200">
+          <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-sm border overflow-hidden`}>
+            <div className={`border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
               <nav className="flex px-3 sm:px-4 md:px-6" aria-label="Tabs">
                 <button
                   onClick={() => setActiveTab('description')}
                   className={`py-3 sm:py-4 px-1 border-b-2 font-medium text-xs sm:text-sm transition-colors flex-1 text-center ${
                     activeTab === 'description'
-                      ? 'border-[#0D0D0C] text-[#3E3E3C]'
-                      : 'border-transparent text-gray-500 hover:text-gray-700'
+                      ? `border-[#0D0D0C] ${isDarkMode ? 'text-gray-200' : 'text-[#3E3E3C]'}`
+                      : `border-transparent ${isDarkMode ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'}`
                   }`}
                 >
                   {t('product.details.description')}
@@ -85,8 +87,8 @@ export default function ProductDetailPage() {
                   onClick={() => setActiveTab('specifications')}
                   className={`py-3 sm:py-4 px-1 border-b-2 font-medium text-xs sm:text-sm transition-colors flex-1 text-center ${
                     activeTab === 'specifications'
-                      ? 'border-[#0D0D0C] text-[#3E3E3C]'
-                      : 'border-transparent text-gray-500 hover:text-gray-700'
+                      ? `border-[#0D0D0C] ${isDarkMode ? 'text-gray-200' : 'text-[#3E3E3C]'}`
+                      : `border-transparent ${isDarkMode ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'}`
                   }`}
                 >
                   {t('product.details.specifications')}
@@ -98,10 +100,10 @@ export default function ProductDetailPage() {
               {activeTab === 'specifications' && <ProductSpecifications product={product} />}
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4 md:p-6">
+          <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-sm border p-3 sm:p-4 md:p-6`}>
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3">
               <div className="flex items-center gap-2 sm:gap-3">
-                <span className="text-2xl sm:text-3xl font-bold text-gray-900">4.5</span>
+                <span className={`text-2xl sm:text-3xl font-bold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>4.5</span>
                 <div className="flex">
                   {[...Array(5)].map((_, i) => (
                     <svg key={i} className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
@@ -110,7 +112,7 @@ export default function ProductDetailPage() {
                   ))}
                 </div>
               </div>
-              <button className="flex items-center gap-1 text-xs sm:text-sm text-gray-600 hover:text-gray-800 transition-colors">
+              <button className={`flex items-center gap-1 text-xs sm:text-sm transition-colors ${isDarkMode ? 'text-gray-400 hover:text-gray-300' : 'text-gray-600 hover:text-gray-800'}`}>
                 Summary
                 <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -120,24 +122,24 @@ export default function ProductDetailPage() {
             <div className="space-y-2 mb-4 sm:mb-6">
               {[{rating: 5, count: 10, width: '90%'}, {rating: 4, count: 0, width: '0%'}, {rating: 3, count: 0, width: '0%'}, {rating: 2, count: 0, width: '0%'}, {rating: 1, count: 1, width: '10%'}].map(({rating, count, width}) => (
                 <div key={rating} className="flex items-center gap-2 sm:gap-3">
-                  <span className="text-xs sm:text-sm text-gray-600 w-2">{rating}</span>
-                  <div className="flex-1 bg-gray-200 rounded-full h-1.5 sm:h-2">
-                    <div className="bg-black h-1.5 sm:h-2 rounded-full transition-all duration-300" style={{width}}></div>
+                  <span className={`text-xs sm:text-sm w-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{rating}</span>
+                  <div className={`flex-1 rounded-full h-1.5 sm:h-2 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
+                    <div className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 ${isDarkMode ? 'bg-gray-300' : 'bg-black'}`} style={{width}}></div>
                   </div>
-                  <span className="text-xs sm:text-sm text-gray-600 w-4 text-right">{count}</span>
+                  <span className={`text-xs sm:text-sm w-4 text-right ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{count}</span>
                 </div>
               ))}
             </div>
             <div className="space-y-3 sm:space-y-4">
-              <div className="border-b border-gray-100 pb-3 last:border-b-0 last:pb-0">
-                <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">Recent Altx</h4>
-                <p className="text-gray-700 text-xs sm:text-sm mb-1">I lovally good heard reicommend.</p>
-                <span className="text-xs text-gray-500">About 6 hours ago</span>
+              <div className={`border-b pb-3 last:border-b-0 last:pb-0 ${isDarkMode ? 'border-gray-700' : 'border-gray-100'}`}>
+                <h4 className={`font-medium mb-1 text-sm sm:text-base ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>Recent Altx</h4>
+                <p className={`text-xs sm:text-sm mb-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>I lovally good heard reicommend.</p>
+                <span className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>About 6 hours ago</span>
               </div>
-              <div className="border-b border-gray-100 pb-3 last:border-b-0 last:pb-0">
-                <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">Recent Ram</h4>
-                <p className="text-gray-700 text-xs sm:text-sm mb-1">This point it has one market something cat expectt.</p>
-                <span className="text-xs text-gray-500">About 6 hours ago</span>
+              <div className={`border-b pb-3 last:border-b-0 last:pb-0 ${isDarkMode ? 'border-gray-700' : 'border-gray-100'}`}>
+                <h4 className={`font-medium mb-1 text-sm sm:text-base ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>Recent Ram</h4>
+                <p className={`text-xs sm:text-sm mb-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>This point it has one market something cat expectt.</p>
+                <span className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>About 6 hours ago</span>
               </div>
             </div>
           </div>

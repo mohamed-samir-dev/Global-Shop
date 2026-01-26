@@ -22,7 +22,7 @@ export default function ProductCard({ product, onAddToCart, onToggleWishlist }: 
 
   useEffect(() => {
     checkWishlist(product._id);
-  }, [product._id]);
+  }, [product._id, checkWishlist]);
 
   const handleWishlistToggle = () => {
     handleToggle(product);

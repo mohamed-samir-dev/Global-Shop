@@ -199,8 +199,8 @@ export default function FilterSidebar({
                 }`}
               >
                 {isArabic
-                  ? `الحد الأدنى: $${filters.priceRange[0]}`
-                  : `Min: $${filters.priceRange[0]}`}
+                  ? `الحد الأدنى: ${filters.priceRange[0]} ج.م`
+                  : `Min: ${filters.priceRange[0]} EGP`}
               </span>
               <span
                 className={`text-xs sm:text-sm text-[#B39E7A] border rounded-lg px-2 py-1 whitespace-nowrap ${
@@ -208,8 +208,8 @@ export default function FilterSidebar({
                 }`}
               >
                 {isArabic
-                  ? `الحد الأقصى: $${filters.priceRange[1]}`
-                  : `Max: $${filters.priceRange[1]}`}
+                  ? `الحد الأقصى: ${filters.priceRange[1]} ج.م`
+                  : `Max: ${filters.priceRange[1]} EGP`}
               </span>
             </div>
           </div>

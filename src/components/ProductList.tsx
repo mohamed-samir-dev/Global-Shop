@@ -82,13 +82,13 @@ export default function ProductList({ products, onAddToCart }: ProductListProps)
                   <span className={`text-xl md:text-2xl font-bold ${
                     isDarkMode ? 'text-white' : 'text-gray-900'
                   }`}>
-                    ${(product.finalPrice || product.basePrice || product.price || 0).toFixed(2)}
+                    {isArabic ? `${(product.finalPrice || product.basePrice || product.price || 0).toFixed(2)} ج.م` : `${(product.finalPrice || product.basePrice || product.price || 0).toFixed(2)} EGP`}
                   </span>
                   {product.discount && product.discount.value > 0 && (
                     <span className={`text-sm line-through ${
                       isDarkMode ? 'text-gray-500' : 'text-gray-400'
                     }`}>
-                      ${(product.basePrice || product.price || 0).toFixed(2)}
+                      {isArabic ? `${(product.basePrice || product.price || 0).toFixed(2)} ج.م` : `${(product.basePrice || product.price || 0).toFixed(2)} EGP`}
                     </span>
                   )}
                 </div>

@@ -24,20 +24,20 @@ export default function OrderSummaryCard({ isDarkMode, order, t }: OrderSummaryC
         }`}>
           <div className="flex justify-between text-sm">
             <span className={isDarkMode ? 'text-slate-400' : 'text-gray-600'}>{t('orderSuccess.subtotal')}</span>
-            <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>${order.subtotal.toFixed(2)}</span>
+            <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>{order.subtotal.toFixed(2)} EGP</span>
           </div>
           <div className="flex justify-between text-sm">
             <span className={isDarkMode ? 'text-slate-400' : 'text-gray-600'}>{t('orderSuccess.shipping')}</span>
-            <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>${order.shippingPrice.toFixed(2)}</span>
+            <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>{order.shippingPrice.toFixed(2)} EGP</span>
           </div>
           <div className="flex justify-between text-sm">
             <span className={isDarkMode ? 'text-slate-400' : 'text-gray-600'}>{t('orderSuccess.tax')}</span>
-            <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>${order.taxPrice.toFixed(2)}</span>
+            <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>{order.taxPrice.toFixed(2)} EGP</span>
           </div>
           {order.discountAmount > 0 && (
             <div className="flex justify-between text-sm text-green-600">
               <span>{t('orderSuccess.discount')}</span>
-              <span>-${order.discountAmount.toFixed(2)}</span>
+              <span>-{order.discountAmount.toFixed(2)} EGP</span>
             </div>
           )}
         </div>
@@ -48,7 +48,7 @@ export default function OrderSummaryCard({ isDarkMode, order, t }: OrderSummaryC
           }`}>{t('orderSuccess.total')}</span>
           <span className={`text-2xl font-bold ${
             isDarkMode ? 'text-white' : 'text-gray-900'
-          }`}>${order.totalPrice.toFixed(2)}</span>
+          }`}>{order.totalPrice.toFixed(2)} EGP</span>
         </div>
 
         <div className={`space-y-3 pt-4 border-t ${

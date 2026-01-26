@@ -181,7 +181,7 @@ const OrdersPage = () => {
                         }`}>{t('orders.total')}</p>
                         <p className={`font-semibold ${
                           isDarkMode ? 'text-white' : 'text-gray-900'
-                        }`}>${order.totalPrice.toFixed(2)}</p>
+                        }`}>{order.totalPrice.toFixed(2)} EGP</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
@@ -229,7 +229,7 @@ const OrdersPage = () => {
                         </div>
                         <p className={`font-medium ${
                           isDarkMode ? 'text-white' : 'text-gray-900'
-                        }`}>${(item.priceAtPurchase * item.quantity).toFixed(2)}</p>
+                        }`}>{(item.priceAtPurchase * item.quantity).toFixed(2)} EGP</p>
                       </div>
                     ))}
                     {order.orderItems.length > 3 && (

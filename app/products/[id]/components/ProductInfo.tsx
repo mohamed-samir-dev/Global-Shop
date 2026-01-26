@@ -2,6 +2,7 @@ import { Product } from '@/types';
 import { Heart } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from '@/i18n/hooks/useTranslation';
+import { useTheme } from '@/context/ThemeContext';
 
 interface ProductInfoProps {
   product: Product;
@@ -17,6 +18,7 @@ interface ProductInfoProps {
 function ColorSelector({ colors }: { colors: string[] }) {
   const [selectedColor, setSelectedColor] = useState(colors[0]);
   const { t } = useTranslation();
+  const { isDarkMode } = useTheme();
 
   const getColorValue = (color: string) => {
     const colorMap: { [key: string]: string } = {
@@ -105,7 +107,7 @@ function ColorSelector({ colors }: { colors: string[] }) {
 
   return (
     <div>
-      <h3 className="text-sm font-medium text-gray-900 mb-2 sm:mb-3">{t('product.details.color')}: <span className="font-normal text-gray-600 capitalize">{selectedColor}</span></h3>
+      <h3 className={`text-sm font-medium mb-2 sm:mb-3 ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>{t('product.details.color')}: <span className={`font-normal capitalize ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>{selectedColor}</span></h3>
       <div className="flex flex-wrap gap-2 sm:gap-3">
         {colors.map((color, index) => {
           const colorValue = getColorValue(color);
@@ -118,7 +120,7 @@ function ColorSelector({ colors }: { colors: string[] }) {
               onClick={() => setSelectedColor(color)}
               className={`relative w-7 h-7 sm:w-8 sm:h-8 rounded-md transition-all duration-200 focus:outline-none ${
                 isSelected 
-                  ? 'ring-2 ring-offset-2 ring-gray-900' 
+                  ? `ring-2 ring-offset-2 ${isDarkMode ? 'ring-gray-300 ring-offset-gray-800' : 'ring-gray-900'}` 
                   : 'hover:scale-110'
               }`}
               style={{ backgroundColor: colorValue }}
@@ -152,6 +154,7 @@ export default function ProductInfo({
   onWishlistToggle,
 }: ProductInfoProps) {
   const { t, isArabic } = useTranslation();
+  const { isDarkMode } = useTheme();
   const isOutOfStock = (product.stock ?? product.countInStock ?? 0) === 0;
   const currentPrice = product.finalPrice || product.price || product.basePrice;
   const originalPrice = product.basePrice;
@@ -160,15 +163,15 @@ export default function ProductInfo({
 
   return (
     <div className="space-y-4 sm:space-y-6">
-      <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">{productName}</h1>
+      <h1 className={`text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>{productName}</h1>
       <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-        <span className="text-2xl sm:text-3xl font-bold text-gray-900">
-          {isArabic ? `${currentPrice?.toFixed(2) || 'N/A'} $` : `$${currentPrice?.toFixed(2) || 'N/A'}`}
+        <span className={`text-2xl sm:text-3xl font-bold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
+          {isArabic ? `${currentPrice?.toFixed(2) || 'N/A'} ج.م` : `${currentPrice?.toFixed(2) || 'N/A'} EGP`}
         </span>
         {hasDiscount && originalPrice && (
           <>
-            <span className="text-lg sm:text-xl text-gray-500 line-through">
-              {isArabic ? `${originalPrice.toFixed(2)} $` : `$${originalPrice.toFixed(2)}`}
+            <span className={`text-lg sm:text-xl line-through ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+              {isArabic ? `${originalPrice.toFixed(2)} ج.م` : `${originalPrice.toFixed(2)} EGP`}
             </span>
             <span className="bg-red-100 text-red-800 px-2 py-1 rounded-md text-xs sm:text-sm font-semibold">
               {discountPercentage || Math.round(((originalPrice - currentPrice!) / originalPrice) * 100)}% {isArabic ? 'خصم' : 'OFF'}
@@ -181,7 +184,7 @@ export default function ProductInfo({
       )}
       {product.sizes && product.sizes.length > 0 && (
         <div>
-          <h3 className="text-sm font-medium text-gray-900 mb-2 sm:mb-3">{t('product.details.size')}</h3>
+          <h3 className={`text-sm font-medium mb-2 sm:mb-3 ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>{t('product.details.size')}</h3>
           <div className="flex flex-wrap gap-2 sm:gap-3">
             {product.sizes.map((size, index) => {
               const isSelected = selectedSize === size;
@@ -191,8 +194,8 @@ export default function ProductInfo({
                   onClick={() => setSelectedSize(size)}
                   className={`relative min-w-8 sm:min-w-10 h-8 sm:h-10 px-3 sm:px-4 border-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                     isSelected
-                      ? 'border-gray-900 bg-gray-900 text-white shadow-sm'
-                      : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400 hover:bg-gray-50 focus:ring-gray-300'
+                      ? `${isDarkMode ? 'border-gray-300 bg-gray-300 text-gray-900' : 'border-gray-900 bg-gray-900 text-white'} shadow-sm`
+                      : `${isDarkMode ? 'border-gray-600 bg-gray-800 text-gray-300 hover:border-gray-500 hover:bg-gray-700 focus:ring-gray-500' : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400 hover:bg-gray-50 focus:ring-gray-300'}`
                   }`}
                 >
                   {size}
@@ -217,20 +220,20 @@ export default function ProductInfo({
       </div>
       {!isOutOfStock && (
         <div>
-          <h3 className="text-sm font-medium text-gray-900 mb-2 sm:mb-3">{t('product.details.quantity')}</h3>
-          <div className="inline-flex items-center bg-gray-50 rounded-lg p-1">
+          <h3 className={`text-sm font-medium mb-2 sm:mb-3 ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>{t('product.details.quantity')}</h3>
+          <div className={`inline-flex items-center rounded-lg p-1 ${isDarkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
             <button
               onClick={() => onQuantityChange(Math.max(1, selectedQuantity - 1))}
-              className="w-8 h-8 sm:w-10 sm:h-10 cursor-pointer rounded-md flex items-center justify-center text-gray-600 hover:bg-white hover:text-gray-900 hover:shadow-sm transition-all duration-200 font-medium text-lg"
+              className={`w-8 h-8 sm:w-10 sm:h-10 cursor-pointer rounded-md flex items-center justify-center transition-all duration-200 font-medium text-lg hover:shadow-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700 hover:text-gray-100' : 'text-gray-600 hover:bg-white hover:text-gray-900'}`}
             >
               −
             </button>
-            <div className="w-12 sm:w-16 h-8 sm:h-10 flex items-center justify-center text-gray-900 font-semibold text-sm sm:text-base">
+            <div className={`w-12 sm:w-16 h-8 sm:h-10 flex items-center justify-center font-semibold text-sm sm:text-base ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
               {selectedQuantity}
             </div>
             <button
               onClick={() => onQuantityChange(selectedQuantity + 1)}
-              className="w-8 h-8 sm:w-10 sm:h-10 cursor-pointer rounded-md flex items-center justify-center text-gray-600 hover:bg-white hover:text-gray-900 hover:shadow-sm transition-all duration-200 font-medium text-lg"
+              className={`w-8 h-8 sm:w-10 sm:h-10 cursor-pointer rounded-md flex items-center justify-center transition-all duration-200 font-medium text-lg hover:shadow-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700 hover:text-gray-100' : 'text-gray-600 hover:bg-white hover:text-gray-900'}`}
             >
               +
             </button>
