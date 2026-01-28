@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { useTheme } from '@/context/ThemeContext';
 import { useTranslation } from '@/i18n';
 import { RegisterForm } from './RegisterForm';
-import { SocialLogin } from '../../login/components/SocialLogin';
 import { useRegister } from '../hooks/useRegister';
 
 export const RegisterContainer = () => {
@@ -29,8 +28,6 @@ export const RegisterContainer = () => {
             onSubmit={handleSubmit}
             isLoading={isLoading}
           />
-          
-          <SocialLogin />
           
           <div className="mt-4 sm:mt-6 text-center">
             <Link href="/login" className={`text-sm cursor-pointer transition-colors ${

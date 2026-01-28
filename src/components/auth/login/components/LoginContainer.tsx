@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { useTheme } from '@/context/ThemeContext';
 import { useTranslation } from '@/i18n';
 import { LoginForm } from './LoginForm';
-import { SocialLogin } from './SocialLogin';
 import { useLogin } from '../hooks/useLogin';
 
 export const LoginContainer = () => {
@@ -61,8 +60,6 @@ export const LoginContainer = () => {
                 onRememberMeChange={setRememberMe}
                 onChange={handleChange}
               />
-              
-              <SocialLogin />
               
               <div className="mt-4 sm:mt-6 text-center">
                 <Link href="/register" className={`text-sm cursor-pointer transition-colors ${
