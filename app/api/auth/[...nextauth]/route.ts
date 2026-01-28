@@ -51,9 +51,10 @@ export const authOptions: NextAuthOptions = {
             const data = await response.json();
             user.token = data.token;
             user.role = data.role;
-            user.isAdmin = data.isAdmin;
+            user.isAdmin = data.isAdmin || data.role === 'admin';
             return true;
           }
+          return false;
         } catch (error) {
           console.error('Google sign-in error:', error);
           return false;
