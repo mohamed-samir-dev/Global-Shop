@@ -22,7 +22,6 @@ export const useRegister = () => {
       password: "",
       confirmPassword: "",
       phone: "",
-      dateOfBirth: "",
       agreeToTerms: false,
     },
   });
@@ -34,7 +33,6 @@ export const useRegister = () => {
         email: data.email,
         password: data.password,
         phone: data.phone,
-        dateOfBirth: data.dateOfBirth,
       };
 
       console.log("Sending registration data:", payload);
