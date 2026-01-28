@@ -27,6 +27,9 @@ class WishlistService {
   private static WISHLIST_EXPIRY_DAYS = 30;
 
   static getGuestWishlist(): GuestWishlist {
+    if (typeof window === 'undefined') {
+      return this.createEmptyWishlist();
+    }
     try {
       const wishlistData = localStorage.getItem(this.GUEST_WISHLIST_KEY);
       if (!wishlistData) {
@@ -52,6 +55,7 @@ class WishlistService {
   }
 
   static saveGuestWishlist(wishlist: GuestWishlist): void {
+    if (typeof window === 'undefined') return;
     try {
       wishlist.lastUpdated = new Date().toISOString();
       localStorage.setItem(this.GUEST_WISHLIST_KEY, JSON.stringify(wishlist));
@@ -93,6 +97,7 @@ class WishlistService {
   }
 
   static clearGuestWishlist(): void {
+    if (typeof window === 'undefined') return;
     localStorage.removeItem(this.GUEST_WISHLIST_KEY);
   }
 
