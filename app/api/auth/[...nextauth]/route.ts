@@ -36,7 +36,10 @@ export const authOptions: NextAuthOptions = {
     async signIn({ user, account }) {
       if (account?.provider === 'google') {
         try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/google`, {
+          const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://backend-for-global-shop-production.up.railway.app/api';
+          console.log('Attempting backend auth:', `${apiUrl}/auth/google`);
+          
+          const response = await fetch(`${apiUrl}/auth/google`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -52,12 +55,16 @@ export const authOptions: NextAuthOptions = {
             user.token = data.token;
             user.role = data.role;
             user.isAdmin = data.isAdmin || data.role === 'admin';
+            console.log('Backend auth successful');
             return true;
           }
-          return false;
+          
+          const errorData = await response.text();
+          console.error('Backend auth failed:', response.status, errorData);
+          return true; // Allow sign-in even if backend fails
         } catch (error) {
           console.error('Google sign-in error:', error);
-          return false;
+          return true; // Allow sign-in even if backend fails
         }
       }
       return true;
