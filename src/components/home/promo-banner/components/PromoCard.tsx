@@ -22,7 +22,10 @@ export default function PromoCard({ item }: PromoCardProps) {
         <p className={`text-xs sm:text-sm lg:text-lg mb-3 sm:mb-4 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} ${isArabic ? 'text-right' : 'text-left'}`}>
           {String(t(item.descriptionKey))}
         </p>
-        <button className="bg-[#020204] text-white px-2 sm:px-4 lg:px-6 py-1 sm:py-2 rounded-full hover:bg-gray-800 transition-colors text-xs sm:text-sm lg:text-base">
+        <button 
+          className="bg-[#020204] text-white px-2 sm:px-4 lg:px-6 py-1 sm:py-2 rounded-full hover:bg-gray-800 transition-colors text-xs sm:text-sm lg:text-base"
+          aria-label={String(t(item.buttonTextKey))}
+        >
           {String(t(item.buttonTextKey))}
         </button>
       </div>

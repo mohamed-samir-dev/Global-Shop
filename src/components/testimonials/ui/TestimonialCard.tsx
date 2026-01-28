@@ -27,13 +27,13 @@ export const TestimonialCard = ({ testimonial }: TestimonialCardProps) => {
           }`} />
         </div>
         <div>
-          <h4
+          <p
             className={`font-semibold text-sm ${
               isDarkMode ? "text-white" : "text-[#0D0D0D]"
             }`}
           >
             {testimonial.name}
-          </h4>
+          </p>
           <div className="mt-1">
             <StarRating rating={testimonial.rating} />
           </div>

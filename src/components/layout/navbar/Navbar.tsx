@@ -76,7 +76,7 @@ export default function Navbar() {
             <DarkModeToggle isDarkMode={isDarkMode} onToggle={toggleDarkMode} />
 
             {/* Wishlist */}
-            <Link href="/wishlist" className={`p-2 rounded-lg transition-all relative cursor-pointer ${
+            <Link href="/wishlist" aria-label="Wishlist" className={`p-2 rounded-lg transition-all relative cursor-pointer ${
               isDarkMode 
                 ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
                 : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
@@ -85,7 +85,7 @@ export default function Navbar() {
             </Link>
 
             {/* Shopping Cart */}
-            <Link href="/cart" className={`p-2 rounded-lg transition-all relative cursor-pointer ${
+            <Link href="/cart" aria-label="Shopping Cart" className={`p-2 rounded-lg transition-all relative cursor-pointer ${
               isDarkMode 
                 ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
                 : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
@@ -124,14 +124,14 @@ export default function Navbar() {
                 isDarkMode={isDarkMode}
               />
               <DarkModeToggle isDarkMode={isDarkMode} onToggle={toggleDarkMode} />
-              <Link href="/wishlist" className={`p-2 rounded-lg transition-all relative cursor-pointer ${
+              <Link href="/wishlist" aria-label="Wishlist" className={`p-2 rounded-lg transition-all relative cursor-pointer ${
                 isDarkMode 
                   ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
                   : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
               }`}>
                 <HeartIcon className="h-4 w-4" />
               </Link>
-              <Link href="/cart" className={`p-2 rounded-lg transition-all relative cursor-pointer ${
+              <Link href="/cart" aria-label="Shopping Cart" className={`p-2 rounded-lg transition-all relative cursor-pointer ${
                 isDarkMode 
                   ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
                   : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
@@ -190,7 +190,7 @@ export default function Navbar() {
               />
             </div>
             
-            <Link href="/wishlist" className={`p-1.5 rounded-lg transition-all relative cursor-pointer ${
+            <Link href="/wishlist" aria-label="Wishlist" className={`p-1.5 rounded-lg transition-all relative cursor-pointer ${
               isDarkMode 
                 ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
                 : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
@@ -198,7 +198,7 @@ export default function Navbar() {
               <HeartIcon className="h-4 w-4" />
             </Link>
             
-            <Link href="/cart" className={`p-1.5 rounded-lg transition-all relative cursor-pointer ${
+            <Link href="/cart" aria-label="Shopping Cart" className={`p-1.5 rounded-lg transition-all relative cursor-pointer ${
               isDarkMode 
                 ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
                 : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'

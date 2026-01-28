@@ -139,7 +139,7 @@ export default function HeroSection({ slides }: HeroSectionProps) {
               >
                 <Link
                   href={slides[currentSlide].buttonLink}
-                  className="inline-block bg-[#447EAE] text-white px-8 sm:px-12 py-3 rounded-full transition-colors font-semibold hover:bg-[#3a6b94] text-sm sm:text-base"
+                  className="inline-block bg-[#3A6B94] text-white px-8 sm:px-12 py-3 rounded-full transition-colors font-semibold hover:bg-[#2E5577] text-sm sm:text-base"
                 >
                   {String(t(slides[currentSlide].buttonTextKey))}
                 </Link>
@@ -178,6 +178,7 @@ export default function HeroSection({ slides }: HeroSectionProps) {
           <motion.button
             key={index}
             onClick={() => setCurrentSlide(index)}
+            aria-label={`Go to slide ${index + 1}`}
             className={`h-1 rounded-full ${
               index === currentSlide 
                 ? 'bg-[#447EAE]' 

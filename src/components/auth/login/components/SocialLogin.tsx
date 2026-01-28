@@ -1,9 +1,16 @@
+'use client';
+
 import { useTheme } from '@/context/ThemeContext';
 import { useTranslation } from '@/i18n';
+import { signIn } from 'next-auth/react';
 
 export const SocialLogin = () => {
   const { isDarkMode } = useTheme();
   const { t } = useTranslation();
+  
+  const handleGoogleSignIn = () => {
+    signIn('google', { callbackUrl: '/' });
+  };
   
   return (
     <div className="mt-6">
@@ -19,7 +26,7 @@ export const SocialLogin = () => {
         }`}></div>
       </div>
       <div className="flex justify-center space-x-3">
-        <button className={`flex items-center justify-center w-12 h-12 cursor-pointer rounded-full transition-all duration-200 shadow-md hover:shadow-lg group ${
+        <button onClick={handleGoogleSignIn} className={`flex items-center justify-center w-12 h-12 cursor-pointer rounded-full transition-all duration-200 shadow-md hover:shadow-lg group ${
           isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
         }`}>
           <svg className="w-5 h-5" viewBox="0 0 24 24">

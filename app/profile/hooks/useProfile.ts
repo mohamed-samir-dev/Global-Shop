@@ -6,7 +6,7 @@ import CheckoutService from "@/services/checkoutService";
 import { User } from "@/types";
 
 export const useProfile = () => {
-  const { token, logout } = useAuth();
+  const { token, logout, isLoading: authLoading } = useAuth();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -14,6 +14,8 @@ export const useProfile = () => {
   const router = useRouter();
 
   useEffect(() => {
+    if (authLoading) return;
+    
     if (!token) {
       router.push("/login");
       return;
@@ -53,7 +55,7 @@ export const useProfile = () => {
 
     fetchUserProfile();
     fetchStats();
-  }, [token, router, logout]);
+  }, [token, router, logout, authLoading]);
 
   return { user, loading, error, stats, setUser, setError };
 };

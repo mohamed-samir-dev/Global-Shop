@@ -1,4 +1,5 @@
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 import { useTheme } from '@/context/ThemeContext';
 import { useTranslation } from '@/i18n';
 import { LoginFormProps } from '../types';
@@ -96,7 +97,7 @@ export const LoginForm = ({
         </div>
       )}
       
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-start">
         <label className="flex items-center cursor-pointer group">
           <div className="relative">
             <input
@@ -125,13 +126,6 @@ export const LoginForm = ({
               : 'text-gray-600 group-hover:text-gray-800'
           }`}>{String(t('auth.login.rememberMe'))}</span>
         </label>
-        <button type="button" className={`text-sm cursor-pointer transition-colors ${
-          isDarkMode 
-            ? 'text-[#B5AC8B] hover:text-[#96753C]' 
-            : 'text-[#C6A96D] hover:text-[#96753C]'
-        }`}>
-          {String(t('auth.login.forgotPassword'))}
-        </button>
       </div>
       
       <button
