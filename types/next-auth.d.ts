@@ -9,6 +9,12 @@ declare module 'next-auth' {
     isAdmin?: boolean;
   }
 
+  interface AdapterUser {
+    token?: string;
+    role?: string;
+    isAdmin?: boolean;
+  }
+
   interface Session {
     user: {
       token?: string;

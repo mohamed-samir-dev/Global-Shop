@@ -1,6 +1,29 @@
-import NextAuth from 'next-auth';
+import NextAuth, { DefaultSession } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import type { NextAuthOptions } from 'next-auth';
+
+declare module 'next-auth' {
+  interface User {
+    token?: string;
+    role?: string;
+    isAdmin?: boolean;
+  }
+  interface Session {
+    user: {
+      token?: string;
+      role?: string;
+      isAdmin?: boolean;
+    } & DefaultSession['user'];
+  }
+}
+
+declare module 'next-auth/jwt' {
+  interface JWT {
+    accessToken?: string;
+    role?: string;
+    isAdmin?: boolean;
+  }
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
