@@ -28,24 +28,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     if (session?.user) {
-      // User logged in via Google OAuth
-      const googleUser: User = {
-        _id: session.user.email || "",
-        name: session.user.name || "User",
-        email: session.user.email || "",
-        isAdmin: session.user.isAdmin || false,
+      // User logged in via Google OAuth - fetch from backend
+      const syncGoogleUser = async () => {
+        if (session.user.token) {
+          try {
+            // User has backend token, create user object
+            const googleUser: User = {
+              _id: session.user.email || "",
+              name: session.user.name || "User",
+              email: session.user.email || "",
+              isAdmin: session.user.isAdmin || false,
+            };
+            setUser(googleUser);
+            setToken(session.user.token);
+            
+            localStorage.setItem("token", session.user.token);
+            localStorage.setItem("user", JSON.stringify(googleUser));
+          } catch (error) {
+            console.error("Error syncing Google user:", error);
+          }
+        }
+        setIsLoading(false);
       };
-      setUser(googleUser);
-      setToken(session.user.token || "");
-      
-      // Store in localStorage for consistency
-      if (session.user.token) {
-        localStorage.setItem("token", session.user.token);
-        localStorage.setItem("user", JSON.stringify(googleUser));
-      }
-      setIsLoading(false);
+      syncGoogleUser();
     } else {
-      // Check localStorage for regular login
       loadAuthState();
     }
   }, [session, status]);
