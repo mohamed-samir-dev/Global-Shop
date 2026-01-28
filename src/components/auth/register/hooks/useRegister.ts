@@ -77,6 +77,14 @@ export const useRegister = () => {
         };
         message?: string;
       };
+      
+      // Handle network errors (no response from server)
+      if (!axiosError.response) {
+        console.error("Network error - no response from server");
+        toast.error("Network error. Please check if the backend is running.");
+        return;
+      }
+
       console.error("Full error details:", {
         status: axiosError.response?.status,
         data: axiosError.response?.data,
