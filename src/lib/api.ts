@@ -34,7 +34,7 @@ export const authAPI = {
     email: string;
     password: string;
     phone: string;
-    dateOfBirth: string;
+    dateOfBirth?: string;
   }) => api.post<AuthResponse>("/users/register", userData),
 
   login: (credentials: { email: string; password: string }) =>

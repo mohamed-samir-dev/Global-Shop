@@ -10,6 +10,7 @@ export const registerSchema = z.object({
       'Password must contain uppercase, lowercase, number and special character'),
   confirmPassword: z.string(),
   phone: z.string().min(10, 'Phone number must be at least 10 digits'),
+  dateOfBirth: z.string().optional(),
   agreeToTerms: z.boolean().refine(val => val === true, 'You must agree to terms and conditions')
 }).refine(data => data.password === data.confirmPassword, {
   message: "Passwords don't match",

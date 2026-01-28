@@ -22,18 +22,30 @@ export const useRegister = () => {
       password: "",
       confirmPassword: "",
       phone: "",
+      dateOfBirth: "",
       agreeToTerms: false,
     },
   });
 
   const handleSubmit = async (data: RegisterFormData) => {
     try {
-      const payload = {
+      const payload: {
+        name: string;
+        email: string;
+        password: string;
+        phone: string;
+        dateOfBirth?: string;
+      } = {
         name: `${data.firstName} ${data.lastName}`,
         email: data.email,
         password: data.password,
         phone: data.phone,
       };
+
+      // Only add dateOfBirth if provided
+      if (data.dateOfBirth) {
+        payload.dateOfBirth = new Date(data.dateOfBirth).toISOString();
+      }
 
       console.log("Sending registration data:", payload);
 
@@ -56,14 +68,21 @@ export const useRegister = () => {
       // Type guard to check if error has response property
       const axiosError = error as {
         response?: {
+          status?: number;
           data?: {
             errors?: string[];
             missing?: Record<string, boolean>;
             message?: string;
           };
         };
+        message?: string;
       };
-      console.error("Error response:", axiosError.response?.data);
+      console.error("Full error details:", {
+        status: axiosError.response?.status,
+        data: axiosError.response?.data,
+        message: axiosError.message
+      });
+      console.error("Backend error message:", JSON.stringify(axiosError.response?.data, null, 2));
 
       if (axiosError.response?.data?.errors) {
         const errorMessages = axiosError.response.data.errors.join(", ");

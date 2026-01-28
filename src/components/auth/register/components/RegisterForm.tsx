@@ -89,6 +89,21 @@ export const RegisterForm = ({ form, onSubmit, isLoading }: RegisterFormProps) =
       </div>
       
       <div>
+        <input
+          {...register('dateOfBirth')}
+          type="date"
+          className={inputClasses}
+          placeholder="Date of Birth"
+          max={new Date().toISOString().split('T')[0]}
+        />
+        {errors.dateOfBirth && (
+          <p className={`text-xs mt-1 ${
+            isDarkMode ? 'text-red-400' : 'text-red-600'
+          }`}>{errors.dateOfBirth.message}</p>
+        )}
+      </div>
+      
+      <div>
         <div className="relative">
           <input
             {...register('password')}
